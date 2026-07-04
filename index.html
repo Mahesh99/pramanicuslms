@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Training Syllabus — Pramanicus Academy</title>
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:      #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-pale: #eff6ff;
+      --indigo:    #4f46e5;
+      --green:     #16a34a;
+      --amber:     #d97706;
+      --red:       #dc2626;
+      --gray-50:   #f9fafb;
+      --gray-100:  #f3f4f6;
+      --gray-200:  #e5e7eb;
+      --gray-400:  #9ca3af;
+      --gray-600:  #4b5563;
+      --gray-800:  #1f2937;
+      --gray-900:  #111827;
+      --code-bg:   #1e293b;
+      --code-fg:   #e2e8f0;
+      --radius:    10px;
+      --shadow:    0 2px 8px rgba(0,0,0,.08);
+      --shadow-md: 0 4px 20px rgba(0,0,0,.12);
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      line-height: 1.7;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Header ──────────────────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #4f46e5 100%);
+      color: white;
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+    }
+
+    .academy-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 999px;
+      padding: .35rem 1.1rem;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: .5rem;
+    }
+
+    header p.tagline {
+      font-size: 1.1rem;
+      opacity: .88;
+      margin-bottom: 1.8rem;
+    }
+
+    .meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .6rem;
+    }
+
+    .meta-pills span {
+      background: rgba(255,255,255,.2);
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      padding: .3rem .9rem;
+      font-size: .82rem;
+      font-weight: 500;
+    }
+
+    /* ── Navigation ──────────────────────────────────────────────────── */
+    nav {
+      background: white;
+      border-bottom: 1px solid var(--gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-inner::-webkit-scrollbar { display: none; }
+
+    nav a {
+      display: block;
+      padding: .85rem 1rem;
+      font-size: .83rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color .2s, border-color .2s;
+    }
+
+    nav a:hover {
+      color: var(--blue);
+      border-bottom-color: var(--blue);
+      text-decoration: none;
+    }
+
+    /* ── Layout ──────────────────────────────────────────────────────── */
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 800px) {
+      .page { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+
+    /* ── Sidebar ─────────────────────────────────────────────────────── */
+    .sidebar {
+      position: sticky;
+      top: 56px;
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar h3 {
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--gray-400);
+      margin-bottom: 1rem;
+    }
+
+    .sidebar ul { list-style: none; }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      padding: .42rem .5rem;
+      border-radius: 6px;
+      font-size: .85rem;
+      color: var(--gray-600);
+      transition: background .15s, color .15s;
+    }
+
+    .sidebar ul li a:hover {
+      background: var(--blue-pale);
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .sidebar .mod-num {
+      min-width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      background: var(--blue-pale);
+      color: var(--blue);
+      font-size: .7rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+    }
+
+    /* ── Main Content ────────────────────────────────────────────────── */
+    main { min-width: 0; }
+
+    /* ── Module Cards ────────────────────────────────────────────────── */
+    .module {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .module-header {
+      padding: 1.5rem 1.8rem 1.3rem;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .module-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .module-header-text { flex: 1; }
+
+    .module-number {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .2rem;
+    }
+
+    .module-header h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: .2rem;
+    }
+
+    .week-badge {
+      display: inline-block;
+      font-size: .73rem;
+      font-weight: 600;
+      padding: .2rem .65rem;
+      border-radius: 999px;
+      margin-top: .25rem;
+    }
+
+    .module-body { padding: 1.5rem 1.8rem; }
+
+    .section-title {
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--gray-400);
+      margin: 1.4rem 0 .6rem;
+    }
+
+    .section-title:first-child { margin-top: 0; }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: .45rem;
+    }
+
+    .topic-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .5rem;
+      font-size: .9rem;
+      line-height: 1.45;
+      color: var(--gray-800);
+    }
+
+    .topic-item::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: 700;
+      font-size: .78rem;
+      margin-top: .22rem;
+      flex-shrink: 0;
+    }
+
+    .highlight-box {
+      background: var(--blue-pale);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 6px 6px 0;
+      padding: .75rem 1rem;
+      font-size: .88rem;
+      margin-top: 1.2rem;
+      color: var(--gray-800);
+    }
+
+    .highlight-box strong { color: var(--blue-dark); }
+
+    /* ── Code Blocks ─────────────────────────────────────────────────── */
+    .code-example {
+      margin-top: 1rem;
+    }
+
+    .code-example .code-label {
+      font-size: .72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--gray-400);
+      margin-bottom: .4rem;
+    }
+
+    pre {
+      background: var(--code-bg);
+      color: var(--code-fg);
+      border-radius: 8px;
+      padding: 1.1rem 1.3rem;
+      font-size: .82rem;
+      line-height: 1.65;
+      overflow-x: auto;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', 'Courier New', monospace;
+    }
+
+    .kw   { color: #93c5fd; }   /* keywords */
+    .fn   { color: #86efac; }   /* function names */
+    .str  { color: #fca5a5; }   /* strings */
+    .cm   { color: #94a3b8; font-style: italic; }  /* comments */
+    .num  { color: #fcd34d; }   /* numbers */
+    .cls  { color: #f9a8d4; }   /* class names */
+    .dec  { color: #c4b5fd; }   /* decorators */
+
+    /* ── Tables ──────────────────────────────────────────────────────── */
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .87rem;
+      margin-top: .6rem;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .styled-table th {
+      background: var(--gray-100);
+      font-weight: 700;
+      text-align: left;
+      padding: .65rem .9rem;
+      border-bottom: 1px solid var(--gray-200);
+      color: var(--gray-600);
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .styled-table td {
+      padding: .6rem .9rem;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .styled-table tr:last-child td { border-bottom: none; }
+    .styled-table tr:hover td { background: var(--gray-50); }
+
+    code {
+      background: var(--gray-100);
+      color: var(--indigo);
+      border-radius: 4px;
+      padding: .12em .42em;
+      font-size: .87em;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    }
+
+    /* ── Assessment Section ──────────────────────────────────────────── */
+    .assessment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .assess-card {
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 1.2rem;
+      text-align: center;
+    }
+
+    .assess-pct {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: .3rem;
+    }
+
+    .assess-label {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      margin-bottom: .4rem;
+    }
+
+    .assess-desc {
+      font-size: .78rem;
+      color: var(--gray-400);
+      line-height: 1.4;
+    }
+
+    /* ── Tools Section ───────────────────────────────────────────────── */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: .8rem;
+      margin-top: 1rem;
+    }
+
+    .tool-card {
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+    }
+
+    .tool-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .tool-name { font-weight: 700; font-size: .9rem; }
+    .tool-desc { font-size: .78rem; color: var(--gray-400); line-height: 1.4; }
+
+    /* ── Module colour themes ────────────────────────────────────────── */
+    .m1 .module-icon { background: #eff6ff; }
+    .m1 .module-number { color: #2563eb; }
+    .m1 .week-badge { background: #dbeafe; color: #1d4ed8; }
+
+    .m2 .module-icon { background: #f0fdf4; }
+    .m2 .module-number { color: #16a34a; }
+    .m2 .week-badge { background: #dcfce7; color: #15803d; }
+
+    .m3 .module-icon { background: #fefce8; }
+    .m3 .module-number { color: #ca8a04; }
+    .m3 .week-badge { background: #fef9c3; color: #a16207; }
+
+    .m4 .module-icon { background: #fff7ed; }
+    .m4 .module-number { color: #ea580c; }
+    .m4 .week-badge { background: #ffedd5; color: #c2410c; }
+
+    .m5 .module-icon { background: #fdf4ff; }
+    .m5 .module-number { color: #9333ea; }
+    .m5 .week-badge { background: #f3e8ff; color: #7e22ce; }
+
+    .m6 .module-icon { background: #fff1f2; }
+    .m6 .module-number { color: #e11d48; }
+    .m6 .week-badge { background: #ffe4e6; color: #be123c; }
+
+    .m7 .module-icon { background: #f0fdfa; }
+    .m7 .module-number { color: #0d9488; }
+    .m7 .week-badge { background: #ccfbf1; color: #0f766e; }
+
+    .m8 .module-icon { background: #f0f9ff; }
+    .m8 .module-number { color: #0284c7; }
+    .m8 .week-badge { background: #e0f2fe; color: #0369a1; }
+
+    /* ── Footer ──────────────────────────────────────────────────────── */
+    footer {
+      background: var(--gray-900);
+      color: var(--gray-400);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-size: .85rem;
+    }
+
+    footer strong { color: white; }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ─────────────────────────────────────────────────────────── -->
+<header>
+  <div class="academy-badge">Pramanicus Academy</div>
+  <h1>Python Training</h1>
+  <p class="tagline">A comprehensive 4-week programme — from zero to advanced Python</p>
+  <div class="meta-pills">
+    <span>⏱ 4 Weeks</span>
+    <span>🐍 Python 3.x</span>
+    <span>💻 Classroom / Online</span>
+    <span>📍 Ramanthapur, Hyderabad</span>
+    <span>🎓 No prior experience needed</span>
+  </div>
+</header>
+
+<!-- ── Sticky Navigation ───────────────────────────────────────────────── -->
+<nav aria-label="Module navigation">
+  <div class="nav-inner">
+    <a href="#m1">1. Fundamentals</a>
+    <a href="#m2">2. Control Flow</a>
+    <a href="#m3">3. Data Structures</a>
+    <a href="#m4">4. Functions</a>
+    <a href="#m5">5. OOP</a>
+    <a href="#m6">6. Exceptions & Files</a>
+    <a href="#m7">7. Modules & Stdlib</a>
+    <a href="#m8">8. Iterators & Decorators</a>
+    <a href="#assessment">Assessment</a>
+    <a href="#tools">Tools</a>
+  </div>
+</nav>
+
+<!-- ── Page Layout ────────────────────────────────────────────────────── -->
+<div class="page">
+
+  <!-- Sidebar TOC -->
+  <aside class="sidebar" aria-label="Table of contents">
+    <h3>Contents</h3>
+    <ul>
+      <li><a href="#m1"><span class="mod-num">1</span> Python Fundamentals</a></li>
+      <li><a href="#m2"><span class="mod-num">2</span> Control Flow</a></li>
+      <li><a href="#m3"><span class="mod-num">3</span> Data Structures</a></li>
+      <li><a href="#m4"><span class="mod-num">4</span> Functions</a></li>
+      <li><a href="#m5"><span class="mod-num">5</span> OOP</a></li>
+      <li><a href="#m6"><span class="mod-num">6</span> Exceptions &amp; File I/O</a></li>
+      <li><a href="#m7"><span class="mod-num">7</span> Modules &amp; Stdlib</a></li>
+      <li><a href="#m8"><span class="mod-num">8</span> Iterators &amp; Decorators</a></li>
+      <li><a href="#assessment"><span class="mod-num">★</span> Assessment</a></li>
+      <li><a href="#tools"><span class="mod-num">⚙</span> Tools</a></li>
+    </ul>
+  </aside>
+
+  <!-- ── Main ──────────────────────────────────────────────────────────── -->
+  <main>
+
+    <!-- Module 1 -->
+    <section class="module m1" id="m1">
+      <div class="module-header">
+        <div class="module-icon">🐍</div>
+        <div class="module-header-text">
+          <div class="module-number">Module 1</div>
+          <h2>Python Fundamentals</h2>
+          <span class="week-badge">Week 1</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <p class="section-title">Topics Covered</p>
+        <div class="topic-grid">
+          <div class="topic-item">History, installation, IDEs (VS Code, PyCharm, Jupyter)</div>
+          <div class="topic-item">Interactive shell vs running scripts</div>
+          <div class="topic-item">Variables &amp; data types — <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>, <code>complex</code></div>
+          <div class="topic-item">Type casting — <code>int()</code>, <code>float()</code>, <code>str()</code></div>
+          <div class="topic-item">Type checking — <code>type()</code>, <code>isinstance()</code></div>
+          <div class="topic-item">Arithmetic, comparison, logical, bitwise, assignment operators</div>
+          <div class="topic-item"><code>input()</code> &amp; <code>print()</code></div>
+          <div class="topic-item">String formatting — f-strings, <code>.format()</code>, <code>%</code></div>
+          <div class="topic-item">Comments &amp; docstrings</div>
+          <div class="topic-item">Indentation &amp; PEP 8 basics</div>
+        </div>
+        <div class="code-example">
+          <div class="code-label">Quick Example</div>
+<pre><span class="cm"># Variables and f-string formatting</span>
+name  = <span class="str">"Arjun"</span>
+score = <span class="num">95.5</span>
+grade = <span class="str">"A"</span> <span class="kw">if</span> score >= <span class="num">90</span> <span class="kw">else</span> <span class="str">"B"</span>
+
+<span class="fn">print</span>(<span class="str">f"Student: <span class="kw">{</span>name<span class="kw">}</span> | Score: <span class="kw">{</span>score:.1f<span class="kw">}</span> | Grade: <span class="kw">{</span>grade<span class="kw">}</span>"</span>)
+<span class="cm"># Student: Arjun | Score: 95.5 | Grade: A</span></pre>
+        </div>
+        <div class="highlight-box"><strong>Practice:</strong> Install Python &amp; VS Code. Write a script that asks for your name and age, then prints a greeting with your birth year.</div>
+      </div>
+    </section>
+
+    <!-- Module 2 -->
+    <section class="module m2" id="m2">
+      <div class="module-header">
+        <div class="module-icon">🔀</div>
+        <div class="module-header-text">
+          <div class="module-number">Module 2</div>
+          <h2>Control Flow</h2>
+          <span class="week-badge">Week 1 – 2</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <p class="section-title">Topics Covered</p>
+        <div class="topic-grid">
+          <div class="topic-item">Conditional statements — <code>if</code>, <code>elif</code>, <code>else</code></div>
+          <div class="topic-item">Truthiness &amp; falsy values</div>
+          <div class="topic-item"><code>for</code> loops — iterating over sequences</div>
+          <div class="topic-item"><code>while</code> loops &amp; infinite loop guards</div>
+          <div class="topic-item"><code>break</code>, <code>continue</code>, <code>pass</code></div>
+          <div class="topic-item"><code>for/else</code> and <code>while/else</code></div>
+          <div class="topic-item">Nested loops and conditions</div>
+          <div class="topic-item"><code>range()</code>, <code>enumerate()</code>, <code>zip()</code></div>
+          <div class="topic-item">Ternary expressions</div>
+        </div>
+        <div class="code-example">
+          <div class="code-label">FizzBuzz — Classic Practice Problem</div>
+<pre><span class="kw">for</span> n <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">101</span>):
+    <span class="kw">if</span> n % <span class="num">15</span> == <span class="num">0</span>:
+        <span class="fn">print</span>(<span class="str">"FizzBuzz"</span>)
+    <span class="kw">elif</span> n % <span class="num">3</span> == <span class="num">0</span>:
+        <span class="fn">print</span>(<span class="str">"Fizz"</span>)
+    <span class="kw">elif</span> n % <span class="num">5</span> == <span class="num">0</span>:
+        <span class="fn">print</span>(<span class="str">"Buzz"</span>)
+    <span class="kw">else</span>:
+        <span class="fn">print</span>(n)</pre>
+        </div>
+        <div class="highlight-box"><strong>Practice:</strong> Pattern printing (right triangle, pyramid), prime sieve, number guessing game with limited attempts.</div>
+      </div>
+    </section>
+
+    <!-- Module 3 -->
+    <section class="module m3" id="m3">
+      <div class="module-header">
+        <div class="module-icon">📦</div>
+        <div class="module-header-text">
+          <div class="module-number">Module 3</div>
+          <h2>Data Structures</h2>
+          <span class="week-badge">Week 2</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <p class="section-title">Strings</p>
+        <div class="topic-grid">
+          <div class="topic-item">Indexing, slicing, reverse</div>
+          <div class="topic-item"><code>strip()</code>, <code>split()</code>, <code>join()</code>, <code>replace()</code></div>
+          <div class="topic-item"><code>upper()</code>, <code>lower()</code>, <code>find()</code>, <code>count()</code></div>
+          <div class="topic-item">Immutability explained</div>
+        </div>
+        <p class="section-title">Lists</p>
+        <div class="topic-grid">
+          <div class="topic-item">Creation, indexing, slicing</div>
+          <div class="topic-item"><code>append()</code>, <code>insert()</code>, <code>remove()</code>, <code>pop()</code></div>
+          <div class="topic-item"><code>sort()</code>, <code>reverse()</code>, <code>copy()</code></div>
+          <div class="topic-item">List comprehensions</div>
+        </div>
+        <p class="section-title">Tuples, Sets &amp; Dictionaries</p>
+        <div class="topic-grid">
+          <div class="topic-item">Tuple immutability &amp; packing/unpacking</div>
+          <div class="topic-item">Set operations — union, intersection, difference</div>
+          <div class="topic-item">Dict key-value pairs &amp; methods</div>
+          <div class="topic-item">Dict &amp; set comprehensions</div>
+          <div class="topic-item">Nested data structures</div>
+          <div class="topic-item">Choosing the right structure</div>
+        </div>
+        <table class="styled-table" style="margin-top:1rem">
+          <thead><tr><th>Structure</th><th>Ordered</th><th>Mutable</th><th>Duplicates</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td><code>list</code></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Ordered collections, stacks, queues</td></tr>
+            <tr><td><code>tuple</code></td><td>Yes</td><td>No</td><td>Yes</td><td>Fixed data, function returns</td></tr>
+            <tr><td><code>set</code></td><td>No</td><td>Yes</td><td>No</td><td>Uniqueness, membership tests</td></tr>
+            <tr><td><code>dict</code></td><td>Yes*</td><td>Yes</td><td>Keys: No</td><td>Key→value mapping</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:.75rem;color:var(--gray-400);margin-top:.4rem">*Insertion order preserved since Python 3.7</p>
+      </div>
+    </section>
+
+    <!-- Module 4 -->
+    <section class="module m4" id="m4">
+      <div class="module-header">
+        <div class="module-icon">⚙️</div>
+        <div class="module-header-text">
+          <div class="module-number">Module 4</div>
+          <h2>Functions</h2>
+          <span class="week-badge">Week 2 – 3</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <p class="section-title">Topics Covered</p>
+        <div class="topic-grid">
+          <div class="topic-item">Defining &amp; calling functions</div>
+          <div class="topic-item">Positional, keyword &amp; default arguments</div>
+          <div class="topic-item"><code>*args</code> and <code>**kwargs</code></div>
+          <div class="topic-item">Return values &amp; multiple returns</div>
+          <div class="topic-item">Variable scope — LEGB rule</div>
+          <div class="topic-item"><code>global</code> and <code>nonlocal</code></div>
+          <div class="topic-item">Lambda functions</div>
+          <div class="topic-item">Recursion &amp; base cases</div>
+          <div class="topic-item"><code>map()</code>, <code>filter()</code>, <code>reduce()</code></div>
+          <div class="topic-item">Docstrings &amp; documentation</div>
+        </div>
+        <div class="code-example">
+          <div class="code-label">Args &amp; Kwargs</div>
+<pre><span class="kw">def</span> <span class="fn">describe</span>(name, age=<span class="num">18</span>, *hobbies, **details):
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>name<span class="kw">}</span>, age <span class="kw">{</span>age<span class="kw">}</span>"</span>)
+    <span class="fn">print</span>(<span class="str">"Hobbies:"</span>, hobbies)
+    <span class="fn">print</span>(<span class="str">"Details:"</span>, details)
+
+<span class="fn">describe</span>(<span class="str">"Priya"</span>, <span class="num">22</span>, <span class="str">"chess"</span>, <span class="str">"coding"</span>,
+         city=<span class="str">"Hyderabad"</span>, grade=<span class="str">"A"</span>)</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Module 5 -->
+    <section class="module m5" id="m5">
+      <div class="module-header">
+        <div class="module-icon">🏗️</div>
+        <div class="module-header-text">
+          <div class="module-number">Module 5</div>
+          <h2>Object-Oriented Programming</h2>
+          <span class="week-badge">Week 3</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <p class="section-title">Core OOP Concepts</p>
+        <div class="topic-grid">
+          <div class="topic-item">Classes, objects, attributes &amp; methods</div>
+          <div class="topic-item"><code>__init__</code> constructor &amp; <code>self</code></div>
+          <div class="topic-item">Instance vs class variables</div>
+          <div class="topic-item">Encapsulation — public, protected, private</div>
+          <div class="topic-item">Single &amp; multiple inheritance</div>
+          <div class="topic-item">Method Resolution Order (MRO)</div>
+          <div class="topic-item">Polymorphism &amp; duck typing</div>
+          <div class="topic-item">Abstract base classes (<code>abc</code> module)</div>
+        </div>
+        <p class="section-title">Magic Methods &amp; Decorators</p>
+        <div class="topic-grid">
+          <div class="topic-item"><code>__str__</code>, <code>__repr__</code>, <code>__len__</code></div>
+          <div class="topic-item"><code>__eq__</code>, <code>__lt__</code>, <code>__add__</code></div>
+          <div class="topic-item"><code>@property</code> — computed attributes</div>
+          <div class="topic-item"><code>@classmethod</code> — factory methods</div>
+          <div class="topic-item"><code>@staticmethod</code> — utility methods</div>
+        </div>
+        <div class="code-example">
+          <div class="code-label">Class with Property Decorator</div>
+<pre><span class="kw">class</span> <span class="cls">BankAccount</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, owner, balance=<span class="num">0</span>):
+        self.owner   = owner
+        self.__balance = balance   <span class="cm"># private</span>
+
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">balance</span>(self):
+        <span class="kw">return</span> self.__balance
+
+    <span class="kw">def</span> <span class="fn">deposit</span>(self, amount):
+        <span class="kw">if</span> amount > <span class="num">0</span>:
+            self.__balance += amount
+
+    <span class="kw">def</span> <span class="fn">__repr__</span>(self):
+        <span class="kw">return</span> <span class="str">f"Account(<span class="kw">{</span>self.owner<span class="kw">}</span>, ₹<span class="kw">{</span>self.__balance<span class="kw">}</span>)"</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Module 6 -->
+    <section class="module m6" id="m6">
+      <div class="module-header">
+        <div class="module-icon">🛡️</div>
+        <div class="module-header-text">
+          <div class="module-number">Module 6</div>
+          <h2>Exception Handling &amp; File I/O</h2>
+          <span class="week-badge">Week 3 – 4</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <p class="section-title">Exception Handling</p>
+        <div class="topic-grid">
+          <div class="topic-item">Errors vs exceptions</div>
+          <div class="topic-item"><code>try</code>, <code>except</code>, <code>else</code>, <code>finally</code></div>
+          <div class="topic-item">Catching specific exception types</div>
+          <div class="topic-item">Raising exceptions with <code>raise</code></div>
+          <div class="topic-item">Creating custom exception classes</div>
+        </div>
+        <p class="section-title">File I/O</p>
+        <div class="topic-grid">
+          <div class="topic-item">Reading &amp; writing text files</div>
+          <div class="topic-item"><code>with</code> context manager</div>
+          <div class="topic-item">File modes — r, w, a, r+, b</div>
+          <div class="topic-item">CSV files with <code>csv</code> module</div>
+          <div class="topic-item">JSON files with <code>json</code> module</div>
+          <div class="topic-item">File paths with <code>pathlib</code> &amp; <code>os</code></div>
+        </div>
+        <div class="code-example">
+          <div class="code-label">try / except / else / finally</div>
+<pre><span class="kw">try</span>:
+    result = <span class="num">10</span> / <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Divisor: "</span>))
+<span class="kw">except</span> <span class="cls">ZeroDivisionError</span>:
+    <span class="fn">print</span>(<span class="str">"Cannot divide by zero."</span>)
+<span class="kw">except</span> <span class="cls">ValueError</span> <span class="kw">as</span> e:
+    <span class="fn">print</span>(<span class="str">f"Invalid input: <span class="kw">{</span>e<span class="kw">}</span>"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">f"Result: <span class="kw">{</span>result<span class="kw">}</span>"</span>)   <span class="cm"># runs only if no exception</span>
+<span class="kw">finally</span>:
+    <span class="fn">print</span>(<span class="str">"Done."</span>)              <span class="cm"># always runs</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Module 7 -->
+    <section class="module m7" id="m7">
+      <div class="module-header">
+        <div class="module-icon">📚</div>
+        <div class="module-header-text">
+          <div class="module-number">Module 7</div>
+          <h2>Modules, Packages &amp; Standard Library</h2>
+          <span class="week-badge">Week 4</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <p class="section-title">Module System</p>
+        <div class="topic-grid">
+          <div class="topic-item">Importing modules — <code>import</code>, <code>from … import</code></div>
+          <div class="topic-item">Creating your own modules</div>
+          <div class="topic-item">Packages &amp; <code>__init__.py</code></div>
+          <div class="topic-item"><code>if __name__ == "__main__":</code> guard</div>
+          <div class="topic-item">Virtual environments — <code>venv</code></div>
+          <div class="topic-item">Installing packages — <code>pip</code></div>
+          <div class="topic-item"><code>requirements.txt</code></div>
+        </div>
+        <p class="section-title">Key Standard Library Modules</p>
+        <table class="styled-table">
+          <thead><tr><th>Module</th><th>Highlights</th></tr></thead>
+          <tbody>
+            <tr><td><code>datetime</code></td><td><code>datetime.now()</code>, <code>timedelta</code>, <code>strftime()</code>, <code>strptime()</code></td></tr>
+            <tr><td><code>math</code></td><td><code>sqrt()</code>, <code>pi</code>, <code>ceil()</code>, <code>floor()</code>, <code>factorial()</code>, <code>gcd()</code></td></tr>
+            <tr><td><code>random</code></td><td><code>randint()</code>, <code>choice()</code>, <code>shuffle()</code>, <code>sample()</code></td></tr>
+            <tr><td><code>os</code></td><td><code>getcwd()</code>, <code>listdir()</code>, <code>makedirs()</code>, <code>environ</code></td></tr>
+            <tr><td><code>sys</code></td><td><code>argv</code>, <code>exit()</code>, <code>path</code></td></tr>
+            <tr><td><code>re</code></td><td><code>match()</code>, <code>search()</code>, <code>findall()</code>, <code>sub()</code></td></tr>
+            <tr><td><code>pathlib</code></td><td><code>Path()</code>, <code>.exists()</code>, <code>.glob()</code>, <code>.read_text()</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Module 8 -->
+    <section class="module m8" id="m8">
+      <div class="module-header">
+        <div class="module-icon">⚡</div>
+        <div class="module-header-text">
+          <div class="module-number">Module 8</div>
+          <h2>Iterators, Generators &amp; Decorators</h2>
+          <span class="week-badge">Week 4</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <p class="section-title">Iterators &amp; Generators</p>
+        <div class="topic-grid">
+          <div class="topic-item">Iterables vs iterators — <code>__iter__</code>, <code>__next__</code></div>
+          <div class="topic-item">Custom iterator classes</div>
+          <div class="topic-item">Generator functions with <code>yield</code></div>
+          <div class="topic-item">Generator expressions (lazy comprehensions)</div>
+          <div class="topic-item">Memory-efficient data processing</div>
+          <div class="topic-item"><code>yield from</code> — delegation</div>
+        </div>
+        <p class="section-title">Closures &amp; Decorators</p>
+        <div class="topic-grid">
+          <div class="topic-item">Closures — captured variables</div>
+          <div class="topic-item">Writing custom decorators</div>
+          <div class="topic-item">Decorators with arguments</div>
+          <div class="topic-item">Stacking multiple decorators</div>
+          <div class="topic-item"><code>@functools.wraps</code></div>
+          <div class="topic-item"><code>lru_cache</code>, <code>partial</code>, <code>reduce</code></div>
+        </div>
+        <div class="code-example">
+          <div class="code-label">Generator + Decorator</div>
+<pre><span class="kw">import</span> functools, time
+
+<span class="kw">def</span> <span class="fn">timer</span>(func):
+    <span class="dec">@functools.wraps</span>(func)
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        start  = time.<span class="fn">perf_counter</span>()
+        result = <span class="fn">func</span>(*args, **kwargs)
+        <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>func.__name__<span class="kw">}</span> → <span class="kw">{</span>time.perf_counter()-start:.4f<span class="kw">}</span>s"</span>)
+        <span class="kw">return</span> result
+    <span class="kw">return</span> wrapper
+
+<span class="dec">@timer</span>
+<span class="kw">def</span> <span class="fn">sum_large</span>(n):
+    <span class="kw">return</span> <span class="fn">sum</span>(x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(n))   <span class="cm"># generator expression</span>
+
+<span class="fn">sum_large</span>(<span class="num">1_000_000</span>)</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Assessment -->
+    <section class="module" id="assessment" style="background:white">
+      <div class="module-header" style="border-bottom:1px solid var(--gray-100)">
+        <div class="module-icon" style="background:#f0fdf4">🏆</div>
+        <div class="module-header-text">
+          <div class="module-number" style="color:var(--green)">Assessment</div>
+          <h2>Evaluation Structure</h2>
+        </div>
+      </div>
+      <div class="module-body">
+        <div class="assessment-grid">
+          <div class="assess-card" style="border-color:#dbeafe">
+            <div class="assess-pct" style="color:#2563eb">30%</div>
+            <div class="assess-label">Weekly Assignments</div>
+            <div class="assess-desc">Coding tasks submitted after each module via GitHub or LMS</div>
+          </div>
+          <div class="assess-card" style="border-color:#dcfce7">
+            <div class="assess-pct" style="color:#16a34a">15%</div>
+            <div class="assess-label">Mini Project 1</div>
+            <div class="assess-desc">Console app using Modules 1–4<br>(e.g. grade calculator)</div>
+          </div>
+          <div class="assess-card" style="border-color:#f3e8ff">
+            <div class="assess-pct" style="color:#9333ea">15%</div>
+            <div class="assess-label">Mini Project 2</div>
+            <div class="assess-desc">OOP + File I/O using Modules 5–7<br>(e.g. contact book)</div>
+          </div>
+          <div class="assess-card" style="border-color:#ffedd5">
+            <div class="assess-pct" style="color:#ea580c">30%</div>
+            <div class="assess-label">Capstone Project</div>
+            <div class="assess-desc">End-to-end application covering all 8 modules</div>
+          </div>
+          <div class="assess-card" style="border-color:#fef9c3">
+            <div class="assess-pct" style="color:#ca8a04">10%</div>
+            <div class="assess-label">Final Assessment</div>
+            <div class="assess-desc">Written + practical coding test</div>
+          </div>
+        </div>
+        <p class="section-title" style="margin-top:1.6rem">Capstone Project Ideas</p>
+        <div class="topic-grid">
+          <div class="topic-item">Expense Tracker (CSV/JSON + OOP)</div>
+          <div class="topic-item">Student Management System</div>
+          <div class="topic-item">Weather Report Tool (API + JSON)</div>
+          <div class="topic-item">Text Analyzer (Regex + Generators)</div>
+          <div class="topic-item">Library Management System</div>
+          <div class="topic-item">Inventory Manager (File I/O + CLI)</div>
+        </div>
+        <p class="section-title" style="margin-top:1.4rem">Submission Guidelines</p>
+        <div class="topic-grid">
+          <div class="topic-item">Submit via course GitHub repo or LMS portal</div>
+          <div class="topic-item">Name files <code>module1_assignment.py</code>, etc.</div>
+          <div class="topic-item">Include name, roll number &amp; date as comments at top</div>
+          <div class="topic-item">Projects include a <code>README.md</code> with setup instructions</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools -->
+    <section class="module" id="tools" style="background:white">
+      <div class="module-header" style="border-bottom:1px solid var(--gray-100)">
+        <div class="module-icon" style="background:#f0f9ff">🔧</div>
+        <div class="module-header-text">
+          <div class="module-number" style="color:#0284c7">Tools &amp; Resources</div>
+          <h2>Software &amp; References</h2>
+        </div>
+      </div>
+      <div class="module-body">
+        <p class="section-title">Software to Install</p>
+        <div class="tool-grid">
+          <div class="tool-card">
+            <div class="tool-icon">🐍</div>
+            <div>
+              <div class="tool-name">Python 3.x</div>
+              <div class="tool-desc">Language runtime.<br><a href="https://python.org" target="_blank">python.org</a></div>
+            </div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">💻</div>
+            <div>
+              <div class="tool-name">VS Code</div>
+              <div class="tool-desc">Recommended editor.<br><a href="https://code.visualstudio.com" target="_blank">code.visualstudio.com</a></div>
+            </div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">🧠</div>
+            <div>
+              <div class="tool-name">PyCharm Community</div>
+              <div class="tool-desc">Full-featured Python IDE.<br><a href="https://www.jetbrains.com/pycharm/" target="_blank">jetbrains.com</a></div>
+            </div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">🔀</div>
+            <div>
+              <div class="tool-name">Git</div>
+              <div class="tool-desc">Version control.<br><a href="https://git-scm.com" target="_blank">git-scm.com</a></div>
+            </div>
+          </div>
+        </div>
+        <p class="section-title" style="margin-top:1.4rem">Learning Resources</p>
+        <div class="tool-grid">
+          <div class="tool-card">
+            <div class="tool-icon">📖</div>
+            <div>
+              <div class="tool-name">Official Python Docs</div>
+              <div class="tool-desc"><a href="https://docs.python.org/3/" target="_blank">docs.python.org/3</a></div>
+            </div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">🎓</div>
+            <div>
+              <div class="tool-name">Real Python</div>
+              <div class="tool-desc">Tutorials &amp; guides.<br><a href="https://realpython.com" target="_blank">realpython.com</a></div>
+            </div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">👁️</div>
+            <div>
+              <div class="tool-name">Python Tutor</div>
+              <div class="tool-desc">Visualise execution.<br><a href="https://pythontutor.com" target="_blank">pythontutor.com</a></div>
+            </div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">✅</div>
+            <div>
+              <div class="tool-name">PEP 8</div>
+              <div class="tool-desc">Style guide.<br><a href="https://peps.python.org/pep-0008/" target="_blank">peps.python.org</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────── -->
+<footer>
+  <p><strong>Pramanicus Academy</strong> — Ramanthapur, Hyderabad</p>
+  <p style="margin-top:.4rem">Python Training &nbsp;|&nbsp; 4-Week Programme &nbsp;|&nbsp; Python 3.x</p>
+</footer>
+
+</body>
+</html>
