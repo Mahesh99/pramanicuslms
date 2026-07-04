@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 8: Iterators, Generators & Decorators — Pramanicus Academy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Module 8</span></div>
+  <h1>Module 8: Iterators, Generators &amp; Decorators</h1>
+  <p class="subtitle">Iterables · Iterators · yield · Generator Expressions · Closures · Custom Decorators · functools</p>
+  <div class="header-pills"><span>📅 Week 4</span><span>🔴 Advanced</span><span>4 Sessions</span></div>
+</header>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">🐍 Python Notes</div>
+    <a href="index.html">Home</a>
+    <a href="module1.html">1 · Fundamentals</a>
+    <a href="module2.html">2 · Control Flow</a>
+    <a href="module3.html">3 · Data Structures</a>
+    <a href="module4.html">4 · Functions</a>
+    <a href="module5.html">5 · OOP</a>
+    <a href="module6.html">6 · Exceptions &amp; Files</a>
+    <a href="module7.html">7 · Modules &amp; Stdlib</a>
+    <a href="module8.html" class="active">8 · Iterators &amp; Decorators</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Module 8 Contents</div>
+    <ul>
+      <li><a href="#iterables"><span class="sec-num">8.1</span>Iterables vs Iterators</a></li>
+      <li><a href="#custom-iter"><span class="sec-num">8.2</span>Custom Iterator Classes</a></li>
+      <li><a href="#generators"><span class="sec-num">8.3</span>Generator Functions</a></li>
+      <li><a href="#genexpr"><span class="sec-num">8.4</span>Generator Expressions</a></li>
+      <li><a href="#yield-from"><span class="sec-num">8.5</span>yield from</a></li>
+      <li><a href="#closures"><span class="sec-num">8.6</span>Closures</a></li>
+      <li><a href="#decorators"><span class="sec-num">8.7</span>Decorators</a></li>
+      <li><a href="#args-deco"><span class="sec-num">8.8</span>Decorators with Arguments</a></li>
+      <li><a href="#functools"><span class="sec-num">8.9</span>functools Module</a></li>
+      <li><a href="#practice"><span class="sec-num">✏</span>Practice Exercises</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+
+    <div class="callout info">
+      <div class="callout-icon">🎯</div>
+      <div class="callout-body">
+        <strong>Learning Objectives</strong>
+        Understand Python's iterator protocol, write generator functions with <code>yield</code>, create memory-efficient data pipelines, understand closures, write custom decorators (with and without arguments), and use <code>functools</code> tools like <code>lru_cache</code> and <code>partial</code>.
+      </div>
+    </div>
+
+    <!-- 8.1 Iterables vs Iterators -->
+    <section class="content-section" id="iterables">
+      <div class="section-header">
+        <div class="section-icon">🔁</div>
+        <div class="section-meta"><div class="label">Section 8.1</div><h2>Iterables vs Iterators</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="two-col">
+          <div class="concept-card">
+            <div class="concept-title">📦 Iterable</div>
+            <p>Any object that can produce an iterator. Has a <code>__iter__()</code> method. Examples: list, tuple, string, dict, set, range.</p>
+          </div>
+          <div class="concept-card">
+            <div class="concept-title">➡️ Iterator</div>
+            <p>An object that produces values one at a time using <code>__next__()</code>. Raises <code>StopIteration</code> when exhausted. It IS an iterable too (its <code>__iter__</code> returns itself).</p>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Under the hood of a for loop</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>numbers = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+
+<span class="cm"># A for loop does this internally:</span>
+it = <span class="fn">iter</span>(numbers)     <span class="cm"># calls numbers.__iter__()</span>
+<span class="kw">while</span> <span class="kw">True</span>:
+    <span class="kw">try</span>:
+        x = <span class="fn">next</span>(it)   <span class="cm"># calls it.__next__()</span>
+        <span class="fn">print</span>(x)
+    <span class="kw">except</span> <span class="cls">StopIteration</span>:
+        <span class="kw">break</span>           <span class="cm"># loop ends when StopIteration is raised</span>
+
+<span class="cm"># Manual iteration</span>
+it = <span class="fn">iter</span>([<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>])
+<span class="fn">print</span>(<span class="fn">next</span>(it))   <span class="cm"># 10</span>
+<span class="fn">print</span>(<span class="fn">next</span>(it))   <span class="cm"># 20</span>
+<span class="fn">print</span>(<span class="fn">next</span>(it))   <span class="cm"># 30</span>
+<span class="fn">print</span>(<span class="fn">next</span>(it))   <span class="cm"># StopIteration!</span>
+
+<span class="cm"># Iterators are single-use — once exhausted, they're done</span>
+it = <span class="fn">iter</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])
+<span class="fn">print</span>(<span class="fn">list</span>(it))   <span class="cm"># [1, 2, 3]</span>
+<span class="fn">print</span>(<span class="fn">list</span>(it))   <span class="cm"># []  — already exhausted!</span></pre>
+        </div>
+
+        <div class="key-point">
+          <strong>Key distinction:</strong> A list is <em>iterable</em> — you can iterate over it many times. An iterator is a one-time use cursor that walks through a sequence. Every iterator is iterable, but not every iterable is an iterator.
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8.2 Custom Iterator -->
+    <section class="content-section" id="custom-iter">
+      <div class="section-header">
+        <div class="section-icon">🔧</div>
+        <div class="section-meta"><div class="label">Section 8.2</div><h2>Custom Iterator Classes</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>You can make any class iterable by implementing <code>__iter__</code> and <code>__next__</code>.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Custom iterator — Countdown</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">class</span> <span class="cls">Countdown</span>:
+    <span class="str">"""Counts down from n to 1."""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, n):
+        self.current = n
+
+    <span class="kw">def</span> <span class="fn">__iter__</span>(self):
+        <span class="kw">return</span> self               <span class="cm"># the object IS the iterator</span>
+
+    <span class="kw">def</span> <span class="fn">__next__</span>(self):
+        <span class="kw">if</span> self.current <= <span class="num">0</span>:
+            <span class="kw">raise</span> <span class="cls">StopIteration</span>  <span class="cm"># signal exhaustion</span>
+        self.current -= <span class="num">1</span>
+        <span class="kw">return</span> self.current + <span class="num">1</span>
+
+<span class="kw">for</span> n <span class="kw">in</span> <span class="cls">Countdown</span>(<span class="num">5</span>):
+    <span class="fn">print</span>(n)
+<span class="cm"># 5  4  3  2  1</span>
+
+<span class="cm"># Works with all iterator-consuming functions</span>
+<span class="fn">print</span>(<span class="fn">list</span>(<span class="cls">Countdown</span>(<span class="num">3</span>)))    <span class="cm"># [3, 2, 1]</span>
+<span class="fn">print</span>(<span class="fn">sum</span>(<span class="cls">Countdown</span>(<span class="num">10</span>)))    <span class="cm"># 55</span></pre>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body"><strong>In practice, use generators.</strong> For most custom iterators, a generator function (Section 8.3) is simpler and more readable than implementing a full class with <code>__iter__</code>/<code>__next__</code>.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8.3 Generators -->
+    <section class="content-section" id="generators">
+      <div class="section-header">
+        <div class="section-icon">⚡</div>
+        <div class="section-meta"><div class="label">Section 8.3</div><h2>Generator Functions</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>A <strong>generator function</strong> uses <code>yield</code> instead of <code>return</code>. When called, it returns a <strong>generator object</strong> (an iterator). The function's body is not executed immediately — it runs <em>lazily</em>, one step at a time each time <code>next()</code> is called.</p>
+
+        <div class="key-point">
+          <strong>Why generators?</strong> Memory efficiency. A regular function that builds a list of 1,000,000 items stores all of them in memory at once. A generator produces one item at a time — it uses almost no extra memory regardless of how large the sequence is.
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Generator function basics</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">def</span> <span class="fn">countdown</span>(n):
+    <span class="str">"""Generator version of Countdown."""</span>
+    <span class="kw">while</span> n > <span class="num">0</span>:
+        <span class="kw">yield</span> n    <span class="cm"># pause here, return n, resume next time</span>
+        n -= <span class="num">1</span>
+
+gen = <span class="fn">countdown</span>(<span class="num">3</span>)
+<span class="fn">print</span>(<span class="fn">type</span>(gen))    <span class="cm"># &lt;class 'generator'&gt;</span>
+<span class="fn">print</span>(<span class="fn">next</span>(gen))    <span class="cm"># 3   — runs up to first yield</span>
+<span class="fn">print</span>(<span class="fn">next</span>(gen))    <span class="cm"># 2   — resumes from after yield</span>
+<span class="fn">print</span>(<span class="fn">next</span>(gen))    <span class="cm"># 1</span>
+<span class="fn">print</span>(<span class="fn">next</span>(gen))    <span class="cm"># StopIteration</span>
+
+<span class="kw">for</span> n <span class="kw">in</span> <span class="fn">countdown</span>(<span class="num">5</span>):
+    <span class="fn">print</span>(n, end=<span class="str">" "</span>)   <span class="cm"># 5 4 3 2 1</span></pre>
+        </div>
+
+        <h3>Infinite Generator</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Infinite generators</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Fibonacci — produces values forever</span>
+<span class="kw">def</span> <span class="fn">fibonacci</span>():
+    a, b = <span class="num">0</span>, <span class="num">1</span>
+    <span class="kw">while</span> <span class="kw">True</span>:     <span class="cm"># infinite loop — but pauses at each yield</span>
+        <span class="kw">yield</span> a
+        a, b = b, a + b
+
+gen = <span class="fn">fibonacci</span>()
+<span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>):
+    <span class="fn">print</span>(<span class="fn">next</span>(gen), end=<span class="str">" "</span>)
+<span class="cm"># 0 1 1 2 3 5 8 13 21 34</span>
+
+<span class="cm"># Take N items from any generator</span>
+<span class="kw">import</span> itertools
+first_20_fibs = <span class="fn">list</span>(itertools.<span class="fn">islice</span>(<span class="fn">fibonacci</span>(), <span class="num">20</span>))</pre>
+        </div>
+
+        <h3>Memory Comparison</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">List vs Generator — memory usage</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> sys
+
+<span class="cm"># List — stores ALL 1,000,000 numbers in memory</span>
+big_list = [x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1_000_000</span>)]
+<span class="fn">print</span>(sys.<span class="fn">getsizeof</span>(big_list))   <span class="cm"># ~8 MB</span>
+
+<span class="cm"># Generator — produces one number at a time, uses ~200 bytes</span>
+big_gen = (x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1_000_000</span>))
+<span class="fn">print</span>(sys.<span class="fn">getsizeof</span>(big_gen))    <span class="cm"># ~200 bytes!
+
+# Both can be summed — generator is just as useful:
+total = sum(x**2 for x in range(1_000_000))</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8.4 Generator Expressions -->
+    <section class="content-section" id="genexpr">
+      <div class="section-header">
+        <div class="section-icon">🧬</div>
+        <div class="section-meta"><div class="label">Section 8.4</div><h2>Generator Expressions</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>Generator expressions are the lazy, memory-efficient version of list comprehensions. Use parentheses <code>()</code> instead of brackets <code>[]</code>.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Generator expressions</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># List comprehension — creates list immediately, stores all values</span>
+squares_list = [x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>)]
+
+<span class="cm"># Generator expression — lazy, produces one at a time</span>
+squares_gen  = (x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>))
+
+<span class="cm"># When to use generator expressions:</span>
+<span class="cm"># 1. When you only need to iterate once</span>
+total = <span class="fn">sum</span>(x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1000</span>))   <span class="cm"># no list needed</span>
+
+<span class="cm"># 2. When the list would be very large</span>
+max_even = <span class="fn">max</span>(x <span class="kw">for</span> x <span class="kw">in</span> big_data <span class="kw">if</span> x % <span class="num">2</span> == <span class="num">0</span>)
+
+<span class="cm"># 3. When passing to functions that consume iterables</span>
+words = [<span class="str">"hello"</span>, <span class="str">"world"</span>, <span class="str">"python"</span>]
+<span class="fn">print</span>(<span class="str">", "</span>.<span class="fn">join</span>(w.<span class="fn">upper</span>() <span class="kw">for</span> w <span class="kw">in</span> words))
+<span class="fn">print</span>(<span class="fn">any</span>(w.<span class="fn">startswith</span>(<span class="str">"p"</span>) <span class="kw">for</span> w <span class="kw">in</span> words))  <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="fn">all</span>(<span class="fn">len</span>(w) > <span class="num">3</span> <span class="kw">for</span> w <span class="kw">in</span> words))            <span class="cm"># True</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8.5 yield from -->
+    <section class="content-section" id="yield-from">
+      <div class="section-header">
+        <div class="section-icon">🔗</div>
+        <div class="section-meta"><div class="label">Section 8.5</div><h2>yield from</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p><code>yield from</code> delegates to another generator or iterable — it yields all values from it without a manual loop.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">yield from</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Without yield from — manual loop</span>
+<span class="kw">def</span> <span class="fn">chain_manual</span>(*iterables):
+    <span class="kw">for</span> it <span class="kw">in</span> iterables:
+        <span class="kw">for</span> item <span class="kw">in</span> it:
+            <span class="kw">yield</span> item
+
+<span class="cm"># With yield from — cleaner</span>
+<span class="kw">def</span> <span class="fn">chain</span>(*iterables):
+    <span class="kw">for</span> it <span class="kw">in</span> iterables:
+        <span class="kw">yield from</span> it
+
+<span class="fn">print</span>(<span class="fn">list</span>(<span class="fn">chain</span>([<span class="num">1</span>,<span class="num">2</span>], [<span class="num">3</span>,<span class="num">4</span>], [<span class="num">5</span>])))   <span class="cm"># [1, 2, 3, 4, 5]</span>
+
+<span class="cm"># Flatten nested list</span>
+<span class="kw">def</span> <span class="fn">flatten</span>(nested):
+    <span class="kw">for</span> item <span class="kw">in</span> nested:
+        <span class="kw">if</span> <span class="fn">isinstance</span>(item, <span class="fn">list</span>):
+            <span class="kw">yield from</span> <span class="fn">flatten</span>(item)   <span class="cm"># recursive!</span>
+        <span class="kw">else</span>:
+            <span class="kw">yield</span> item
+
+data = [<span class="num">1</span>, [<span class="num">2</span>, [<span class="num">3</span>, <span class="num">4</span>], <span class="num">5</span>], <span class="num">6</span>]
+<span class="fn">print</span>(<span class="fn">list</span>(<span class="fn">flatten</span>(data)))   <span class="cm"># [1, 2, 3, 4, 5, 6]</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8.6 Closures -->
+    <section class="content-section" id="closures">
+      <div class="section-header">
+        <div class="section-icon">🔐</div>
+        <div class="section-meta"><div class="label">Section 8.6</div><h2>Closures</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>A <strong>closure</strong> is a function that <strong>captures variables from its enclosing scope</strong> and "remembers" them even after the outer function has returned.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Understanding closures</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">def</span> <span class="fn">make_multiplier</span>(n):
+    <span class="str">"""Factory: returns a function that multiplies by n."""</span>
+    <span class="kw">def</span> <span class="fn">multiplier</span>(x):
+        <span class="kw">return</span> x * n     <span class="cm"># n is captured from the enclosing scope</span>
+    <span class="kw">return</span> multiplier   <span class="cm"># return the inner function, not its result</span>
+
+double = <span class="fn">make_multiplier</span>(<span class="num">2</span>)
+triple = <span class="fn">make_multiplier</span>(<span class="num">3</span>)
+
+<span class="fn">print</span>(<span class="fn">double</span>(<span class="num">5</span>))    <span class="cm"># 10 — n is still 2</span>
+<span class="fn">print</span>(<span class="fn">triple</span>(<span class="num">5</span>))   <span class="cm"># 15 — n is still 3</span>
+
+<span class="cm"># Inspect the captured variable</span>
+<span class="fn">print</span>(double.__closure__[<span class="num">0</span>].cell_contents)   <span class="cm"># 2</span>
+
+<span class="cm"># Practical: counter factory</span>
+<span class="kw">def</span> <span class="fn">make_counter</span>(start=<span class="num">0</span>):
+    count = [start]     <span class="cm"># use a list to allow mutation in Python 2 style
+                        # (or use nonlocal in Python 3)</span>
+    <span class="kw">def</span> <span class="fn">increment</span>(by=<span class="num">1</span>):
+        count[<span class="num">0</span>] += by
+        <span class="kw">return</span> count[<span class="num">0</span>]
+    <span class="kw">def</span> <span class="fn">reset</span>():
+        count[<span class="num">0</span>] = start
+    <span class="kw">return</span> increment, reset
+
+inc, rst = <span class="fn">make_counter</span>(<span class="num">10</span>)
+<span class="fn">print</span>(<span class="fn">inc</span>())     <span class="cm"># 11</span>
+<span class="fn">print</span>(<span class="fn">inc</span>(<span class="num">5</span>))   <span class="cm"># 16</span>
+<span class="fn">rst</span>()
+<span class="fn">print</span>(<span class="fn">inc</span>())     <span class="cm"># 11</span></pre>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body"><strong>Closures power decorators.</strong> Every decorator you'll write is built on the closure pattern — an outer function captures the original function, and the inner wrapper function uses it.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8.7 Decorators -->
+    <section class="content-section" id="decorators">
+      <div class="section-header">
+        <div class="section-icon">🎨</div>
+        <div class="section-meta"><div class="label">Section 8.7</div><h2>Decorators</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>A <strong>decorator</strong> is a function that <em>wraps another function</em> to add behaviour before and/or after it runs — without changing the original function's code. The <code>@decorator</code> syntax is shorthand for <code>func = decorator(func)</code>.</p>
+
+        <h3>Building a Decorator Step by Step</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Building a decorator from scratch</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> functools
+
+<span class="cm"># Step 1: basic decorator structure</span>
+<span class="kw">def</span> <span class="fn">my_decorator</span>(func):
+    <span class="dec">@functools.wraps</span>(func)     <span class="cm"># preserves func's name and docstring</span>
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        <span class="fn">print</span>(<span class="str">"Before the function"</span>)
+        result = <span class="fn">func</span>(*args, **kwargs)   <span class="cm"># call the original function</span>
+        <span class="fn">print</span>(<span class="str">"After the function"</span>)
+        <span class="kw">return</span> result
+    <span class="kw">return</span> wrapper
+
+<span class="cm"># Apply with @</span>
+<span class="dec">@my_decorator</span>
+<span class="kw">def</span> <span class="fn">greet</span>(name):
+    <span class="fn">print</span>(<span class="str">f"Hello, <span class="kw">{</span>name<span class="kw">}</span>!"</span>)
+
+<span class="fn">greet</span>(<span class="str">"Alice"</span>)
+<span class="cm"># Before the function
+# Hello, Alice!
+# After the function
+
+# @my_decorator is exactly the same as:
+# greet = my_decorator(greet)</span></pre>
+        </div>
+
+        <h3>Practical Decorators</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Timer decorator</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> functools, time
+
+<span class="kw">def</span> <span class="fn">timer</span>(func):
+    <span class="str">"""Print the execution time of the decorated function."""</span>
+    <span class="dec">@functools.wraps</span>(func)
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        start  = time.<span class="fn">perf_counter</span>()
+        result = <span class="fn">func</span>(*args, **kwargs)
+        end    = time.<span class="fn">perf_counter</span>()
+        <span class="fn">print</span>(<span class="str">f"[timer] <span class="kw">{</span>func.__name__<span class="kw">}</span> took <span class="kw">{</span>end - start:.4f<span class="kw">}</span>s"</span>)
+        <span class="kw">return</span> result
+    <span class="kw">return</span> wrapper
+
+<span class="dec">@timer</span>
+<span class="kw">def</span> <span class="fn">slow_sum</span>(n):
+    <span class="kw">return</span> <span class="fn">sum</span>(<span class="fn">range</span>(n))
+
+<span class="fn">slow_sum</span>(<span class="num">10_000_000</span>)   <span class="cm"># [timer] slow_sum took 0.1234s</span></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Logger and retry decorators</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Logger — log function calls</span>
+<span class="kw">def</span> <span class="fn">logger</span>(func):
+    <span class="dec">@functools.wraps</span>(func)
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        args_str = <span class="str">", "</span>.<span class="fn">join</span>(<span class="fn">repr</span>(a) <span class="kw">for</span> a <span class="kw">in</span> args)
+        <span class="fn">print</span>(<span class="str">f"Calling <span class="kw">{</span>func.__name__<span class="kw">}</span>(<span class="kw">{</span>args_str<span class="kw">}</span>)"</span>)
+        result = <span class="fn">func</span>(*args, **kwargs)
+        <span class="fn">print</span>(<span class="str">f"→ returned <span class="kw">{</span>result!r<span class="kw">}</span>"</span>)
+        <span class="kw">return</span> result
+    <span class="kw">return</span> wrapper
+
+<span class="dec">@logger</span>
+<span class="kw">def</span> <span class="fn">add</span>(a, b):
+    <span class="kw">return</span> a + b
+
+<span class="fn">add</span>(<span class="num">3</span>, <span class="num">5</span>)
+<span class="cm"># Calling add(3, 5)
+# → returned 8</span>
+
+<span class="cm"># Stacking decorators — applied bottom-up</span>
+<span class="dec">@timer</span>
+<span class="dec">@logger</span>
+<span class="kw">def</span> <span class="fn">multiply</span>(a, b):
+    <span class="kw">return</span> a * b
+<span class="cm"># equivalent to: multiply = timer(logger(multiply))</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8.8 Decorators with Arguments -->
+    <section class="content-section" id="args-deco">
+      <div class="section-header">
+        <div class="section-icon">🎛️</div>
+        <div class="section-meta"><div class="label">Section 8.8</div><h2>Decorators with Arguments</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>To pass arguments to a decorator, you need an extra layer of nesting — a <strong>decorator factory</strong>: a function that <em>returns</em> a decorator.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Decorator with arguments</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> functools
+
+<span class="kw">def</span> <span class="fn">repeat</span>(n):
+    <span class="str">"""Decorator factory: repeat the function n times."""</span>
+    <span class="kw">def</span> <span class="fn">decorator</span>(func):
+        <span class="dec">@functools.wraps</span>(func)
+        <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+            <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(n):
+                result = <span class="fn">func</span>(*args, **kwargs)
+            <span class="kw">return</span> result
+        <span class="kw">return</span> wrapper
+    <span class="kw">return</span> decorator
+
+<span class="dec">@repeat</span>(<span class="num">3</span>)
+<span class="kw">def</span> <span class="fn">say_hello</span>():
+    <span class="fn">print</span>(<span class="str">"Hello!"</span>)
+
+<span class="fn">say_hello</span>()
+<span class="cm"># Hello!
+# Hello!
+# Hello!
+
+# @repeat(3) is equivalent to:
+# say_hello = repeat(3)(say_hello)</span>
+
+<span class="cm"># Retry decorator — retry on failure</span>
+<span class="kw">def</span> <span class="fn">retry</span>(max_attempts=<span class="num">3</span>, exceptions=(<span class="cls">Exception</span>,)):
+    <span class="kw">def</span> <span class="fn">decorator</span>(func):
+        <span class="dec">@functools.wraps</span>(func)
+        <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+            <span class="kw">for</span> attempt <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, max_attempts + <span class="num">1</span>):
+                <span class="kw">try</span>:
+                    <span class="kw">return</span> <span class="fn">func</span>(*args, **kwargs)
+                <span class="kw">except</span> exceptions <span class="kw">as</span> e:
+                    <span class="fn">print</span>(<span class="str">f"Attempt <span class="kw">{</span>attempt<span class="kw">}</span> failed: <span class="kw">{</span>e<span class="kw">}</span>"</span>)
+                    <span class="kw">if</span> attempt == max_attempts:
+                        <span class="kw">raise</span>
+        <span class="kw">return</span> wrapper
+    <span class="kw">return</span> decorator
+
+<span class="dec">@retry</span>(max_attempts=<span class="num">3</span>)
+<span class="kw">def</span> <span class="fn">flaky_api_call</span>():
+    <span class="kw">import</span> random
+    <span class="kw">if</span> random.<span class="fn">random</span>() < <span class="num">0.7</span>:
+        <span class="kw">raise</span> <span class="cls">ConnectionError</span>(<span class="str">"Network timeout"</span>)
+    <span class="kw">return</span> <span class="str">"Success!"</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8.9 functools -->
+    <section class="content-section" id="functools">
+      <div class="section-header">
+        <div class="section-icon">🧰</div>
+        <div class="section-meta"><div class="label">Section 8.9</div><h2>functools Module</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3><code>functools.lru_cache</code> — Memoisation</h3>
+        <p>Caches the return values of a function so expensive computations aren't repeated.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">lru_cache — memoisation</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> functools
+
+<span class="cm"># Naive Fibonacci — exponential time complexity (very slow)</span>
+<span class="kw">def</span> <span class="fn">fib_slow</span>(n):
+    <span class="kw">if</span> n < <span class="num">2</span>: <span class="kw">return</span> n
+    <span class="kw">return</span> <span class="fn">fib_slow</span>(n-<span class="num">1</span>) + <span class="fn">fib_slow</span>(n-<span class="num">2</span>)
+<span class="cm"># fib_slow(40) takes ~30 seconds</span>
+
+<span class="cm"># With memoisation — O(n) time, each n computed only once</span>
+<span class="dec">@functools.lru_cache</span>(maxsize=<span class="kw">None</span>)   <span class="cm"># None = unlimited cache</span>
+<span class="kw">def</span> <span class="fn">fib</span>(n):
+    <span class="kw">if</span> n < <span class="num">2</span>: <span class="kw">return</span> n
+    <span class="kw">return</span> <span class="fn">fib</span>(n-<span class="num">1</span>) + <span class="fn">fib</span>(n-<span class="num">2</span>)
+<span class="cm"># fib(40) is instant!
+# fib(1000) also works (with sys.setrecursionlimit)</span>
+
+<span class="fn">print</span>(<span class="fn">fib</span>.<span class="fn">cache_info</span>())  <span class="cm"># CacheInfo(hits=38, misses=41, ...)</span></pre>
+        </div>
+
+        <h3><code>functools.partial</code> — Partial Application</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">partial — fix some arguments</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">from</span> functools <span class="kw">import</span> partial
+
+<span class="kw">def</span> <span class="fn">power</span>(base, exponent):
+    <span class="kw">return</span> base ** exponent
+
+<span class="cm"># Fix exponent=2 to create a 'square' function</span>
+square = <span class="fn">partial</span>(power, exponent=<span class="num">2</span>)
+cube   = <span class="fn">partial</span>(power, exponent=<span class="num">3</span>)
+
+<span class="fn">print</span>(<span class="fn">square</span>(<span class="num">5</span>))   <span class="cm"># 25</span>
+<span class="fn">print</span>(<span class="fn">cube</span>(<span class="num">4</span>))     <span class="cm"># 64</span>
+
+<span class="cm"># Practical: pre-configure print with custom separator</span>
+print_csv = <span class="fn">partial</span>(<span class="fn">print</span>, sep=<span class="str">","</span>)
+<span class="fn">print_csv</span>(<span class="str">"Alice"</span>, <span class="num">20</span>, <span class="str">"A"</span>)   <span class="cm"># Alice,20,A</span>
+
+<span class="cm"># Sort by second element of each tuple</span>
+data   = [(<span class="str">"Alice"</span>, <span class="num">88</span>), (<span class="str">"Bob"</span>, <span class="num">72</span>), (<span class="str">"Carol"</span>, <span class="num">95</span>)]
+getkey = <span class="fn">partial</span>(<span class="kw">lambda</span> i, x: x[i], <span class="num">1</span>)
+<span class="fn">print</span>(<span class="fn">sorted</span>(data, key=getkey))</pre>
+        </div>
+
+        <h3>functools Quick Reference</h3>
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Function</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>functools.wraps(func)</code></td><td>Preserve original function metadata in a wrapper (always use in decorators)</td></tr>
+              <tr><td><code>functools.lru_cache(maxsize)</code></td><td>Memoize function results; avoids recomputation</td></tr>
+              <tr><td><code>functools.cache</code></td><td>Shorthand for <code>lru_cache(maxsize=None)</code> (Python 3.9+)</td></tr>
+              <tr><td><code>functools.partial(func, ...)</code></td><td>Create new function with some arguments pre-filled</td></tr>
+              <tr><td><code>functools.reduce(func, iter)</code></td><td>Cumulatively apply func to collapse iterable</td></tr>
+              <tr><td><code>functools.total_ordering</code></td><td>Define <code>__eq__</code> + one comparison; decorator generates the rest</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Practice -->
+    <section class="content-section" id="practice">
+      <div class="section-header">
+        <div class="section-icon">✏️</div>
+        <div class="section-meta"><div class="label">Practice</div><h2>Module 8 Exercises</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 1 — Generators</div>
+          <ol>
+            <li>Write a generator <code>primes()</code> that yields prime numbers infinitely. Print the first 20 primes.</li>
+            <li>Write a generator <code>running_average(numbers)</code> that yields the cumulative average after each number.</li>
+            <li>Implement <code>take(n, gen)</code> — a function that returns the first n items from any generator.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 2 — Decorators</div>
+          <ol>
+            <li>Write a <code>@validate_types(**types)</code> decorator that checks argument types before calling a function.</li>
+            <li>Write a <code>@cache_result</code> decorator that caches results in a dict (manual memoisation without lru_cache).</li>
+            <li>Write a <code>@rate_limit(calls_per_second)</code> decorator that throttles how often a function can be called.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 3 — Closures &amp; Partial</div>
+          <ol>
+            <li>Write a <code>make_adder(n)</code> function using a closure. <code>add5 = make_adder(5)</code>; then <code>add5(3)</code> → 8.</li>
+            <li>Use <code>functools.partial</code> to create: <code>double</code>, <code>triple</code>, <code>square</code> from a single <code>power(base, exp)</code> function.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Capstone Project Ideas</div>
+          <p style="color:var(--gray-600);font-size:.9rem;margin-bottom:.8rem">Build one end-to-end project that uses all 8 modules:</p>
+          <ul class="checklist">
+            <li><strong>Expense Tracker</strong> — OOP, CSV storage, decorators for logging, generators for reports</li>
+            <li><strong>Student Grade System</strong> — Classes, file I/O, exceptions, regex for input validation</li>
+            <li><strong>Weather CLI App</strong> — API requests (requests lib), JSON parsing, datetime, exceptions</li>
+            <li><strong>Text Analyser</strong> — Generators for file processing, regex, Counter, statistics</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Congratulations -->
+    <div style="background:linear-gradient(135deg,#1e3a8a,#4f46e5);border-radius:12px;padding:2rem;text-align:center;color:white;margin-top:1rem;">
+      <div style="font-size:2.5rem;margin-bottom:.8rem;">🎉</div>
+      <h2 style="color:white;font-size:1.4rem;margin-bottom:.5rem;">Congratulations!</h2>
+      <p style="opacity:.9;max-width:500px;margin:0 auto;">You've completed all 8 modules of the Python Training course. You now have a solid foundation in Python — from fundamentals to advanced topics. Build your capstone project, and keep coding!</p>
+    </div>
+
+    <div class="module-nav">
+      <a href="module7.html" class="prev"><span class="nav-dir">← Previous</span><span class="nav-title">Module 7: Modules &amp; Stdlib</span></a>
+      <a href="index.html" class="next"><span class="nav-dir">← Back to</span><span class="nav-title">Course Home</span></a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><strong>Pramanicus Academy</strong> — Ramanthapur, Hyderabad</p>
+  <p style="margin-top:.3rem">Python Training · Module 8 of 8 · <a href="index.html">Back to Course Home</a></p>
+</footer>
+</body>
+</html>

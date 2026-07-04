@@ -1,31 +1,48 @@
-# Python Training Syllabus — Pramanicus Academy
+# Python Training Notes — Pramanicus Academy
 
-A detailed 4-week Python training syllabus for **Pramanicus Academy**, Ramanthapur, Hyderabad.
+Detailed teaching notes for the 4-week Python Training programme at **Pramanicus Academy**, Ramanthapur, Hyderabad.
 
-## Files
+Each module is a standalone HTML page with full explanations, worked code examples, comparison tables, callout boxes, and practice exercises.
 
-| File | Description |
-|------|-------------|
-| [`index.html`](index.html) | Student-facing syllabus page — open in any browser or host on GitHub Pages |
-| [`syllabus.md`](syllabus.md) | Full Markdown version with detailed notes, code examples & tables |
+## Course Files
 
-## Making the Syllabus Available to Students
+| File | Content |
+|------|---------|
+| [`index.html`](index.html) | Course home — module navigator |
+| [`module1.html`](module1.html) | Python Fundamentals |
+| [`module2.html`](module2.html) | Control Flow |
+| [`module3.html`](module3.html) | Data Structures |
+| [`module4.html`](module4.html) | Functions |
+| [`module5.html`](module5.html) | Object-Oriented Programming |
+| [`module6.html`](module6.html) | Exception Handling &amp; File I/O |
+| [`module7.html`](module7.html) | Modules, Packages &amp; Standard Library |
+| [`module8.html`](module8.html) | Iterators, Generators &amp; Decorators |
+| [`style.css`](style.css) | Shared stylesheet |
+| [`syllabus.md`](syllabus.md) | Quick-reference Markdown syllabus |
 
-Three easy options depending on your setup:
+## Making the Notes Available to Students via GitHub Pages
 
-### 1. GitHub Pages (recommended — zero cost, always accessible)
-1. Go to **Settings → Pages** in this repository
-2. Set **Source** to the `main` branch, root folder `/`
-3. GitHub will publish `index.html` at `https://<your-org>.github.io/<repo>/`
-4. Share that URL with students — works on any device with a browser
+### Step 1 — Enable GitHub Pages (do this once, takes 30 seconds)
+1. Go to this repository on GitHub
+2. Click **Settings** → **Pages** (in the left sidebar)
+3. Under "Source", select **Deploy from a branch**
+4. Set branch to **`main`**, folder to **`/ (root)`**
+5. Click **Save**
 
-### 2. Share the HTML file directly
-- Download `index.html` and distribute via WhatsApp, email, or a USB drive
-- Students open it in any browser — no internet required after download
+GitHub will publish the site at:
+```
+https://mahesh99.github.io/Waterreminder/
+```
 
-### 3. LMS / Course portal
-- Upload `syllabus.md` to Google Classroom, Moodle, or any LMS that renders Markdown
-- Or embed the GitHub Pages URL as a link inside your LMS
+Students bookmark this URL — it always shows the latest notes and works on any device.
+
+### Option B — Share files directly (offline)
+Download and share any HTML file. Students double-click to open in any browser — no internet needed after download.
+
+### Option C — LMS
+Paste the GitHub Pages URL as a resource link inside Google Classroom, Moodle, or any LMS.
+
+---
 
 ## Course Overview
 
@@ -35,16 +52,6 @@ Three easy options depending on your setup:
 | **Python Version** | 3.x |
 | **Mode** | Classroom / Online |
 | **Prerequisite** | Basic computer literacy |
-
-### Modules
-1. Python Fundamentals
-2. Control Flow
-3. Data Structures
-4. Functions
-5. Object-Oriented Programming
-6. Exception Handling & File I/O
-7. Modules, Packages & Standard Library
-8. Iterators, Generators & Decorators
 
 ---
 *Pramanicus Academy — Ramanthapur, Hyderabad*

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 4: Functions — Pramanicus Academy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Module 4</span></div>
+  <h1>Module 4: Functions</h1>
+  <p class="subtitle">Defining Functions · Arguments · Scope · Lambda · Recursion · map/filter/reduce</p>
+  <div class="header-pills"><span>📅 Week 2–3</span><span>🟡 Intermediate</span><span>4 Sessions</span></div>
+</header>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">🐍 Python Notes</div>
+    <a href="index.html">Home</a>
+    <a href="module1.html">1 · Fundamentals</a>
+    <a href="module2.html">2 · Control Flow</a>
+    <a href="module3.html">3 · Data Structures</a>
+    <a href="module4.html" class="active">4 · Functions</a>
+    <a href="module5.html">5 · OOP</a>
+    <a href="module6.html">6 · Exceptions &amp; Files</a>
+    <a href="module7.html">7 · Modules &amp; Stdlib</a>
+    <a href="module8.html">8 · Iterators &amp; Decorators</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Module 4 Contents</div>
+    <ul>
+      <li><a href="#why"><span class="sec-num">4.1</span>Why Functions?</a></li>
+      <li><a href="#defining"><span class="sec-num">4.2</span>Defining &amp; Calling</a></li>
+      <li><a href="#return"><span class="sec-num">4.3</span>Return Values</a></li>
+      <li><a href="#args"><span class="sec-num">4.4</span>Types of Arguments</a></li>
+      <li><a href="#scope"><span class="sec-num">4.5</span>Variable Scope (LEGB)</a></li>
+      <li><a href="#lambda"><span class="sec-num">4.6</span>Lambda Functions</a></li>
+      <li><a href="#recursion"><span class="sec-num">4.7</span>Recursion</a></li>
+      <li><a href="#functional"><span class="sec-num">4.8</span>map, filter, reduce</a></li>
+      <li><a href="#docstrings"><span class="sec-num">4.9</span>Docstrings</a></li>
+      <li><a href="#practice"><span class="sec-num">✏</span>Practice Exercises</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+
+    <div class="callout info">
+      <div class="callout-icon">🎯</div>
+      <div class="callout-body">
+        <strong>Learning Objectives</strong>
+        Define and call functions, understand all argument types (*args, **kwargs), explain Python's LEGB scope rules, write lambda functions, implement recursive solutions, and use map/filter/reduce.
+      </div>
+    </div>
+
+    <!-- 4.1 Why Functions -->
+    <section class="content-section" id="why">
+      <div class="section-header">
+        <div class="section-icon">🤔</div>
+        <div class="section-meta"><div class="label">Section 4.1</div><h2>Why Functions?</h2></div>
+      </div>
+      <div class="section-body">
+        <p>A <strong>function</strong> is a named, reusable block of code that performs a specific task. Instead of writing the same logic multiple times, you write it once as a function and call it whenever you need it.</p>
+        <div class="two-col">
+          <div class="concept-card">
+            <div class="concept-title">♻️ Reusability (DRY)</div>
+            <p><em>Don't Repeat Yourself.</em> Write the logic once, use it everywhere. If you find a bug, fix it in one place.</p>
+          </div>
+          <div class="concept-card">
+            <div class="concept-title">📦 Modularity</div>
+            <p>Break a big problem into small, manageable pieces. Each function does one thing well.</p>
+          </div>
+          <div class="concept-card">
+            <div class="concept-title">📖 Readability</div>
+            <p>Good function names make code self-documenting: <code>calculate_tax(income)</code> is instantly clear.</p>
+          </div>
+          <div class="concept-card">
+            <div class="concept-title">🔬 Testability</div>
+            <p>Small, focused functions are easy to test individually.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4.2 Defining -->
+    <section class="content-section" id="defining">
+      <div class="section-header">
+        <div class="section-icon">⚙️</div>
+        <div class="section-meta"><div class="label">Section 4.2</div><h2>Defining &amp; Calling Functions</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3>Basic Syntax</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Function definition and call</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Define — use the 'def' keyword</span>
+<span class="kw">def</span> <span class="fn">greet</span>(name):
+    <span class="str">"""Return a greeting message."""</span>
+    message = <span class="str">f"Hello, <span class="kw">{</span>name<span class="kw">}</span>! Welcome to Python."</span>
+    <span class="kw">return</span> message
+
+<span class="cm"># Call — use the function name with parentheses</span>
+result = <span class="fn">greet</span>(<span class="str">"Alice"</span>)
+<span class="fn">print</span>(result)   <span class="cm"># Hello, Alice! Welcome to Python.</span>
+
+<span class="cm"># Call directly inside print</span>
+<span class="fn">print</span>(<span class="fn">greet</span>(<span class="str">"Bob"</span>))
+
+<span class="cm"># Function with no parameters</span>
+<span class="kw">def</span> <span class="fn">say_hello</span>():
+    <span class="fn">print</span>(<span class="str">"Hello!"</span>)
+
+<span class="fn">say_hello</span>()   <span class="cm"># Hello!</span>
+
+<span class="cm"># Function with no return statement → returns None implicitly</span>
+<span class="kw">def</span> <span class="fn">print_info</span>(name, age):
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>name<span class="kw">}</span>, <span class="kw">{</span>age<span class="kw">}</span> years old"</span>)
+
+x = <span class="fn">print_info</span>(<span class="str">"Alice"</span>, <span class="num">20</span>)
+<span class="fn">print</span>(x)   <span class="cm"># None</span></pre>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body"><strong>Functions are objects in Python.</strong> You can assign a function to a variable, pass it as an argument to another function, or store it in a list. This enables powerful patterns like callbacks and higher-order functions.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4.3 Return Values -->
+    <section class="content-section" id="return">
+      <div class="section-header">
+        <div class="section-icon">↩️</div>
+        <div class="section-meta"><div class="label">Section 4.3</div><h2>Return Values</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Return values</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Single return value</span>
+<span class="kw">def</span> <span class="fn">square</span>(n):
+    <span class="kw">return</span> n ** <span class="num">2</span>
+
+<span class="fn">print</span>(<span class="fn">square</span>(<span class="num">5</span>))   <span class="cm"># 25</span>
+
+<span class="cm"># Multiple return values (packed as a tuple)</span>
+<span class="kw">def</span> <span class="fn">min_max</span>(numbers):
+    <span class="kw">return</span> <span class="fn">min</span>(numbers), <span class="fn">max</span>(numbers)
+
+lo, hi = <span class="fn">min_max</span>([<span class="num">3</span>, <span class="num">1</span>, <span class="num">4</span>, <span class="num">1</span>, <span class="num">5</span>])
+<span class="fn">print</span>(<span class="str">f"Min: <span class="kw">{</span>lo<span class="kw">}</span>, Max: <span class="kw">{</span>hi<span class="kw">}</span>"</span>)   <span class="cm"># Min: 1, Max: 5</span>
+
+<span class="cm"># Early return — exits the function immediately</span>
+<span class="kw">def</span> <span class="fn">divide</span>(a, b):
+    <span class="kw">if</span> b == <span class="num">0</span>:
+        <span class="kw">return</span> <span class="kw">None</span>    <span class="cm"># or: return 0, or raise an exception</span>
+    <span class="kw">return</span> a / b
+
+<span class="cm"># Guard clauses — handle edge cases early</span>
+<span class="kw">def</span> <span class="fn">process</span>(items):
+    <span class="kw">if</span> <span class="kw">not</span> items:
+        <span class="kw">return</span> []     <span class="cm"># nothing to process</span>
+    <span class="cm"># ... main logic ...</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4.4 Arguments -->
+    <section class="content-section" id="args">
+      <div class="section-header">
+        <div class="section-icon">📥</div>
+        <div class="section-meta"><div class="label">Section 4.4</div><h2>Types of Arguments</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3>Positional Arguments</h3>
+        <p>Matched by <strong>position</strong> — the order you pass them must match the order in the definition.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Positional arguments</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">def</span> <span class="fn">power</span>(base, exponent):
+    <span class="kw">return</span> base ** exponent
+
+<span class="fn">power</span>(<span class="num">2</span>, <span class="num">10</span>)   <span class="cm"># base=2, exponent=10 → 1024</span>
+<span class="fn">power</span>(<span class="num">10</span>, <span class="num">2</span>)   <span class="cm"># base=10, exponent=2  → 100 (different result!)</span></pre>
+        </div>
+
+        <h3>Keyword Arguments</h3>
+        <p>Pass arguments by name — order doesn't matter. Improves readability.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Keyword arguments</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="fn">power</span>(exponent=<span class="num">10</span>, base=<span class="num">2</span>)  <span class="cm"># 1024 — order doesn't matter</span>
+<span class="fn">power</span>(<span class="num">2</span>, exponent=<span class="num">10</span>)      <span class="cm"># mix: first positional, rest keyword</span></pre>
+        </div>
+
+        <h3>Default Arguments</h3>
+        <p>Provide a default value — caller can omit the argument.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Default arguments</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">def</span> <span class="fn">greet</span>(name, greeting=<span class="str">"Hello"</span>, punctuation=<span class="str">"!"</span>):
+    <span class="kw">return</span> <span class="str">f"<span class="kw">{</span>greeting<span class="kw">}</span>, <span class="kw">{</span>name<span class="kw">}</span><span class="kw">{</span>punctuation<span class="kw">}</span>"</span>
+
+<span class="fn">greet</span>(<span class="str">"Alice"</span>)                       <span class="cm"># "Hello, Alice!"</span>
+<span class="fn">greet</span>(<span class="str">"Bob"</span>, <span class="str">"Good morning"</span>)         <span class="cm"># "Good morning, Bob!"</span>
+<span class="fn">greet</span>(<span class="str">"Carol"</span>, punctuation=<span class="str">"."</span>)     <span class="cm"># "Hello, Carol."</span></pre>
+        </div>
+
+        <div class="callout danger">
+          <div class="callout-icon">🚨</div>
+          <div class="callout-body">
+            <strong>Never use mutable defaults!</strong>
+            <code>def f(items=[])</code> is a classic Python trap. The list <code>[]</code> is created once when the function is defined, not each time it's called, so it accumulates values across calls. Use <code>None</code> as default and create the list inside:
+            <pre style="margin-top:.6rem;background:rgba(0,0,0,.2);padding:.6rem;border-radius:6px;font-size:.82rem">def f(items=None):
+    if items is None:
+        items = []</pre>
+          </div>
+        </div>
+
+        <h3><code>*args</code> — Variable Positional Arguments</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">*args</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># *args collects extra positional arguments into a TUPLE</span>
+<span class="kw">def</span> <span class="fn">total</span>(*numbers):
+    <span class="fn">print</span>(<span class="fn">type</span>(numbers))   <span class="cm"># &lt;class 'tuple'&gt;</span>
+    <span class="kw">return</span> <span class="fn">sum</span>(numbers)
+
+<span class="fn">total</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)           <span class="cm"># 6</span>
+<span class="fn">total</span>(<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>)   <span class="cm"># 100</span>
+
+<span class="cm"># Unpacking a list as positional args with *</span>
+nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+<span class="fn">total</span>(*nums)   <span class="cm"># same as total(1, 2, 3)</span></pre>
+        </div>
+
+        <h3><code>**kwargs</code> — Variable Keyword Arguments</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">**kwargs</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># **kwargs collects extra keyword arguments into a DICT</span>
+<span class="kw">def</span> <span class="fn">create_profile</span>(name, **details):
+    <span class="fn">print</span>(<span class="str">f"Name: <span class="kw">{</span>name<span class="kw">}</span>"</span>)
+    <span class="kw">for</span> key, value <span class="kw">in</span> details.<span class="fn">items</span>():
+        <span class="fn">print</span>(<span class="str">f"  <span class="kw">{</span>key<span class="kw">}</span>: <span class="kw">{</span>value<span class="kw">}</span>"</span>)
+
+<span class="fn">create_profile</span>(<span class="str">"Alice"</span>, age=<span class="num">20</span>, city=<span class="str">"Hyderabad"</span>, grade=<span class="str">"A"</span>)
+
+<span class="cm"># Unpacking a dict as keyword args with **</span>
+info = {<span class="str">"age"</span>: <span class="num">22</span>, <span class="str">"city"</span>: <span class="str">"Mumbai"</span>}
+<span class="fn">create_profile</span>(<span class="str">"Bob"</span>, **info)   <span class="cm"># same as create_profile("Bob", age=22, city="Mumbai")</span></pre>
+        </div>
+
+        <h3>Complete Argument Order</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">All argument types together</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Order: positional, *args, keyword-only, **kwargs</span>
+<span class="kw">def</span> <span class="fn">describe</span>(name, age=<span class="num">18</span>, *hobbies, city=<span class="str">"Unknown"</span>, **extras):
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>name<span class="kw">}</span>, <span class="kw">{</span>age<span class="kw">}</span>, <span class="kw">{</span>city<span class="kw">}</span>"</span>)
+    <span class="fn">print</span>(<span class="str">"Hobbies:"</span>, hobbies)
+    <span class="fn">print</span>(<span class="str">"Extras:"</span>, extras)
+
+<span class="fn">describe</span>(<span class="str">"Priya"</span>, <span class="num">22</span>, <span class="str">"chess"</span>, <span class="str">"coding"</span>,
+         city=<span class="str">"Hyderabad"</span>, score=<span class="num">95</span>)</pre>
+        </div>
+
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Type</th><th>Syntax</th><th>Collected as</th></tr></thead>
+            <tbody>
+              <tr><td>Positional</td><td><code>def f(a, b)</code></td><td>Individual variables</td></tr>
+              <tr><td>Default</td><td><code>def f(x=10)</code></td><td>Individual variable (with fallback)</td></tr>
+              <tr><td>Variable positional</td><td><code>def f(*args)</code></td><td>Tuple</td></tr>
+              <tr><td>Keyword-only</td><td><code>def f(*, k)</code></td><td>Individual variable (must use keyword)</td></tr>
+              <tr><td>Variable keyword</td><td><code>def f(**kwargs)</code></td><td>Dictionary</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4.5 Scope -->
+    <section class="content-section" id="scope">
+      <div class="section-header">
+        <div class="section-icon">🔭</div>
+        <div class="section-meta"><div class="label">Section 4.5</div><h2>Variable Scope — LEGB Rule</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>The <strong>scope</strong> of a variable determines where it can be accessed. Python looks up variable names following the <strong>LEGB</strong> rule:</p>
+
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Level</th><th>Name</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><strong>L</strong></td><td>Local</td><td>Inside the current function</td></tr>
+              <tr><td><strong>E</strong></td><td>Enclosing</td><td>In an outer function (for nested functions / closures)</td></tr>
+              <tr><td><strong>G</strong></td><td>Global</td><td>At module level (top of the file)</td></tr>
+              <tr><td><strong>B</strong></td><td>Built-in</td><td>Python's built-in names: <code>print</code>, <code>len</code>, <code>int</code>, etc.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">LEGB scope examples</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>x = <span class="str">"global"</span>          <span class="cm"># Global scope</span>
+
+<span class="kw">def</span> <span class="fn">outer</span>():
+    x = <span class="str">"enclosing"</span>   <span class="cm"># Enclosing scope</span>
+
+    <span class="kw">def</span> <span class="fn">inner</span>():
+        x = <span class="str">"local"</span>   <span class="cm"># Local scope</span>
+        <span class="fn">print</span>(x)       <span class="cm"># "local"  (found in L)</span>
+
+    <span class="fn">inner</span>()
+    <span class="fn">print</span>(x)           <span class="cm"># "enclosing" (not changed by inner)</span>
+
+<span class="fn">outer</span>()
+<span class="fn">print</span>(x)               <span class="cm"># "global" (not changed)</span>
+
+<span class="cm"># ─── global keyword ───────────────────────────────────────────</span>
+counter = <span class="num">0</span>
+
+<span class="kw">def</span> <span class="fn">increment</span>():
+    <span class="kw">global</span> counter      <span class="cm"># tell Python we mean the global 'counter'</span>
+    counter += <span class="num">1</span>
+
+<span class="fn">increment</span>()
+<span class="fn">increment</span>()
+<span class="fn">print</span>(counter)   <span class="cm"># 2</span>
+
+<span class="cm"># ─── nonlocal keyword ──────────────────────────────────────────</span>
+<span class="kw">def</span> <span class="fn">make_counter</span>():
+    count = <span class="num">0</span>
+    <span class="kw">def</span> <span class="fn">increment</span>():
+        <span class="kw">nonlocal</span> count   <span class="cm"># refer to enclosing scope's 'count'</span>
+        count += <span class="num">1</span>
+        <span class="kw">return</span> count
+    <span class="kw">return</span> increment
+
+c = <span class="fn">make_counter</span>()
+<span class="fn">print</span>(<span class="fn">c</span>())   <span class="cm"># 1</span>
+<span class="fn">print</span>(<span class="fn">c</span>())   <span class="cm"># 2</span></pre>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body"><strong>Avoid global variables.</strong> They make code hard to reason about and test. Pass values as arguments and return results instead. Use <code>global</code> only when absolutely necessary.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4.6 Lambda -->
+    <section class="content-section" id="lambda">
+      <div class="section-header">
+        <div class="section-icon">λ</div>
+        <div class="section-meta"><div class="label">Section 4.6</div><h2>Lambda Functions</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>A <strong>lambda</strong> is an anonymous (nameless), single-expression function. It's useful for short, throwaway functions — especially when passing a function as an argument.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Lambda syntax and uses</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Syntax: lambda parameters: expression</span>
+
+<span class="cm"># Equivalent regular function:</span>
+<span class="kw">def</span> <span class="fn">square</span>(x):
+    <span class="kw">return</span> x ** <span class="num">2</span>
+
+<span class="cm"># Lambda version:</span>
+square = <span class="kw">lambda</span> x: x ** <span class="num">2</span>
+<span class="fn">print</span>(<span class="fn">square</span>(<span class="num">5</span>))   <span class="cm"># 25</span>
+
+<span class="cm"># Multiple parameters</span>
+add = <span class="kw">lambda</span> a, b: a + b
+<span class="fn">print</span>(<span class="fn">add</span>(<span class="num">3</span>, <span class="num">4</span>))   <span class="cm"># 7</span>
+
+<span class="cm"># Most common use: as key function in sort</span>
+students = [
+    {<span class="str">"name"</span>: <span class="str">"Alice"</span>, <span class="str">"score"</span>: <span class="num">88</span>},
+    {<span class="str">"name"</span>: <span class="str">"Bob"</span>,   <span class="str">"score"</span>: <span class="num">72</span>},
+    {<span class="str">"name"</span>: <span class="str">"Carol"</span>, <span class="str">"score"</span>: <span class="num">95</span>},
+]
+students.<span class="fn">sort</span>(key=<span class="kw">lambda</span> s: s[<span class="str">"score"</span>], reverse=<span class="kw">True</span>)
+
+<span class="cm"># Sort a list of words by length</span>
+words = [<span class="str">"banana"</span>, <span class="str">"apple"</span>, <span class="str">"fig"</span>, <span class="str">"kiwi"</span>]
+words.<span class="fn">sort</span>(key=<span class="kw">lambda</span> w: <span class="fn">len</span>(w))</pre>
+        </div>
+
+        <div class="callout warning">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body"><strong>Lambda limitations.</strong> Lambda can only contain a single expression — no statements, no loops, no multiple lines. For anything complex, use a regular <code>def</code>. PEP 8 discourages assigning a lambda to a variable (use <code>def</code> instead).</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4.7 Recursion -->
+    <section class="content-section" id="recursion">
+      <div class="section-header">
+        <div class="section-icon">🔁</div>
+        <div class="section-meta"><div class="label">Section 4.7</div><h2>Recursion</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>A function is <strong>recursive</strong> when it calls itself. Every recursive solution has two parts:</p>
+        <ul class="checklist">
+          <li><strong>Base case</strong> — the simplest input that can be answered directly (stops the recursion)</li>
+          <li><strong>Recursive case</strong> — breaks the problem into a smaller version and calls the function again</li>
+        </ul>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Factorial — classic recursion example</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Factorial: n! = n × (n-1) × (n-2) × ... × 1
+# 5! = 5 × 4 × 3 × 2 × 1 = 120</span>
+
+<span class="kw">def</span> <span class="fn">factorial</span>(n):
+    <span class="cm"># Base case: 0! = 1, 1! = 1</span>
+    <span class="kw">if</span> n <= <span class="num">1</span>:
+        <span class="kw">return</span> <span class="num">1</span>
+    <span class="cm"># Recursive case: n! = n × (n-1)!</span>
+    <span class="kw">return</span> n * <span class="fn">factorial</span>(n - <span class="num">1</span>)
+
+<span class="fn">print</span>(<span class="fn">factorial</span>(<span class="num">5</span>))   <span class="cm"># 120</span>
+<span class="fn">print</span>(<span class="fn">factorial</span>(<span class="num">0</span>))   <span class="cm"># 1</span>
+
+<span class="cm"># Trace for factorial(4):
+# factorial(4) = 4 × factorial(3)
+#              = 4 × 3 × factorial(2)
+#              = 4 × 3 × 2 × factorial(1)
+#              = 4 × 3 × 2 × 1  ← base case
+#              = 24</span></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Fibonacci sequence</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Fibonacci: 0, 1, 1, 2, 3, 5, 8, 13, 21, ...
+# fib(n) = fib(n-1) + fib(n-2)</span>
+
+<span class="kw">def</span> <span class="fn">fib</span>(n):
+    <span class="kw">if</span> n <= <span class="num">1</span>:       <span class="cm"># base cases: fib(0)=0, fib(1)=1</span>
+        <span class="kw">return</span> n
+    <span class="kw">return</span> <span class="fn">fib</span>(n - <span class="num">1</span>) + <span class="fn">fib</span>(n - <span class="num">2</span>)
+
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>):
+    <span class="fn">print</span>(<span class="fn">fib</span>(i), end=<span class="str">" "</span>)   <span class="cm"># 0 1 1 2 3 5 8 13 21 34</span></pre>
+        </div>
+
+        <div class="callout warning">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body"><strong>Recursion depth limit.</strong> Python limits recursion to 1000 levels by default (<code>sys.getrecursionlimit()</code>). A missing base case causes a <code>RecursionError</code>. The naive Fibonacci above is also slow — <code>fib(40)</code> makes billions of calls. Use memoisation (<code>@functools.lru_cache</code>, covered in Module 8) or an iterative approach for large inputs.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4.8 map/filter/reduce -->
+    <section class="content-section" id="functional">
+      <div class="section-header">
+        <div class="section-icon">🗺️</div>
+        <div class="section-meta"><div class="label">Section 4.8</div><h2>map(), filter(), reduce()</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>These three functions apply a function to a collection, following a <strong>functional programming</strong> style. In modern Python, list comprehensions are often preferred, but you'll encounter these frequently.</p>
+
+        <h3><code>map(function, iterable)</code></h3>
+        <p>Apply a function to every element; returns an iterator.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">map()</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+
+<span class="cm"># Using map + lambda</span>
+squares = <span class="fn">list</span>(<span class="fn">map</span>(<span class="kw">lambda</span> x: x**<span class="num">2</span>, nums))
+<span class="fn">print</span>(squares)   <span class="cm"># [1, 4, 9, 16, 25]</span>
+
+<span class="cm"># Equivalent list comprehension (more Pythonic):</span>
+squares = [x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> nums]
+
+<span class="cm"># map with a named function</span>
+words = [<span class="str">"hello"</span>, <span class="str">"world"</span>, <span class="str">"python"</span>]
+upper = <span class="fn">list</span>(<span class="fn">map</span>(str.<span class="fn">upper</span>, words))   <span class="cm"># ['HELLO', 'WORLD', 'PYTHON']</span>
+
+<span class="cm"># map with multiple iterables</span>
+a = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+b = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>]
+sums = <span class="fn">list</span>(<span class="fn">map</span>(<span class="kw">lambda</span> x, y: x + y, a, b))  <span class="cm"># [11, 22, 33]</span></pre>
+        </div>
+
+        <h3><code>filter(function, iterable)</code></h3>
+        <p>Keep only elements where the function returns True.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">filter()</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>, <span class="num">7</span>, <span class="num">8</span>]
+
+evens   = <span class="fn">list</span>(<span class="fn">filter</span>(<span class="kw">lambda</span> x: x % <span class="num">2</span> == <span class="num">0</span>, nums))
+<span class="fn">print</span>(evens)   <span class="cm"># [2, 4, 6, 8]</span>
+
+<span class="cm"># Equivalent comprehension:</span>
+evens = [x <span class="kw">for</span> x <span class="kw">in</span> nums <span class="kw">if</span> x % <span class="num">2</span> == <span class="num">0</span>]
+
+<span class="cm"># Filter empty strings</span>
+words = [<span class="str">"apple"</span>, <span class="str">""</span>, <span class="str">"banana"</span>, <span class="str">""</span>, <span class="str">"cherry"</span>]
+non_empty = <span class="fn">list</span>(<span class="fn">filter</span>(<span class="kw">None</span>, words))   <span class="cm"># None as function = filter falsy values</span></pre>
+        </div>
+
+        <h3><code>reduce(function, iterable)</code></h3>
+        <p>Cumulatively apply a function to collapse a sequence to one value.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">reduce()</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">from</span> functools <span class="kw">import</span> reduce
+
+nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+
+<span class="cm"># Sum: ((((1+2)+3)+4)+5) = 15</span>
+total = <span class="fn">reduce</span>(<span class="kw">lambda</span> a, b: a + b, nums)
+<span class="fn">print</span>(total)   <span class="cm"># 15</span>
+
+<span class="cm"># Product: 1×2×3×4×5 = 120</span>
+product = <span class="fn">reduce</span>(<span class="kw">lambda</span> a, b: a * b, nums)
+
+<span class="cm"># Find maximum without using max():</span>
+maximum = <span class="fn">reduce</span>(<span class="kw">lambda</span> a, b: a <span class="kw">if</span> a > b <span class="kw">else</span> b, nums)</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4.9 Docstrings -->
+    <section class="content-section" id="docstrings">
+      <div class="section-header">
+        <div class="section-icon">📄</div>
+        <div class="section-meta"><div class="label">Section 4.9</div><h2>Docstrings &amp; Documentation</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>Every function you write for real use should have a <strong>docstring</strong> — a string literal immediately after the <code>def</code> line that explains what the function does.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Well-documented function (Google style)</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">def</span> <span class="fn">calculate_compound_interest</span>(principal, rate, years, n=<span class="num">12</span>):
+    <span class="str">"""
+    Calculate compound interest using the standard formula.
+
+    Args:
+        principal (float): Initial amount invested (₹).
+        rate      (float): Annual interest rate as a percentage (e.g. 8 for 8%).
+        years     (int):   Number of years.
+        n         (int):   Number of times interest compounds per year (default 12).
+
+    Returns:
+        float: Total amount after compound interest, rounded to 2 decimal places.
+
+    Examples:
+        >>> calculate_compound_interest(10000, 8, 5)
+        14898.46
+        >>> calculate_compound_interest(5000, 6, 3, n=4)
+        5955.08
+    """</span>
+    r = rate / <span class="num">100</span>
+    amount = principal * (<span class="num">1</span> + r / n) ** (n * years)
+    <span class="kw">return</span> <span class="fn">round</span>(amount, <span class="num">2</span>)</pre>
+        </div>
+
+        <ul class="checklist">
+          <li>Document all public functions (ones other people will call)</li>
+          <li>Describe what it does, not how it does it</li>
+          <li>List all parameters with their types and meaning</li>
+          <li>Describe the return value and its type</li>
+          <li>Include examples for complex functions</li>
+        </ul>
+
+      </div>
+    </section>
+
+    <!-- Practice -->
+    <section class="content-section" id="practice">
+      <div class="section-header">
+        <div class="section-icon">✏️</div>
+        <div class="section-meta"><div class="label">Practice</div><h2>Module 4 Exercises</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 1 — Basic Functions</div>
+          <ol>
+            <li>Write <code>is_prime(n)</code> that returns <code>True</code> if n is prime.</li>
+            <li>Write <code>celsius_to_fahrenheit(c)</code> and <code>fahrenheit_to_celsius(f)</code>.</li>
+            <li>Write <code>count_vowels(s)</code> that counts vowels in a string.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 2 — Arguments</div>
+          <ol>
+            <li>Write <code>make_tag(text, tag="p", **attributes)</code> that produces an HTML tag like <code>&lt;p class="intro"&gt;Hello&lt;/p&gt;</code>.</li>
+            <li>Write a function that accepts any number of scores (<code>*scores</code>) and returns the highest, lowest, and average.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 3 — Recursion</div>
+          <ol>
+            <li>Implement <code>power(base, exp)</code> recursively (without using <code>**</code>).</li>
+            <li>Implement <code>reverse_string(s)</code> recursively.</li>
+            <li>Implement <code>sum_digits(n)</code> that sums the digits of a number recursively (e.g., <code>sum_digits(1234)</code> → 10).</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Mini Project — Calculator</div>
+          <ol>
+            <li>Build a console calculator with separate functions for add, subtract, multiply, divide.</li>
+            <li>Add a history feature using a list — store the last 5 operations and results.</li>
+            <li>Loop with a menu: the user picks the operation, enters two numbers, sees the result.</li>
+          </ol>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="module-nav">
+      <a href="module3.html" class="prev"><span class="nav-dir">← Previous</span><span class="nav-title">Module 3: Data Structures</span></a>
+      <a href="module5.html" class="next"><span class="nav-dir">Next Module →</span><span class="nav-title">Module 5: OOP</span></a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><strong>Pramanicus Academy</strong> — Ramanthapur, Hyderabad</p>
+  <p style="margin-top:.3rem">Python Training · Module 4 of 8 · <a href="index.html">Back to Course Home</a></p>
+</footer>
+</body>
+</html>

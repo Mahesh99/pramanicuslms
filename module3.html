@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 3: Data Structures — Pramanicus Academy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Module 3</span></div>
+  <h1>Module 3: Data Structures</h1>
+  <p class="subtitle">Strings · Lists · Tuples · Sets · Dictionaries · Comprehensions · Nested Structures</p>
+  <div class="header-pills"><span>📅 Week 2</span><span>🟢 Beginner</span><span>4–5 Sessions</span></div>
+</header>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">🐍 Python Notes</div>
+    <a href="index.html">Home</a>
+    <a href="module1.html">1 · Fundamentals</a>
+    <a href="module2.html">2 · Control Flow</a>
+    <a href="module3.html" class="active">3 · Data Structures</a>
+    <a href="module4.html">4 · Functions</a>
+    <a href="module5.html">5 · OOP</a>
+    <a href="module6.html">6 · Exceptions &amp; Files</a>
+    <a href="module7.html">7 · Modules &amp; Stdlib</a>
+    <a href="module8.html">8 · Iterators &amp; Decorators</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Module 3 Contents</div>
+    <ul>
+      <li><a href="#strings"><span class="sec-num">3.1</span>Strings</a></li>
+      <li><a href="#lists"><span class="sec-num">3.2</span>Lists</a></li>
+      <li><a href="#tuples"><span class="sec-num">3.3</span>Tuples</a></li>
+      <li><a href="#sets"><span class="sec-num">3.4</span>Sets</a></li>
+      <li><a href="#dicts"><span class="sec-num">3.5</span>Dictionaries</a></li>
+      <li><a href="#nested"><span class="sec-num">3.6</span>Nested Structures</a></li>
+      <li><a href="#choosing"><span class="sec-num">3.7</span>Choosing the Right One</a></li>
+      <li><a href="#practice"><span class="sec-num">✏</span>Practice Exercises</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+
+    <div class="callout info">
+      <div class="callout-icon">🎯</div>
+      <div class="callout-body">
+        <strong>Learning Objectives</strong>
+        Understand Python's four built-in collection types — strings, lists, tuples, sets, and dictionaries. Know how to create, read, update, and delete items, write comprehensions, work with nested structures, and choose the right structure for a given problem.
+      </div>
+    </div>
+
+    <!-- 3.1 Strings -->
+    <section class="content-section" id="strings">
+      <div class="section-header">
+        <div class="section-icon">📝</div>
+        <div class="section-meta"><div class="label">Section 3.1</div><h2>Strings</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3>What is a String?</h3>
+        <p>A string is an <strong>ordered, immutable sequence of characters</strong>. Immutable means once created, individual characters cannot be changed — any string "modification" creates a brand-new string.</p>
+
+        <h3>Indexing &amp; Slicing</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">String indexing and slicing</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>s = <span class="str">"Hello, Python!"</span>
+<span class="cm">#    0123456789...</span>
+<span class="cm">#   -14 ... -1  (negative indices count from the right)</span>
+
+<span class="cm"># Indexing — single character</span>
+<span class="fn">print</span>(s[<span class="num">0</span>])      <span class="cm"># 'H'     — first character</span>
+<span class="fn">print</span>(s[-<span class="num">1</span>])     <span class="cm"># '!'     — last character</span>
+<span class="fn">print</span>(s[<span class="num">7</span>])      <span class="cm"># 'P'</span>
+
+<span class="cm"># Slicing — s[start:stop:step]</span>
+<span class="cm"># stop is EXCLUDED</span>
+<span class="fn">print</span>(s[<span class="num">0</span>:<span class="num">5</span>])    <span class="cm"># 'Hello'</span>
+<span class="fn">print</span>(s[<span class="num">7</span>:])     <span class="cm"># 'Python!'  — from index 7 to end</span>
+<span class="fn">print</span>(s[:<span class="num">5</span>])     <span class="cm"># 'Hello'    — from start to index 5</span>
+<span class="fn">print</span>(s[::<span class="num">2</span>])    <span class="cm"># every 2nd character</span>
+<span class="fn">print</span>(s[::-<span class="num">1</span>])   <span class="cm"># 'reverse the string!'</span>
+<span class="fn">print</span>(s[-<span class="num">7</span>:-<span class="num">1</span>]) <span class="cm"># 'Python'</span></pre>
+        </div>
+
+        <h3>Common String Methods</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">String methods</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>s = <span class="str">"  Hello, World!  "</span>
+
+<span class="cm"># Case</span>
+s.<span class="fn">upper</span>()         <span class="cm"># "  HELLO, WORLD!  "</span>
+s.<span class="fn">lower</span>()         <span class="cm"># "  hello, world!  "</span>
+s.<span class="fn">title</span>()         <span class="cm"># "  Hello, World!  " (each word capitalised)</span>
+s.<span class="fn">capitalize</span>()    <span class="cm"># "  hello, world!  " (only first char of string)</span>
+
+<span class="cm"># Whitespace</span>
+s.<span class="fn">strip</span>()          <span class="cm"># "Hello, World!"   — remove leading/trailing spaces</span>
+s.<span class="fn">lstrip</span>()         <span class="cm"># "Hello, World!  " — left only</span>
+s.<span class="fn">rstrip</span>()         <span class="cm"># "  Hello, World!" — right only</span>
+
+<span class="cm"># Search</span>
+s.<span class="fn">find</span>(<span class="str">"World"</span>)     <span class="cm"># 9  — index of first occurrence (-1 if not found)</span>
+s.<span class="fn">index</span>(<span class="str">"World"</span>)   <span class="cm"># 9  — same but raises ValueError if not found</span>
+s.<span class="fn">count</span>(<span class="str">"l"</span>)       <span class="cm"># 3  — count occurrences</span>
+s.<span class="fn">startswith</span>(<span class="str">"  H"</span>) <span class="cm"># True</span>
+s.<span class="fn">endswith</span>(<span class="str">"  "</span>)   <span class="cm"># True</span>
+<span class="str">"World"</span> <span class="kw">in</span> s       <span class="cm"># True  — membership test</span>
+
+<span class="cm"># Modify (returns NEW string — strings are immutable)</span>
+s.<span class="fn">replace</span>(<span class="str">"World"</span>, <span class="str">"Python"</span>)  <span class="cm"># "  Hello, Python!  "</span>
+s.<span class="fn">strip</span>().<span class="fn">replace</span>(<span class="str">","</span>, <span class="str">";"</span>)   <span class="cm"># chain methods</span>
+
+<span class="cm"># Split and Join</span>
+<span class="str">"a,b,c"</span>.<span class="fn">split</span>(<span class="str">","</span>)     <span class="cm"># ['a', 'b', 'c']</span>
+<span class="str">"hello world"</span>.<span class="fn">split</span>() <span class="cm"># ['hello', 'world']  — split on whitespace</span>
+<span class="str">", "</span>.<span class="fn">join</span>([<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Carol"</span>]) <span class="cm"># "Alice, Bob, Carol"</span>
+
+<span class="cm"># Type check methods</span>
+<span class="str">"123"</span>.<span class="fn">isdigit</span>()    <span class="cm"># True</span>
+<span class="str">"Hello"</span>.<span class="fn">isalpha</span>() <span class="cm"># True</span>
+<span class="str">"abc123"</span>.<span class="fn">isalnum</span>()<span class="cm"># True</span>
+<span class="str">"  "</span>.<span class="fn">isspace</span>()    <span class="cm"># True</span></pre>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body"><strong>String methods don't change the original.</strong> Since strings are immutable, methods like <code>.replace()</code>, <code>.upper()</code>, <code>.strip()</code> always return a <em>new</em> string. To keep the result you must assign it: <code>s = s.strip()</code>.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3.2 Lists -->
+    <section class="content-section" id="lists">
+      <div class="section-header">
+        <div class="section-icon">📋</div>
+        <div class="section-meta"><div class="label">Section 3.2</div><h2>Lists</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3>What is a List?</h3>
+        <p>A list is an <strong>ordered, mutable sequence</strong> that can hold items of <em>any type</em> (including other lists). It's the most versatile and most-used data structure in Python.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Creating lists</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Different ways to create a list</span>
+empty     = []
+numbers   = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+mixed     = [<span class="num">1</span>, <span class="str">"hello"</span>, <span class="num">3.14</span>, <span class="kw">True</span>]   <span class="cm"># any types</span>
+from_range = <span class="fn">list</span>(<span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>))         <span class="cm"># [1, 2, 3, 4, 5]</span>
+chars     = <span class="fn">list</span>(<span class="str">"hello"</span>)              <span class="cm"># ['h','e','l','l','o']</span></pre>
+        </div>
+
+        <h3>List Operations</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">List methods</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>]
+
+<span class="cm"># Adding items</span>
+fruits.<span class="fn">append</span>(<span class="str">"date"</span>)          <span class="cm"># add to end: [..., "date"]</span>
+fruits.<span class="fn">insert</span>(<span class="num">1</span>, <span class="str">"avocado"</span>)   <span class="cm"># insert at index 1</span>
+fruits.<span class="fn">extend</span>([<span class="str">"fig"</span>, <span class="str">"grape"</span>]) <span class="cm"># add multiple items</span>
+fruits += [<span class="str">"kiwi"</span>]              <span class="cm"># same as extend</span>
+
+<span class="cm"># Removing items</span>
+fruits.<span class="fn">remove</span>(<span class="str">"banana"</span>)        <span class="cm"># remove first occurrence by value</span>
+popped = fruits.<span class="fn">pop</span>()         <span class="cm"># remove and return last item</span>
+popped = fruits.<span class="fn">pop</span>(<span class="num">0</span>)       <span class="cm"># remove and return item at index 0</span>
+<span class="kw">del</span> fruits[<span class="num">1</span>]                  <span class="cm"># delete by index</span>
+fruits.<span class="fn">clear</span>()                 <span class="cm"># remove all items</span>
+
+<span class="cm"># Searching</span>
+fruits.<span class="fn">index</span>(<span class="str">"cherry"</span>)         <span class="cm"># first index of value</span>
+fruits.<span class="fn">count</span>(<span class="str">"apple"</span>)         <span class="cm"># count occurrences</span>
+<span class="str">"mango"</span> <span class="kw">in</span> fruits              <span class="cm"># True/False membership</span>
+
+<span class="cm"># Sorting</span>
+nums = [<span class="num">3</span>, <span class="num">1</span>, <span class="num">4</span>, <span class="num">1</span>, <span class="num">5</span>, <span class="num">9</span>]
+nums.<span class="fn">sort</span>()                    <span class="cm"># sort in place, ascending</span>
+nums.<span class="fn">sort</span>(reverse=<span class="kw">True</span>)        <span class="cm"># sort descending</span>
+sorted_nums = <span class="fn">sorted</span>(nums)    <span class="cm"># returns NEW sorted list (original unchanged)</span>
+nums.<span class="fn">reverse</span>()                 <span class="cm"># reverse in place</span>
+
+<span class="cm"># Other</span>
+<span class="fn">len</span>(fruits)                    <span class="cm"># number of items</span>
+fruits.<span class="fn">copy</span>()                  <span class="cm"># shallow copy</span>
+fruits2 = fruits[:]            <span class="cm"># another way to copy via slice</span></pre>
+        </div>
+
+        <h3>List Comprehensions</h3>
+        <p>A <strong>list comprehension</strong> is a concise, readable way to create a list from another iterable. It is typically faster than a regular <code>for</code> loop.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">List comprehensions</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Syntax: [expression for item in iterable if condition]</span>
+
+<span class="cm"># Without comprehension:</span>
+squares = []
+<span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>):
+    squares.<span class="fn">append</span>(x**<span class="num">2</span>)
+
+<span class="cm"># With comprehension:</span>
+squares = [x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>)]   <span class="cm"># [1, 4, 9, 16, 25]</span>
+
+<span class="cm"># With a condition (filter):</span>
+evens = [x <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">20</span>) <span class="kw">if</span> x % <span class="num">2</span> == <span class="num">0</span>]
+
+<span class="cm"># With transformation and condition:</span>
+upper_long = [w.<span class="fn">upper</span>() <span class="kw">for</span> w <span class="kw">in</span> words <span class="kw">if</span> <span class="fn">len</span>(w) > <span class="num">3</span>]
+
+<span class="cm"># Nested comprehension (2D matrix):</span>
+matrix = [[i * j <span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">4</span>)] <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">4</span>)]
+<span class="cm"># [[1,2,3],[2,4,6],[3,6,9]]
+
+# Flatten a 2D list:
+flat = [item for row in matrix for item in row]</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3.3 Tuples -->
+    <section class="content-section" id="tuples">
+      <div class="section-header">
+        <div class="section-icon">🔒</div>
+        <div class="section-meta"><div class="label">Section 3.3</div><h2>Tuples</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3>What is a Tuple?</h3>
+        <p>A tuple is an <strong>ordered, immutable sequence</strong>. Once created, you cannot add, remove, or change items. Use tuples for data that should not change — coordinates, RGB colours, database rows, function return values.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Tuples</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Creating tuples</span>
+point  = (<span class="num">10</span>, <span class="num">20</span>)
+rgb    = (<span class="num">255</span>, <span class="num">128</span>, <span class="num">0</span>)
+single = (<span class="num">42</span>,)          <span class="cm"># MUST have trailing comma for single-item tuple</span>
+empty  = ()
+
+<span class="cm"># Indexing and slicing (same as list)</span>
+<span class="fn">print</span>(point[<span class="num">0</span>])          <span class="cm"># 10</span>
+<span class="fn">print</span>(rgb[-<span class="num">1</span>])           <span class="cm"># 0</span>
+
+<span class="cm"># Packing and Unpacking</span>
+coordinates = (<span class="num">35.6</span>, <span class="num">139.7</span>)      <span class="cm"># packing</span>
+latitude, longitude = coordinates  <span class="cm"># unpacking</span>
+<span class="fn">print</span>(latitude)   <span class="cm"># 35.6</span>
+
+<span class="cm"># Starred unpacking</span>
+first, *rest = (<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>)
+<span class="fn">print</span>(first)   <span class="cm"># 1</span>
+<span class="fn">print</span>(rest)    <span class="cm"># [2, 3, 4, 5]</span>
+
+<span class="cm"># Swap variables (tuple packing/unpacking under the hood)</span>
+a, b = <span class="num">10</span>, <span class="num">20</span>
+a, b = b, a
+<span class="fn">print</span>(a, b)    <span class="cm"># 20, 10</span>
+
+<span class="cm"># Immutability</span>
+point[<span class="num">0</span>] = <span class="num">99</span>   <span class="cm"># TypeError: 'tuple' object does not support item assignment</span></pre>
+        </div>
+
+        <h3>Why Use Tuples Instead of Lists?</h3>
+        <ul class="checklist">
+          <li>Tuples signal intent — "this data should not change"</li>
+          <li>Tuples are slightly faster and use less memory than lists</li>
+          <li>Tuples can be used as dictionary keys (lists cannot, because lists are mutable)</li>
+          <li>Functions often return multiple values as a tuple: <code>return x, y</code></li>
+        </ul>
+
+      </div>
+    </section>
+
+    <!-- 3.4 Sets -->
+    <section class="content-section" id="sets">
+      <div class="section-header">
+        <div class="section-icon">🔵</div>
+        <div class="section-meta"><div class="label">Section 3.4</div><h2>Sets</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3>What is a Set?</h3>
+        <p>A set is an <strong>unordered collection of unique elements</strong>. It automatically removes duplicates. Sets support fast membership testing (<code>in</code>) and mathematical set operations (union, intersection, etc.).</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Sets</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Creating sets</span>
+fruits = {<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>}
+nums   = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">2</span>, <span class="num">1</span>}   <span class="cm"># → {1, 2, 3}  duplicates removed</span>
+empty  = <span class="fn">set</span>()              <span class="cm"># empty set — NOT {} (that's an empty dict!)</span>
+
+<span class="cm"># Add and remove</span>
+fruits.<span class="fn">add</span>(<span class="str">"mango"</span>)
+fruits.<span class="fn">discard</span>(<span class="str">"apple"</span>)    <span class="cm"># no error if not present</span>
+fruits.<span class="fn">remove</span>(<span class="str">"banana"</span>)   <span class="cm"># KeyError if not present</span>
+
+<span class="cm"># Membership (O(1) — very fast)</span>
+<span class="fn">print</span>(<span class="str">"cherry"</span> <span class="kw">in</span> fruits)  <span class="cm"># True</span>
+
+<span class="cm"># ─── Set Operations ───────────────────────────────────────────</span>
+a = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>}
+b = {<span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>}
+
+<span class="cm"># Union — all elements from both sets</span>
+<span class="fn">print</span>(a | b)          <span class="cm"># {1, 2, 3, 4, 5, 6}</span>
+<span class="fn">print</span>(a.<span class="fn">union</span>(b))
+
+<span class="cm"># Intersection — elements in both</span>
+<span class="fn">print</span>(a &amp; b)          <span class="cm"># {3, 4}</span>
+<span class="fn">print</span>(a.<span class="fn">intersection</span>(b))
+
+<span class="cm"># Difference — in a but not in b</span>
+<span class="fn">print</span>(a - b)          <span class="cm"># {1, 2}</span>
+<span class="fn">print</span>(a.<span class="fn">difference</span>(b))
+
+<span class="cm"># Symmetric difference — in either but not both</span>
+<span class="fn">print</span>(a ^ b)          <span class="cm"># {1, 2, 5, 6}</span>
+
+<span class="cm"># Subset / superset checks</span>
+<span class="fn">print</span>({<span class="num">1</span>,<span class="num">2</span>} &lt;= a)    <span class="cm"># True  — {1,2} is a subset of a</span>
+<span class="fn">print</span>(a &gt;= {<span class="num">1</span>,<span class="num">2</span>})   <span class="cm"># True  — a is a superset of {1,2}</span></pre>
+        </div>
+
+        <h3>Practical Use — Remove Duplicates from a List</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">De-duplicate a list</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>data = [<span class="num">3</span>, <span class="num">1</span>, <span class="num">4</span>, <span class="num">1</span>, <span class="num">5</span>, <span class="num">9</span>, <span class="num">2</span>, <span class="num">6</span>, <span class="num">5</span>, <span class="num">3</span>]
+unique = <span class="fn">list</span>(<span class="fn">set</span>(data))   <span class="cm"># fast de-duplication (order not preserved)</span>
+<span class="fn">print</span>(unique)</pre>
+        </div>
+
+        <div class="callout warning">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body"><strong>Sets are unordered.</strong> There is no guaranteed order of elements. Do not rely on iteration order. If you need unique elements <em>with</em> order, use <code>dict.fromkeys(data)</code> (Python 3.7+).</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3.5 Dictionaries -->
+    <section class="content-section" id="dicts">
+      <div class="section-header">
+        <div class="section-icon">📖</div>
+        <div class="section-meta"><div class="label">Section 3.5</div><h2>Dictionaries</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3>What is a Dictionary?</h3>
+        <p>A dictionary is a <strong>mutable, ordered collection of key-value pairs</strong>. Keys must be unique and hashable (strings, numbers, tuples). Think of it like a real dictionary — you look up a <em>key</em> (word) to get its <em>value</em> (definition).</p>
+        <p>Since Python 3.7, dictionaries <strong>maintain insertion order</strong>.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Dictionary basics</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Creating a dictionary</span>
+student = {
+    <span class="str">"name"</span>:  <span class="str">"Riya Sharma"</span>,
+    <span class="str">"age"</span>:   <span class="num">20</span>,
+    <span class="str">"grade"</span>: <span class="str">"A"</span>,
+    <span class="str">"score"</span>: <span class="num">92.5</span>
+}
+
+<span class="cm"># Reading values</span>
+<span class="fn">print</span>(student[<span class="str">"name"</span>])           <span class="cm"># "Riya Sharma"</span>
+<span class="fn">print</span>(student.<span class="fn">get</span>(<span class="str">"age"</span>))        <span class="cm"># 20</span>
+<span class="fn">print</span>(student.<span class="fn">get</span>(<span class="str">"city"</span>, <span class="str">"N/A"</span>)) <span class="cm"># "N/A" — default if key missing</span>
+<span class="cm"># student["city"]  ← KeyError if key doesn't exist — use .get() to be safe</span>
+
+<span class="cm"># Adding / updating</span>
+student[<span class="str">"city"</span>]  = <span class="str">"Hyderabad"</span>   <span class="cm"># add new key</span>
+student[<span class="str">"score"</span>] = <span class="num">95.0</span>          <span class="cm"># update existing key</span>
+student.<span class="fn">update</span>({<span class="str">"phone"</span>: <span class="str">"9876543210"</span>, <span class="str">"grade"</span>: <span class="str">"A+"</span>})
+
+<span class="cm"># Removing</span>
+<span class="kw">del</span> student[<span class="str">"phone"</span>]             <span class="cm"># KeyError if not present</span>
+student.<span class="fn">pop</span>(<span class="str">"city"</span>)              <span class="cm"># removes and returns the value</span>
+student.<span class="fn">pop</span>(<span class="str">"missing"</span>, <span class="kw">None</span>)    <span class="cm"># safe pop with default</span>
+student.<span class="fn">clear</span>()                  <span class="cm"># remove everything</span></pre>
+        </div>
+
+        <h3>Iterating Over Dictionaries</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Iterating dictionaries</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>student = {<span class="str">"name"</span>: <span class="str">"Riya"</span>, <span class="str">"age"</span>: <span class="num">20</span>, <span class="str">"grade"</span>: <span class="str">"A"</span>}
+
+<span class="cm"># Keys only (default)</span>
+<span class="kw">for</span> key <span class="kw">in</span> student:
+    <span class="fn">print</span>(key)
+
+<span class="cm"># Values only</span>
+<span class="kw">for</span> value <span class="kw">in</span> student.<span class="fn">values</span>():
+    <span class="fn">print</span>(value)
+
+<span class="cm"># Key and value together — most common</span>
+<span class="kw">for</span> key, value <span class="kw">in</span> student.<span class="fn">items</span>():
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>key<span class="kw">}</span>: <span class="kw">{</span>value<span class="kw">}</span>"</span>)
+
+<span class="cm"># Check if a key exists</span>
+<span class="kw">if</span> <span class="str">"grade"</span> <span class="kw">in</span> student:
+    <span class="fn">print</span>(<span class="str">"Grade is:"</span>, student[<span class="str">"grade"</span>])</pre>
+        </div>
+
+        <h3>Dictionary Comprehensions</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Dict comprehensions</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># {key_expr: value_expr for item in iterable if condition}</span>
+
+squares = {x: x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>)}
+<span class="cm"># {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}</span>
+
+<span class="cm"># Filter: only students who passed</span>
+scores  = {<span class="str">"Alice"</span>: <span class="num">88</span>, <span class="str">"Bob"</span>: <span class="num">45</span>, <span class="str">"Carol"</span>: <span class="num">72</span>}
+passing = {name: score <span class="kw">for</span> name, score <span class="kw">in</span> scores.<span class="fn">items</span>() <span class="kw">if</span> score >= <span class="num">50</span>}
+
+<span class="cm"># Invert a dict (swap keys and values)</span>
+inverted = {v: k <span class="kw">for</span> k, v <span class="kw">in</span> scores.<span class="fn">items</span>()}</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3.6 Nested -->
+    <section class="content-section" id="nested">
+      <div class="section-header">
+        <div class="section-icon">🪆</div>
+        <div class="section-meta"><div class="label">Section 3.6</div><h2>Nested Data Structures</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3>List of Dictionaries — Tabular Data</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">List of dicts — student records</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>students = [
+    {<span class="str">"name"</span>: <span class="str">"Alice"</span>, <span class="str">"age"</span>: <span class="num">20</span>, <span class="str">"score"</span>: <span class="num">88</span>},
+    {<span class="str">"name"</span>: <span class="str">"Bob"</span>,   <span class="str">"age"</span>: <span class="num">22</span>, <span class="str">"score"</span>: <span class="num">72</span>},
+    {<span class="str">"name"</span>: <span class="str">"Carol"</span>, <span class="str">"age"</span>: <span class="num">21</span>, <span class="str">"score"</span>: <span class="num">95</span>},
+]
+
+<span class="cm"># Access: list index, then dict key</span>
+<span class="fn">print</span>(students[<span class="num">0</span>][<span class="str">"name"</span>])   <span class="cm"># "Alice"</span>
+
+<span class="cm"># Loop through all students</span>
+<span class="kw">for</span> s <span class="kw">in</span> students:
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>s['name']<span class="kw">}</span>: <span class="kw">{</span>s['score']<span class="kw">}</span>"</span>)
+
+<span class="cm"># Sort by score descending</span>
+students.<span class="fn">sort</span>(key=<span class="kw">lambda</span> s: s[<span class="str">"score"</span>], reverse=<span class="kw">True</span>)
+
+<span class="cm"># Filter: only students with score >= 80</span>
+top_students = [s <span class="kw">for</span> s <span class="kw">in</span> students <span class="kw">if</span> s[<span class="str">"score"</span>] >= <span class="num">80</span>]</pre>
+        </div>
+
+        <h3>Dictionary of Lists — Grouped Data</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Dict of lists — timetable</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>timetable = {
+    <span class="str">"Monday"</span>:    [<span class="str">"Python"</span>, <span class="str">"Mathematics"</span>],
+    <span class="str">"Tuesday"</span>:   [<span class="str">"Physics"</span>, <span class="str">"English"</span>],
+    <span class="str">"Wednesday"</span>: [<span class="str">"Python"</span>, <span class="str">"Chemistry"</span>],
+}
+
+<span class="cm"># Access</span>
+<span class="fn">print</span>(timetable[<span class="str">"Monday"</span>][<span class="num">0</span>])   <span class="cm"># "Python"</span>
+
+<span class="cm"># Add a class to a day</span>
+timetable[<span class="str">"Monday"</span>].<span class="fn">append</span>(<span class="str">"Lab"</span>)
+
+<span class="cm"># Loop</span>
+<span class="kw">for</span> day, subjects <span class="kw">in</span> timetable.<span class="fn">items</span>():
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>day<span class="kw">}</span>: <span class="kw">{</span>', '.join(subjects)<span class="kw">}</span>"</span>)</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3.7 Choosing -->
+    <section class="content-section" id="choosing">
+      <div class="section-header">
+        <div class="section-icon">🤔</div>
+        <div class="section-meta"><div class="label">Section 3.7</div><h2>Choosing the Right Data Structure</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>If you need…</th><th>Use</th><th>Why</th></tr></thead>
+            <tbody>
+              <tr><td>An ordered, changeable collection</td><td><code>list</code></td><td>Most general-purpose container</td></tr>
+              <tr><td>Fixed data that shouldn't change</td><td><code>tuple</code></td><td>Immutability, can be dict key, slightly faster</td></tr>
+              <tr><td>Unique items + fast membership test</td><td><code>set</code></td><td>O(1) lookup, automatic deduplication</td></tr>
+              <tr><td>Key → value lookup</td><td><code>dict</code></td><td>O(1) access by key</td></tr>
+              <tr><td>Counting occurrences</td><td><code>collections.Counter</code></td><td>Specialised dict subclass</td></tr>
+              <tr><td>Dict with automatic default values</td><td><code>collections.defaultdict</code></td><td>No KeyError for missing keys</td></tr>
+              <tr><td>Sequence of text</td><td><code>str</code></td><td>Rich set of string methods</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body"><strong>Mental checklist:</strong> Is order important? Is it fixed/mutable? Do I need duplicates? Do I look up by position or by name? Answering these questions points you to the right type.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Practice -->
+    <section class="content-section" id="practice">
+      <div class="section-header">
+        <div class="section-icon">✏️</div>
+        <div class="section-meta"><div class="label">Practice</div><h2>Module 3 Exercises</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 1 — String Operations</div>
+          <ol>
+            <li>Ask for a sentence. Count the number of words, vowels, and punctuation characters.</li>
+            <li>Reverse each word in the sentence (not the whole sentence).</li>
+            <li>Check if a string is a palindrome (reads the same forwards and backwards, ignoring case).</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 2 — List Operations</div>
+          <ol>
+            <li>Create a list of 10 numbers. Find the max, min, sum, and average without using built-ins.</li>
+            <li>Remove all duplicates from a list while preserving the original order.</li>
+            <li>Use a list comprehension to get all prime numbers between 1 and 50.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 3 — Sets &amp; Dictionaries</div>
+          <ol>
+            <li>Given two lists of students in two classes, find: students in both, only in class A, only in class B.</li>
+            <li>Build a word-frequency counter: given a sentence, create a dictionary where keys are words and values are their counts.</li>
+            <li>Given a list of student dicts (name + score), print a sorted leaderboard using a dict comprehension.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 4 — Mini Phonebook</div>
+          <ol>
+            <li>Create a dictionary that stores names as keys and phone numbers as values.</li>
+            <li>Allow the user to: add a contact, search by name, delete a contact, and list all contacts.</li>
+            <li>Handle the case where a searched name doesn't exist gracefully.</li>
+          </ol>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="module-nav">
+      <a href="module2.html" class="prev"><span class="nav-dir">← Previous</span><span class="nav-title">Module 2: Control Flow</span></a>
+      <a href="module4.html" class="next"><span class="nav-dir">Next Module →</span><span class="nav-title">Module 4: Functions</span></a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><strong>Pramanicus Academy</strong> — Ramanthapur, Hyderabad</p>
+  <p style="margin-top:.3rem">Python Training · Module 3 of 8 · <a href="index.html">Back to Course Home</a></p>
+</footer>
+</body>
+</html>
