@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 6: Exception Handling & File I/O — Pramanicus Academy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Module 6</span></div>
+  <h1>Module 6: Exception Handling &amp; File I/O</h1>
+  <p class="subtitle">try/except/else/finally · Custom Exceptions · Reading &amp; Writing Files · CSV &amp; JSON · pathlib</p>
+  <div class="header-pills"><span>📅 Week 3–4</span><span>🟡 Intermediate</span><span>3 Sessions</span></div>
+</header>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">🐍 Python Notes</div>
+    <a href="index.html">Home</a>
+    <a href="module1.html">1 · Fundamentals</a>
+    <a href="module2.html">2 · Control Flow</a>
+    <a href="module3.html">3 · Data Structures</a>
+    <a href="module4.html">4 · Functions</a>
+    <a href="module5.html">5 · OOP</a>
+    <a href="module6.html" class="active">6 · Exceptions &amp; Files</a>
+    <a href="module7.html">7 · Modules &amp; Stdlib</a>
+    <a href="module8.html">8 · Iterators &amp; Decorators</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Module 6 Contents</div>
+    <ul>
+      <li><a href="#errors"><span class="sec-num">6.1</span>Errors vs Exceptions</a></li>
+      <li><a href="#hierarchy"><span class="sec-num">6.2</span>Exception Hierarchy</a></li>
+      <li><a href="#try"><span class="sec-num">6.3</span>try / except / else / finally</a></li>
+      <li><a href="#raising"><span class="sec-num">6.4</span>Raising Exceptions</a></li>
+      <li><a href="#custom"><span class="sec-num">6.5</span>Custom Exceptions</a></li>
+      <li><a href="#files"><span class="sec-num">6.6</span>File Handling</a></li>
+      <li><a href="#csv"><span class="sec-num">6.7</span>CSV Files</a></li>
+      <li><a href="#json"><span class="sec-num">6.8</span>JSON Files</a></li>
+      <li><a href="#paths"><span class="sec-num">6.9</span>File Paths (pathlib)</a></li>
+      <li><a href="#practice"><span class="sec-num">✏</span>Practice Exercises</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+
+    <div class="callout info">
+      <div class="callout-icon">🎯</div>
+      <div class="callout-body">
+        <strong>Learning Objectives</strong>
+        Distinguish errors from exceptions, write try/except/else/finally blocks, raise and create custom exceptions, read and write text/CSV/JSON files using the <code>with</code> context manager, and work with file paths using pathlib.
+      </div>
+    </div>
+
+    <!-- 6.1 Errors vs Exceptions -->
+    <section class="content-section" id="errors">
+      <div class="section-header">
+        <div class="section-icon">⚠️</div>
+        <div class="section-meta"><div class="label">Section 6.1</div><h2>Errors vs Exceptions</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="two-col">
+          <div class="concept-card">
+            <div class="concept-title">🚫 Syntax Error</div>
+            <p>Code is incorrectly written. Python detects it <em>before running</em>. Cannot be caught with try/except. Fix the code.</p>
+          </div>
+          <div class="concept-card">
+            <div class="concept-title">💥 Exception</div>
+            <p>Code is syntactically correct but something goes wrong <em>at runtime</em>. Can be caught and handled gracefully.</p>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Syntax error vs exception</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># SYNTAX ERROR — detected before running</span>
+<span class="kw">if</span> <span class="kw">True</span>           <span class="cm"># SyntaxError: expected ':' at end</span>
+    <span class="fn">print</span>(<span class="str">"hi"</span>)
+
+<span class="cm"># RUNTIME EXCEPTIONS — happen while running</span>
+<span class="fn">print</span>(<span class="num">10</span> / <span class="num">0</span>)             <span class="cm"># ZeroDivisionError</span>
+<span class="fn">print</span>(<span class="fn">int</span>(<span class="str">"hello"</span>))       <span class="cm"># ValueError</span>
+<span class="fn">print</span>(undefined_var)      <span class="cm"># NameError</span>
+<span class="fn">print</span>([<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>][<span class="num">10</span>])       <span class="cm"># IndexError</span>
+<span class="fn">print</span>({<span class="str">"a"</span>:<span class="num">1</span>}[<span class="str">"b"</span>])       <span class="cm"># KeyError</span>
+<span class="fn">print</span>(<span class="str">"hello"</span> + <span class="num">5</span>)        <span class="cm"># TypeError</span>
+<span class="kw">open</span>(<span class="str">"nofile.txt"</span>)       <span class="cm"># FileNotFoundError</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6.2 Hierarchy -->
+    <section class="content-section" id="hierarchy">
+      <div class="section-header">
+        <div class="section-icon">🌳</div>
+        <div class="section-meta"><div class="label">Section 6.2</div><h2>Exception Hierarchy</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>Python exceptions form an inheritance hierarchy. Catching a parent exception also catches all its children.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Key exceptions (simplified hierarchy)</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>BaseException
+├── SystemExit          <span class="cm"># raised by sys.exit()</span>
+├── KeyboardInterrupt   <span class="cm"># Ctrl+C</span>
+└── Exception           <span class="cm"># ← catch this for normal error handling</span>
+    ├── ArithmeticError
+    │   ├── ZeroDivisionError
+    │   └── OverflowError
+    ├── LookupError
+    │   ├── IndexError
+    │   └── KeyError
+    ├── ValueError
+    ├── TypeError
+    ├── NameError
+    ├── OSError
+    │   ├── FileNotFoundError
+    │   └── PermissionError
+    └── RuntimeError
+        └── RecursionError</pre>
+        </div>
+
+        <div class="callout warning">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body"><strong>Never use bare <code>except:</code>.</strong> It catches <em>everything</em> including <code>SystemExit</code> and <code>KeyboardInterrupt</code>, making it impossible to stop your program. Use <code>except Exception:</code> at minimum, or better yet, catch specific exceptions.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6.3 try/except -->
+    <section class="content-section" id="try">
+      <div class="section-header">
+        <div class="section-icon">🛡️</div>
+        <div class="section-meta"><div class="label">Section 6.3</div><h2>try / except / else / finally</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3>Full Structure</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">try/except/else/finally</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">try</span>:
+    <span class="cm"># Code that might raise an exception</span>
+    result = <span class="num">10</span> / <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Enter divisor: "</span>))
+
+<span class="kw">except</span> <span class="cls">ZeroDivisionError</span>:
+    <span class="cm"># Handle specific exception</span>
+    <span class="fn">print</span>(<span class="str">"Cannot divide by zero!"</span>)
+
+<span class="kw">except</span> <span class="cls">ValueError</span> <span class="kw">as</span> e:
+    <span class="cm"># 'e' holds the exception object</span>
+    <span class="fn">print</span>(<span class="str">f"Invalid input: <span class="kw">{</span>e<span class="kw">}</span>"</span>)
+
+<span class="kw">except</span> (<span class="cls">TypeError</span>, <span class="cls">OverflowError</span>):
+    <span class="cm"># Handle multiple exceptions in one clause</span>
+    <span class="fn">print</span>(<span class="str">"Type or overflow error"</span>)
+
+<span class="kw">except</span> <span class="cls">Exception</span> <span class="kw">as</span> e:
+    <span class="cm"># Catch-all for unexpected errors (log them, don't silently ignore)</span>
+    <span class="fn">print</span>(<span class="str">f"Unexpected error: <span class="kw">{</span>type(e).__name__<span class="kw">}</span>: <span class="kw">{</span>e<span class="kw">}</span>"</span>)
+
+<span class="kw">else</span>:
+    <span class="cm"># Runs ONLY if no exception was raised</span>
+    <span class="fn">print</span>(<span class="str">f"Result: <span class="kw">{</span>result<span class="kw">}</span>"</span>)
+
+<span class="kw">finally</span>:
+    <span class="cm"># ALWAYS runs — exception or not</span>
+    <span class="cm"># Use for cleanup: closing files, releasing resources</span>
+    <span class="fn">print</span>(<span class="str">"Execution complete."</span>)</pre>
+        </div>
+
+        <h3>When Does Each Block Run?</h3>
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Block</th><th>Runs when…</th></tr></thead>
+            <tbody>
+              <tr><td><code>try</code></td><td>Always (it's the guarded code)</td></tr>
+              <tr><td><code>except</code></td><td>Only if a matching exception was raised in <code>try</code></td></tr>
+              <tr><td><code>else</code></td><td>Only if <code>try</code> completed without any exception</td></tr>
+              <tr><td><code>finally</code></td><td>Always — whether there was an exception or not</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Practical Pattern — Safe Integer Input</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Robust input validation</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">def</span> <span class="fn">get_integer</span>(prompt, min_val=<span class="kw">None</span>, max_val=<span class="kw">None</span>):
+    <span class="str">"""Keep asking until the user enters a valid integer in range."""</span>
+    <span class="kw">while</span> <span class="kw">True</span>:
+        <span class="kw">try</span>:
+            value = <span class="fn">int</span>(<span class="fn">input</span>(prompt))
+            <span class="kw">if</span> min_val <span class="kw">is not</span> <span class="kw">None</span> <span class="kw">and</span> value < min_val:
+                <span class="kw">raise</span> <span class="cls">ValueError</span>(<span class="str">f"Must be at least <span class="kw">{</span>min_val<span class="kw">}</span>"</span>)
+            <span class="kw">if</span> max_val <span class="kw">is not</span> <span class="kw">None</span> <span class="kw">and</span> value > max_val:
+                <span class="kw">raise</span> <span class="cls">ValueError</span>(<span class="str">f"Must be at most <span class="kw">{</span>max_val<span class="kw">}</span>"</span>)
+            <span class="kw">return</span> value
+        <span class="kw">except</span> <span class="cls">ValueError</span> <span class="kw">as</span> e:
+            <span class="fn">print</span>(<span class="str">f"Invalid: <span class="kw">{</span>e<span class="kw">}</span>. Try again."</span>)
+
+age = <span class="fn">get_integer</span>(<span class="str">"Enter age: "</span>, min_val=<span class="num">1</span>, max_val=<span class="num">120</span>)</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6.4 Raising -->
+    <section class="content-section" id="raising">
+      <div class="section-header">
+        <div class="section-icon">🚀</div>
+        <div class="section-meta"><div class="label">Section 6.4</div><h2>Raising Exceptions</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">raise statement</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># raise ExceptionClass("message")</span>
+<span class="kw">def</span> <span class="fn">set_age</span>(age):
+    <span class="kw">if</span> <span class="kw">not</span> <span class="fn">isinstance</span>(age, <span class="fn">int</span>):
+        <span class="kw">raise</span> <span class="cls">TypeError</span>(<span class="str">f"Age must be an int, got <span class="kw">{</span>type(age).__name__<span class="kw">}</span>"</span>)
+    <span class="kw">if</span> age < <span class="num">0</span> <span class="kw">or</span> age > <span class="num">150</span>:
+        <span class="kw">raise</span> <span class="cls">ValueError</span>(<span class="str">f"Age <span class="kw">{</span>age<span class="kw">}</span> is out of valid range (0-150)"</span>)
+    <span class="kw">return</span> age
+
+<span class="cm"># Re-raise inside except — preserve original traceback</span>
+<span class="kw">try</span>:
+    risky_operation()
+<span class="kw">except</span> <span class="cls">ValueError</span>:
+    <span class="fn">print</span>(<span class="str">"Logging the error..."</span>)
+    <span class="kw">raise</span>   <span class="cm"># re-raise the same exception</span>
+
+<span class="cm"># Exception chaining — show original cause</span>
+<span class="kw">try</span>:
+    value = <span class="fn">int</span>(<span class="str">"abc"</span>)
+<span class="kw">except</span> <span class="cls">ValueError</span> <span class="kw">as</span> e:
+    <span class="kw">raise</span> <span class="cls">RuntimeError</span>(<span class="str">"Failed to parse config"</span>) <span class="kw">from</span> e</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6.5 Custom Exceptions -->
+    <section class="content-section" id="custom">
+      <div class="section-header">
+        <div class="section-icon">🏷️</div>
+        <div class="section-meta"><div class="label">Section 6.5</div><h2>Custom Exception Classes</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>Create custom exceptions when you want to <strong>distinguish your domain-specific errors</strong> from generic ones. They make error handling clearer and more meaningful.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Custom exception hierarchy</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Base exception for the whole application</span>
+<span class="kw">class</span> <span class="cls">BankError</span>(<span class="cls">Exception</span>):
+    <span class="str">"""Base class for all bank-related errors."""</span>
+    <span class="kw">pass</span>
+
+<span class="kw">class</span> <span class="cls">InsufficientFundsError</span>(<span class="cls">BankError</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, amount, balance):
+        self.amount  = amount
+        self.balance = balance
+        <span class="fn">super</span>().<span class="fn">__init__</span>(
+            <span class="str">f"Cannot withdraw ₹<span class="kw">{</span>amount<span class="kw">}</span>; "
+            f"available balance is ₹<span class="kw">{</span>balance<span class="kw">}</span>"</span>
+        )
+
+<span class="kw">class</span> <span class="cls">AccountLockedError</span>(<span class="cls">BankError</span>):
+    <span class="str">"""Raised when a locked account is accessed."""</span>
+    <span class="kw">pass</span>
+
+<span class="cm"># Using custom exceptions</span>
+<span class="kw">def</span> <span class="fn">withdraw</span>(balance, amount):
+    <span class="kw">if</span> amount > balance:
+        <span class="kw">raise</span> <span class="cls">InsufficientFundsError</span>(amount, balance)
+    <span class="kw">return</span> balance - amount
+
+<span class="kw">try</span>:
+    <span class="fn">withdraw</span>(<span class="num">500</span>, <span class="num">1000</span>)
+<span class="kw">except</span> <span class="cls">InsufficientFundsError</span> <span class="kw">as</span> e:
+    <span class="fn">print</span>(<span class="str">f"Error: <span class="kw">{</span>e<span class="kw">}</span>"</span>)
+    <span class="fn">print</span>(<span class="str">f"You are ₹<span class="kw">{</span>e.amount - e.balance<span class="kw">}</span> short"</span>)
+<span class="kw">except</span> <span class="cls">BankError</span> <span class="kw">as</span> e:
+    <span class="fn">print</span>(<span class="str">f"General bank error: <span class="kw">{</span>e<span class="kw">}</span>"</span>)</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6.6 File Handling -->
+    <section class="content-section" id="files">
+      <div class="section-header">
+        <div class="section-icon">📁</div>
+        <div class="section-meta"><div class="label">Section 6.6</div><h2>File Handling</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3>The <code>with</code> Context Manager</h3>
+        <p>Always use <code>with open(...)</code> to work with files. It <strong>automatically closes the file</strong> when the block ends — even if an exception occurs. Never call <code>open()</code> without <code>with</code>.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Reading files</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Read entire file as one string</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"data.txt"</span>, <span class="str">"r"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+    content = f.<span class="fn">read</span>()
+    <span class="fn">print</span>(content)
+
+<span class="cm"># Read all lines as a list</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"data.txt"</span>) <span class="kw">as</span> f:
+    lines = f.<span class="fn">readlines</span>()         <span class="cm"># ['line1\n', 'line2\n', ...]</span>
+    lines = [l.<span class="fn">strip</span>() <span class="kw">for</span> l <span class="kw">in</span> lines]  <span class="cm"># strip whitespace</span>
+
+<span class="cm"># Read line by line — memory efficient for large files</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"data.txt"</span>) <span class="kw">as</span> f:
+    <span class="kw">for</span> line <span class="kw">in</span> f:
+        <span class="fn">print</span>(line.<span class="fn">strip</span>())
+
+<span class="cm"># Read one line at a time</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"data.txt"</span>) <span class="kw">as</span> f:
+    first_line = f.<span class="fn">readline</span>()</pre>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Writing files</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Write — creates file if not exists, overwrites if exists</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"output.txt"</span>, <span class="str">"w"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+    f.<span class="fn">write</span>(<span class="str">"Hello, World!\n"</span>)
+    f.<span class="fn">write</span>(<span class="str">"Second line\n"</span>)
+    f.<span class="fn">writelines</span>([<span class="str">"line3\n"</span>, <span class="str">"line4\n"</span>])
+
+<span class="cm"># Append — adds to end of file</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"log.txt"</span>, <span class="str">"a"</span>) <span class="kw">as</span> f:
+    f.<span class="fn">write</span>(<span class="str">"New log entry\n"</span>)</pre>
+        </div>
+
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Mode</th><th>Description</th><th>File must exist?</th></tr></thead>
+            <tbody>
+              <tr><td><code>"r"</code></td><td>Read only (default)</td><td>Yes — FileNotFoundError if not</td></tr>
+              <tr><td><code>"w"</code></td><td>Write — creates or truncates</td><td>No — creates if not exists</td></tr>
+              <tr><td><code>"a"</code></td><td>Append — creates or appends</td><td>No — creates if not exists</td></tr>
+              <tr><td><code>"r+"</code></td><td>Read and write</td><td>Yes</td></tr>
+              <tr><td><code>"x"</code></td><td>Create new — fails if exists</td><td>No — raises FileExistsError if it does</td></tr>
+              <tr><td><code>"b"</code></td><td>Binary mode (add to any above)</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Handle File Errors Gracefully</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">File exception handling</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">def</span> <span class="fn">read_file_safe</span>(filepath):
+    <span class="kw">try</span>:
+        <span class="kw">with</span> <span class="fn">open</span>(filepath, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+            <span class="kw">return</span> f.<span class="fn">read</span>()
+    <span class="kw">except</span> <span class="cls">FileNotFoundError</span>:
+        <span class="fn">print</span>(<span class="str">f"File not found: <span class="kw">{</span>filepath<span class="kw">}</span>"</span>)
+        <span class="kw">return</span> <span class="kw">None</span>
+    <span class="kw">except</span> <span class="cls">PermissionError</span>:
+        <span class="fn">print</span>(<span class="str">f"No permission to read: <span class="kw">{</span>filepath<span class="kw">}</span>"</span>)
+        <span class="kw">return</span> <span class="kw">None</span>
+    <span class="kw">except</span> <span class="cls">UnicodeDecodeError</span>:
+        <span class="fn">print</span>(<span class="str">"File encoding issue — try encoding='latin-1'"</span>)
+        <span class="kw">return</span> <span class="kw">None</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6.7 CSV -->
+    <section class="content-section" id="csv">
+      <div class="section-header">
+        <div class="section-icon">📊</div>
+        <div class="section-meta"><div class="label">Section 6.7</div><h2>CSV Files</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>CSV (Comma-Separated Values) is the most common format for tabular data. Python's built-in <code>csv</code> module handles reading and writing correctly (including quoted fields with commas).</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Reading CSV</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> csv
+
+<span class="cm"># Read as a list of rows (each row is a list)</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"students.csv"</span>, newline=<span class="str">""</span>) <span class="kw">as</span> f:
+    reader = csv.<span class="fn">reader</span>(f)
+    header = <span class="fn">next</span>(reader)   <span class="cm"># skip header row</span>
+    <span class="kw">for</span> row <span class="kw">in</span> reader:
+        <span class="fn">print</span>(row)           <span class="cm"># ['Alice', '20', '88']</span>
+
+<span class="cm"># Read as list of dicts — each row is {header: value}</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"students.csv"</span>, newline=<span class="str">""</span>) <span class="kw">as</span> f:
+    reader = csv.<span class="fn">DictReader</span>(f)
+    students = <span class="fn">list</span>(reader)   <span class="cm"># list of OrderedDict</span>
+
+<span class="kw">for</span> s <span class="kw">in</span> students:
+    <span class="fn">print</span>(s[<span class="str">"name"</span>], s[<span class="str">"score"</span>])</pre>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Writing CSV</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> csv
+
+students = [
+    {<span class="str">"name"</span>: <span class="str">"Alice"</span>, <span class="str">"age"</span>: <span class="num">20</span>, <span class="str">"score"</span>: <span class="num">88</span>},
+    {<span class="str">"name"</span>: <span class="str">"Bob"</span>,   <span class="str">"age"</span>: <span class="num">22</span>, <span class="str">"score"</span>: <span class="num">72</span>},
+]
+
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"output.csv"</span>, <span class="str">"w"</span>, newline=<span class="str">""</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+    writer = csv.<span class="fn">DictWriter</span>(f, fieldnames=[<span class="str">"name"</span>, <span class="str">"age"</span>, <span class="str">"score"</span>])
+    writer.<span class="fn">writeheader</span>()
+    writer.<span class="fn">writerows</span>(students)   <span class="cm"># write all at once</span></pre>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body"><strong>Always pass <code>newline=""</code></strong> when opening CSV files. Without it, you may get extra blank lines on Windows, because <code>csv.writer</code> handles its own line endings.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6.8 JSON -->
+    <section class="content-section" id="json">
+      <div class="section-header">
+        <div class="section-icon">📋</div>
+        <div class="section-meta"><div class="label">Section 6.8</div><h2>JSON Files</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>JSON (JavaScript Object Notation) is a universal data exchange format. Python dicts map naturally to JSON objects; lists map to JSON arrays.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">JSON read and write</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> json
+
+<span class="cm"># Python dict / list ↔ JSON string</span>
+data = {
+    <span class="str">"name"</span>:    <span class="str">"Alice"</span>,
+    <span class="str">"scores"</span>:  [<span class="num">88</span>, <span class="num">92</span>, <span class="num">95</span>],
+    <span class="str">"active"</span>:  <span class="kw">True</span>,
+    <span class="str">"address"</span>: <span class="kw">None</span>
+}
+
+<span class="cm"># Serialize: Python → JSON string</span>
+json_str = json.<span class="fn">dumps</span>(data, indent=<span class="num">2</span>)
+<span class="fn">print</span>(json_str)
+
+<span class="cm"># Deserialize: JSON string → Python</span>
+loaded = json.<span class="fn">loads</span>(json_str)
+<span class="fn">print</span>(loaded[<span class="str">"name"</span>])   <span class="cm"># "Alice"</span>
+
+<span class="cm"># Write to file</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"data.json"</span>, <span class="str">"w"</span>) <span class="kw">as</span> f:
+    json.<span class="fn">dump</span>(data, f, indent=<span class="num">2</span>)
+
+<span class="cm"># Read from file</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"data.json"</span>) <span class="kw">as</span> f:
+    loaded = json.<span class="fn">load</span>(f)
+
+<span class="fn">print</span>(loaded[<span class="str">"scores"</span>])  <span class="cm"># [88, 92, 95]</span></pre>
+        </div>
+
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Function</th><th>Direction</th><th>With/Without file</th></tr></thead>
+            <tbody>
+              <tr><td><code>json.dumps(obj)</code></td><td>Python → JSON string</td><td>Without file (in-memory)</td></tr>
+              <tr><td><code>json.loads(string)</code></td><td>JSON string → Python</td><td>Without file</td></tr>
+              <tr><td><code>json.dump(obj, file)</code></td><td>Python → JSON file</td><td>With file</td></tr>
+              <tr><td><code>json.load(file)</code></td><td>JSON file → Python</td><td>With file</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6.9 File Paths -->
+    <section class="content-section" id="paths">
+      <div class="section-header">
+        <div class="section-icon">📂</div>
+        <div class="section-meta"><div class="label">Section 6.9</div><h2>File Paths with pathlib</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p><code>pathlib.Path</code> is the modern, object-oriented way to work with file paths. It handles OS differences (Windows <code>\</code> vs Unix <code>/</code>) automatically.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">pathlib.Path</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="cm"># Create a Path object</span>
+p = <span class="cls">Path</span>(<span class="str">"data"</span>) / <span class="str">"students.csv"</span>   <span class="cm"># / operator joins paths</span>
+
+<span class="cm"># Path properties</span>
+<span class="fn">print</span>(p)              <span class="cm"># data/students.csv (or data\students.csv on Windows)</span>
+<span class="fn">print</span>(p.name)         <span class="cm"># students.csv</span>
+<span class="fn">print</span>(p.stem)         <span class="cm"># students</span>
+<span class="fn">print</span>(p.suffix)       <span class="cm"># .csv</span>
+<span class="fn">print</span>(p.parent)       <span class="cm"># data</span>
+<span class="fn">print</span>(p.<span class="fn">resolve</span>())    <span class="cm"># absolute path</span>
+
+<span class="cm"># Check existence</span>
+<span class="fn">print</span>(p.<span class="fn">exists</span>())     <span class="cm"># True/False</span>
+<span class="fn">print</span>(p.<span class="fn">is_file</span>())    <span class="cm"># True if it's a file</span>
+<span class="fn">print</span>(p.<span class="fn">is_dir</span>())     <span class="cm"># True if it's a directory</span>
+
+<span class="cm"># Read and write with Path</span>
+text = p.<span class="fn">read_text</span>(encoding=<span class="str">"utf-8"</span>)   <span class="cm"># read entire file</span>
+p.<span class="fn">write_text</span>(<span class="str">"content"</span>)                  <span class="cm"># write (replaces)</span>
+
+<span class="cm"># Create directories</span>
+<span class="cls">Path</span>(<span class="str">"output/data"</span>).<span class="fn">mkdir</span>(parents=<span class="kw">True</span>, exist_ok=<span class="kw">True</span>)
+
+<span class="cm"># List all CSV files in a directory</span>
+<span class="kw">for</span> f <span class="kw">in</span> <span class="cls">Path</span>(<span class="str">"."</span>).<span class="fn">glob</span>(<span class="str">"*.csv"</span>):
+    <span class="fn">print</span>(f.name)
+
+<span class="cm"># Recursively find all .py files</span>
+<span class="kw">for</span> f <span class="kw">in</span> <span class="cls">Path</span>(<span class="str">"."</span>).<span class="fn">rglob</span>(<span class="str">"*.py"</span>):
+    <span class="fn">print</span>(f)</pre>
+        </div>
+
+        <div class="callout success">
+          <div class="callout-icon">✅</div>
+          <div class="callout-body"><strong>Use pathlib, not string concatenation.</strong> <code>Path("data") / "file.csv"</code> is safer and clearer than <code>"data" + "/" + "file.csv"</code>, which breaks on Windows.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Practice -->
+    <section class="content-section" id="practice">
+      <div class="section-header">
+        <div class="section-icon">✏️</div>
+        <div class="section-meta"><div class="label">Practice</div><h2>Module 6 Exercises</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 1 — Exception Handling</div>
+          <ol>
+            <li>Write a function <code>safe_divide(a, b)</code> that handles ZeroDivisionError and TypeError gracefully.</li>
+            <li>Write a <code>get_positive_int(prompt)</code> function that keeps asking until valid positive integer is entered.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 2 — Custom Exceptions</div>
+          <ol>
+            <li>Create a <code>TemperatureError</code> hierarchy. Raise a <code>BelowAbsoluteZeroError</code> if temperature &lt; −273.15°C.</li>
+            <li>Create a validated <code>Temperature</code> class using your custom exception.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 3 — File I/O</div>
+          <ol>
+            <li>Write a programme that reads a text file, counts word frequency, and writes the results to a new file sorted by frequency.</li>
+            <li>Write a simple logging function that appends timestamped messages to <code>app.log</code>.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Mini Project — CSV Student Database</div>
+          <ol>
+            <li>Store student records (name, roll number, marks) in a CSV file.</li>
+            <li>Build functions: add_student, list_all, search_by_name, delete_by_roll, calculate_class_average.</li>
+            <li>Handle file-not-found gracefully (create the file if it doesn't exist).</li>
+          </ol>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="module-nav">
+      <a href="module5.html" class="prev"><span class="nav-dir">← Previous</span><span class="nav-title">Module 5: OOP</span></a>
+      <a href="module7.html" class="next"><span class="nav-dir">Next Module →</span><span class="nav-title">Module 7: Modules &amp; Stdlib</span></a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><strong>Pramanicus Academy</strong> — Ramanthapur, Hyderabad</p>
+  <p style="margin-top:.3rem">Python Training · Module 6 of 8 · <a href="index.html">Back to Course Home</a></p>
+</footer>
+</body>
+</html>

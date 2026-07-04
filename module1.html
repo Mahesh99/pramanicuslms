@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 1: Python Fundamentals — Pramanicus Academy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>/</span><span>Module 1</span>
+  </div>
+  <h1>Module 1: Python Fundamentals</h1>
+  <p class="subtitle">History · Installation · Variables · Types · Operators · I/O · PEP 8</p>
+  <div class="header-pills">
+    <span>📅 Week 1</span>
+    <span>🟢 Beginner</span>
+    <span>4–5 Sessions</span>
+  </div>
+</header>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">🐍 Python Notes</div>
+    <a href="index.html">Home</a>
+    <a href="module1.html" class="active">1 · Fundamentals</a>
+    <a href="module2.html">2 · Control Flow</a>
+    <a href="module3.html">3 · Data Structures</a>
+    <a href="module4.html">4 · Functions</a>
+    <a href="module5.html">5 · OOP</a>
+    <a href="module6.html">6 · Exceptions &amp; Files</a>
+    <a href="module7.html">7 · Modules &amp; Stdlib</a>
+    <a href="module8.html">8 · Iterators &amp; Decorators</a>
+  </div>
+</nav>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Module 1 Contents</div>
+    <ul>
+      <li><a href="#intro"><span class="sec-num">1.1</span>Introduction to Python</a></li>
+      <li><a href="#installation"><span class="sec-num">1.2</span>Installation &amp; IDEs</a></li>
+      <li><a href="#running"><span class="sec-num">1.3</span>Running Python Code</a></li>
+      <li><a href="#variables"><span class="sec-num">1.4</span>Variables</a></li>
+      <li><a href="#datatypes"><span class="sec-num">1.5</span>Data Types</a></li>
+      <li><a href="#casting"><span class="sec-num">1.6</span>Type Casting &amp; Checking</a></li>
+      <li><a href="#operators"><span class="sec-num">1.7</span>Operators</a></li>
+      <li><a href="#io"><span class="sec-num">1.8</span>Input / Output</a></li>
+      <li><a href="#formatting"><span class="sec-num">1.9</span>String Formatting</a></li>
+      <li><a href="#comments"><span class="sec-num">1.10</span>Comments &amp; Docstrings</a></li>
+      <li><a href="#pep8"><span class="sec-num">1.11</span>Indentation &amp; PEP 8</a></li>
+      <li><a href="#practice"><span class="sec-num">✏</span>Practice Exercises</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main content -->
+  <main class="content">
+
+    <!-- Learning Objectives -->
+    <div class="callout info">
+      <div class="callout-icon">🎯</div>
+      <div class="callout-body">
+        <strong>Learning Objectives</strong>
+        By the end of this module you will be able to: install Python and set up VS Code, run Python both interactively and as a script, declare variables of every core type, perform type casting, use all operator categories, format output with f-strings, and write PEP 8–compliant code.
+      </div>
+    </div>
+
+    <!-- 1.1 Introduction -->
+    <section class="content-section" id="intro">
+      <div class="section-header">
+        <div class="section-icon">📖</div>
+        <div class="section-meta">
+          <div class="label">Section 1.1</div>
+          <h2>Introduction to Python</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>What is Python?</h3>
+        <p>Python is a <strong>high-level, general-purpose, interpreted programming language</strong>. "High-level" means it reads more like English than machine code. "Interpreted" means code is executed line by line — you don't need to compile it into a separate program before running it.</p>
+
+        <p>Python was created by <strong>Guido van Rossum</strong> and first released in <strong>1991</strong>. The name comes from the BBC comedy show <em>Monty Python's Flying Circus</em>, not from the snake — though the snake is now the logo!</p>
+
+        <h3>Why Learn Python?</h3>
+        <ul class="checklist">
+          <li><strong>Readable syntax</strong> — code looks almost like plain English, so it's easy to learn and maintain.</li>
+          <li><strong>Versatile</strong> — used for web development, data science, AI/ML, automation, scripting, desktop apps, and more.</li>
+          <li><strong>Huge ecosystem</strong> — hundreds of thousands of free libraries available via <code>pip</code>.</li>
+          <li><strong>Most in-demand skill</strong> — consistently ranks #1 or #2 in programming language popularity surveys.</li>
+          <li><strong>"Batteries included"</strong> — Python's standard library handles file I/O, web requests, math, dates, and much more without installing anything extra.</li>
+        </ul>
+
+        <h3>Python 2 vs Python 3</h3>
+        <div class="callout warning">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body">
+            <strong>Always use Python 3</strong>
+            Python 2 reached end-of-life on January 1, 2020. It is no longer maintained or updated. All new code — and this course — uses Python 3.x.
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Feature</th><th>Python 2</th><th>Python 3</th></tr></thead>
+            <tbody>
+              <tr><td><code>print</code></td><td>Statement: <code>print "hello"</code></td><td>Function: <code>print("hello")</code></td></tr>
+              <tr><td>Integer division</td><td><code>5/2 → 2</code></td><td><code>5/2 → 2.5</code></td></tr>
+              <tr><td>Unicode strings</td><td>Separate <code>u"..."</code> type</td><td>All strings are Unicode by default</td></tr>
+              <tr><td>Maintenance</td><td>End of life 2020</td><td>Active, current standard</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>The Python Philosophy</h3>
+        <p>Python has a design philosophy written by Tim Peters called <strong>The Zen of Python</strong>. Run <code>import this</code> in the Python shell to read it. Key ideas:</p>
+        <div class="two-col">
+          <div class="concept-card">
+            <div class="concept-title">✅ Beautiful is better than ugly</div>
+            <p>Write code that other people can read and understand easily.</p>
+          </div>
+          <div class="concept-card">
+            <div class="concept-title">✅ Simple is better than complex</div>
+            <p>If a simple solution works, use it. Avoid over-engineering.</p>
+          </div>
+          <div class="concept-card">
+            <div class="concept-title">✅ Readability counts</div>
+            <p>Code is read far more often than it is written.</p>
+          </div>
+          <div class="concept-card">
+            <div class="concept-title">✅ There should be one obvious way</div>
+            <p>Python aims for one clear, idiomatic way to solve a problem.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 1.2 Installation -->
+    <section class="content-section" id="installation">
+      <div class="section-header">
+        <div class="section-icon">💾</div>
+        <div class="section-meta">
+          <div class="label">Section 1.2</div>
+          <h2>Installation &amp; IDEs</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>Installing Python</h3>
+        <ol>
+          <li>Go to <a href="https://python.org" target="_blank">python.org</a> → Downloads → Download the latest Python 3.x installer</li>
+          <li>Run the installer. On Windows: <strong>tick "Add Python to PATH"</strong> before clicking Install</li>
+          <li>Open a terminal (Command Prompt / PowerShell / Terminal) and verify:
+            <div class="code-block">
+              <div class="cb-header"><div class="cb-title">Terminal</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+              <pre>python --version
+<span class="cm"># should print: Python 3.12.x (or similar)</span></pre>
+            </div>
+          </li>
+        </ol>
+
+        <h3>Choosing an IDE / Editor</h3>
+        <p>An <strong>IDE</strong> (Integrated Development Environment) is software that helps you write, run, and debug code. You need at least a good text editor.</p>
+
+        <div class="def-list">
+          <dt>🆚 VS Code (recommended for beginners)</dt>
+          <dd>Free, lightweight, highly customisable. Install the <strong>Python</strong> extension by Microsoft and <strong>Pylance</strong> for type hints. Best for small to medium projects and beginners.</dd>
+
+          <dt>🧠 PyCharm Community Edition</dt>
+          <dd>Free, purpose-built for Python. Has the most powerful debugger, code refactoring tools, and built-in support for virtual environments. Best for large projects.</dd>
+
+          <dt>📓 Jupyter Notebook / JupyterLab</dt>
+          <dd>Runs in your browser. Code is written in "cells" — you can run individual cells without rerunning the whole file. Ideal for data analysis, visualisation, and teaching/learning.</dd>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body">
+            <strong>VS Code setup for this course</strong>
+            Install VS Code from <a href="https://code.visualstudio.com" target="_blank">code.visualstudio.com</a>, then from the Extensions panel (Ctrl+Shift+X) install: <strong>Python</strong> (Microsoft), <strong>Pylance</strong>, and <strong>Jupyter</strong>.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 1.3 Running Python -->
+    <section class="content-section" id="running">
+      <div class="section-header">
+        <div class="section-icon">▶️</div>
+        <div class="section-meta">
+          <div class="label">Section 1.3</div>
+          <h2>Running Python Code</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>Method 1: Interactive Shell (REPL)</h3>
+        <p>REPL stands for <strong>Read–Evaluate–Print–Loop</strong>. Open a terminal and type <code>python</code> or <code>python3</code>. You get a <code>&gt;&gt;&gt;</code> prompt where you type one line at a time and see the result immediately. Great for experimenting.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Interactive Shell</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>$ python
+Python 3.12.0 (...)
+>>> <span class="num">2</span> + <span class="num">3</span>
+5
+>>> <span class="fn">print</span>(<span class="str">"Hello, World!"</span>)
+Hello, World!
+>>> <span class="kw">exit</span>()    <span class="cm"># or press Ctrl+D / Ctrl+Z</span></pre>
+        </div>
+
+        <h3>Method 2: Running a Script File</h3>
+        <p>Write your code in a file with the <code>.py</code> extension, then run it from the terminal. This is how real programs work.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">hello.py</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="fn">print</span>(<span class="str">"Hello, World!"</span>)
+<span class="fn">print</span>(<span class="str">"Welcome to Python!"</span>)</pre>
+        </div>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Terminal</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>python hello.py
+Hello, World!
+Welcome to Python!</pre>
+        </div>
+
+        <div class="callout info">
+          <div class="callout-icon">ℹ️</div>
+          <div class="callout-body">
+            <strong>REPL vs Script — when to use which?</strong>
+            Use the REPL for quick experiments, testing an expression, or exploring a module. Use script files for anything you want to save, share, or run again.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 1.4 Variables -->
+    <section class="content-section" id="variables">
+      <div class="section-header">
+        <div class="section-icon">📌</div>
+        <div class="section-meta">
+          <div class="label">Section 1.4</div>
+          <h2>Variables</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>What is a Variable?</h3>
+        <p>Think of a variable as a <strong>labelled box</strong>. You put a value inside the box and give it a name so you can refer to that value later. Unlike most other languages, Python variables don't need to declare their type upfront — Python figures it out automatically.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Creating variables</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>name  = <span class="str">"Alice"</span>          <span class="cm"># the box named 'name' holds the text "Alice"</span>
+age   = <span class="num">20</span>              <span class="cm"># the box named 'age' holds the number 20</span>
+score = <span class="num">95.5</span>            <span class="cm"># a decimal number</span>
+passed = <span class="kw">True</span>           <span class="cm"># a True/False value
+
+# You can reassign — the box gets a new value</span>
+age = <span class="num">21</span>
+<span class="fn">print</span>(age)   <span class="cm"># 21</span></pre>
+        </div>
+
+        <h3>Naming Rules &amp; Conventions</h3>
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Rule / Convention</th><th>Example</th><th>Why</th></tr></thead>
+            <tbody>
+              <tr><td>Use letters, digits, underscore only</td><td><code>student_name</code></td><td>Hyphens and spaces are not allowed</td></tr>
+              <tr><td>Cannot start with a digit</td><td>✅ <code>score1</code> &nbsp; ❌ <code>1score</code></td><td>Python would think it's a number</td></tr>
+              <tr><td>Case sensitive</td><td><code>Name</code> ≠ <code>name</code></td><td>These are two different variables</td></tr>
+              <tr><td>Use <code>snake_case</code> for variables</td><td><code>first_name</code>, <code>total_score</code></td><td>Python convention (PEP 8)</td></tr>
+              <tr><td>UPPERCASE for constants</td><td><code>MAX_SCORE = 100</code></td><td>Convention to signal "don't change this"</td></tr>
+              <tr><td>Cannot use reserved keywords</td><td>❌ <code>if = 5</code>, ❌ <code>class = "A"</code></td><td>Keywords have special meaning in Python</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Reserved Keywords</h3>
+        <p>These words have special meaning in Python — you cannot use them as variable names:</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Python 3 keywords</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">False  None  True  and  as  assert  async  await</span>
+<span class="kw">break  class  continue  def  del  elif  else  except</span>
+<span class="kw">finally  for  from  global  if  import  in  is</span>
+<span class="kw">lambda  nonlocal  not  or  pass  raise  return  try</span>
+<span class="kw">while  with  yield</span></pre>
+        </div>
+
+        <h3>Multiple Assignment</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Multiple assignment shortcuts</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Assign multiple variables in one line</span>
+x, y, z = <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>
+
+<span class="cm"># Assign same value to multiple variables</span>
+a = b = c = <span class="num">0</span>
+
+<span class="cm"># Swap two variables (Python-style — no temp variable needed)</span>
+x, y = y, x</pre>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body">
+            <strong>Python's variable model — names, not boxes</strong>
+            Technically, Python variables are <em>names</em> that point to objects in memory. When you write <code>x = 5</code>, Python creates the integer object <code>5</code> in memory and makes the name <code>x</code> point to it. This matters because two names can point to the same object: <code>a = b = [1,2,3]</code> — both <code>a</code> and <code>b</code> point to the <em>same</em> list.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 1.5 Data Types -->
+    <section class="content-section" id="datatypes">
+      <div class="section-header">
+        <div class="section-icon">🔢</div>
+        <div class="section-meta">
+          <div class="label">Section 1.5</div>
+          <h2>Core Data Types</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>Overview</h3>
+        <p>A <strong>data type</strong> tells Python what kind of value is stored in a variable — a number, text, True/False, etc. Python is <strong>dynamically typed</strong>: you don't declare the type; Python determines it when the program runs.</p>
+
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Type</th><th>Keyword</th><th>Example Values</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Integer</td><td><code>int</code></td><td><code>0</code>, <code>42</code>, <code>-7</code>, <code>1_000_000</code></td><td>Whole numbers, no decimal point. Unlimited size in Python 3.</td></tr>
+              <tr><td>Float</td><td><code>float</code></td><td><code>3.14</code>, <code>-0.5</code>, <code>1.0e10</code></td><td>Numbers with a decimal point (IEEE 754 64-bit).</td></tr>
+              <tr><td>String</td><td><code>str</code></td><td><code>"hello"</code>, <code>'Alice'</code></td><td>Sequence of text characters. Immutable.</td></tr>
+              <tr><td>Boolean</td><td><code>bool</code></td><td><code>True</code>, <code>False</code></td><td>Logical true/false. Subtype of <code>int</code> (True=1, False=0).</td></tr>
+              <tr><td>Complex</td><td><code>complex</code></td><td><code>3 + 4j</code>, <code>1j</code></td><td>Real + imaginary parts. Used in engineering/science.</td></tr>
+              <tr><td>None</td><td><code>NoneType</code></td><td><code>None</code></td><td>Represents "nothing" or "no value". Like null in other languages.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Integers (<code>int</code>)</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Integers</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>x = <span class="num">42</span>
+y = <span class="num">-7</span>
+big = <span class="num">1_000_000</span>      <span class="cm"># underscores for readability (Python 3.6+)</span>
+binary = <span class="num">0b1010</span>      <span class="cm"># binary literal → 10</span>
+octal  = <span class="num">0o17</span>        <span class="cm"># octal literal  → 15</span>
+hexa   = <span class="num">0xFF</span>        <span class="cm"># hexadecimal    → 255</span>
+
+<span class="fn">print</span>(<span class="fn">type</span>(x))      <span class="cm"># &lt;class 'int'&gt;</span></pre>
+        </div>
+
+        <h3>Floats (<code>float</code>)</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Floats</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>pi    = <span class="num">3.14159</span>
+small = <span class="num">1.5e-4</span>     <span class="cm"># scientific notation: 0.00015</span>
+big   = <span class="num">2.5e6</span>      <span class="cm"># 2500000.0</span>
+
+<span class="cm"># Float precision issue — important to know!</span>
+<span class="fn">print</span>(<span class="num">0.1</span> + <span class="num">0.2</span>)   <span class="cm"># 0.30000000000000004  ← not exactly 0.3!</span>
+<span class="cm"># This is because floats use binary representation internally.
+# Use the 'decimal' module when precision matters (e.g. money).</span></pre>
+        </div>
+
+        <div class="callout warning">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body">
+            <strong>Float precision is not exact</strong>
+            <code>0.1 + 0.2</code> gives <code>0.30000000000000004</code> in Python (and in most programming languages). This is a property of IEEE 754 binary floating point, not a Python bug. For financial calculations, use <code>from decimal import Decimal</code>.
+          </div>
+        </div>
+
+        <h3>Strings (<code>str</code>)</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Strings</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>single = <span class="str">'Hello'</span>
+double = <span class="str">"World"</span>          <span class="cm"># single and double quotes are equivalent</span>
+multi  = <span class="str">"""This spans
+multiple lines"""</span>
+
+<span class="cm"># Escape sequences</span>
+tab       = <span class="str">"Name:\tAlice"</span>    <span class="cm"># \t is a tab character</span>
+newline   = <span class="str">"Line1\nLine2"</span>   <span class="cm"># \n is a new line</span>
+backslash = <span class="str">"C:\\Users\\Alice"</span> <span class="cm"># \\ is a literal backslash</span>
+
+<span class="cm"># Raw string — backslashes are NOT escape sequences</span>
+path = <span class="str">r"C:\Users\Alice\Desktop"</span>
+
+<span class="cm"># Strings are immutable — you cannot change individual characters</span>
+name = <span class="str">"Alice"</span>
+<span class="cm"># name[0] = "B"  ← This raises TypeError!</span></pre>
+        </div>
+
+        <h3>Booleans (<code>bool</code>)</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Booleans</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>is_student = <span class="kw">True</span>
+is_admin   = <span class="kw">False</span>
+
+<span class="cm"># bool is a subtype of int</span>
+<span class="fn">print</span>(<span class="kw">True</span>  + <span class="kw">True</span>)   <span class="cm"># 2</span>
+<span class="fn">print</span>(<span class="kw">False</span> + <span class="num">5</span>)    <span class="cm"># 5</span>
+<span class="fn">print</span>(<span class="fn">int</span>(<span class="kw">True</span>))    <span class="cm"># 1</span>
+<span class="fn">print</span>(<span class="fn">int</span>(<span class="kw">False</span>))   <span class="cm"># 0</span></pre>
+        </div>
+
+        <h3>The <code>type()</code> and <code>id()</code> Functions</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">type() and id()</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>x = <span class="num">42</span>
+<span class="fn">print</span>(<span class="fn">type</span>(x))         <span class="cm"># &lt;class 'int'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="str">"hello"</span>))   <span class="cm"># &lt;class 'str'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="num">3.14</span>))      <span class="cm"># &lt;class 'float'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="kw">True</span>))      <span class="cm"># &lt;class 'bool'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="kw">None</span>))      <span class="cm"># &lt;class 'NoneType'&gt;</span>
+
+<span class="cm"># id() returns the memory address of the object</span>
+a = <span class="num">42</span>
+b = a
+<span class="fn">print</span>(<span class="fn">id</span>(a) == <span class="fn">id</span>(b))  <span class="cm"># True — both names point to same object</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 1.6 Type Casting -->
+    <section class="content-section" id="casting">
+      <div class="section-header">
+        <div class="section-icon">🔄</div>
+        <div class="section-meta">
+          <div class="label">Section 1.6</div>
+          <h2>Type Casting &amp; Type Checking</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>What is Type Casting?</h3>
+        <p>Converting a value from one type to another. Python does some conversions automatically (<strong>implicit casting</strong>), but usually you need to do it yourself (<strong>explicit casting</strong>).</p>
+
+        <h3>Explicit Type Casting</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Type conversion functions</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># int() — convert to integer</span>
+<span class="fn">int</span>(<span class="str">"42"</span>)        <span class="cm"># 42      — string to int</span>
+<span class="fn">int</span>(<span class="num">3.9</span>)        <span class="cm"># 3       — float to int (truncates, does NOT round)</span>
+<span class="fn">int</span>(<span class="kw">True</span>)       <span class="cm"># 1</span>
+<span class="fn">int</span>(<span class="kw">False</span>)      <span class="cm"># 0</span>
+
+<span class="cm"># float() — convert to float</span>
+<span class="fn">float</span>(<span class="str">"3.14"</span>)   <span class="cm"># 3.14</span>
+<span class="fn">float</span>(<span class="num">5</span>)        <span class="cm"># 5.0</span>
+
+<span class="cm"># str() — convert to string</span>
+<span class="fn">str</span>(<span class="num">42</span>)         <span class="cm"># "42"</span>
+<span class="fn">str</span>(<span class="num">3.14</span>)       <span class="cm"># "3.14"</span>
+<span class="fn">str</span>(<span class="kw">True</span>)       <span class="cm"># "True"</span>
+
+<span class="cm"># bool() — convert to boolean</span>
+<span class="fn">bool</span>(<span class="num">0</span>)         <span class="cm"># False  — zero is falsy</span>
+<span class="fn">bool</span>(<span class="num">42</span>)        <span class="cm"># True   — any non-zero number is truthy</span>
+<span class="fn">bool</span>(<span class="str">""</span>)        <span class="cm"># False  — empty string is falsy</span>
+<span class="fn">bool</span>(<span class="str">"hello"</span>)   <span class="cm"># True   — non-empty string is truthy</span>
+<span class="fn">bool</span>(<span class="kw">None</span>)      <span class="cm"># False</span></pre>
+        </div>
+
+        <h3>Common Pitfall: Converting Strings to Numbers</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Common casting mistakes</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># ✅ This works:</span>
+<span class="fn">int</span>(<span class="str">"42"</span>)           <span class="cm"># 42</span>
+
+<span class="cm"># ❌ This raises ValueError:</span>
+<span class="fn">int</span>(<span class="str">"3.14"</span>)         <span class="cm"># ValueError: invalid literal for int()</span>
+
+<span class="cm"># ✅ Correct way to convert "3.14" to int:</span>
+<span class="fn">int</span>(<span class="fn">float</span>(<span class="str">"3.14"</span>))  <span class="cm"># 3  (first convert to float, then to int)</span>
+
+<span class="cm"># Common in programs that read user input:</span>
+age = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Enter your age: "</span>))   <span class="cm"># input() always returns str</span></pre>
+        </div>
+
+        <h3>Type Checking with <code>isinstance()</code></h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">isinstance() vs type()</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>x = <span class="num">42</span>
+
+<span class="cm"># isinstance() — preferred (works with inheritance)</span>
+<span class="fn">isinstance</span>(x, <span class="fn">int</span>)           <span class="cm"># True</span>
+<span class="fn">isinstance</span>(x, (<span class="fn">int</span>, <span class="fn">float</span>))  <span class="cm"># True — check against multiple types</span>
+<span class="fn">isinstance</span>(<span class="kw">True</span>, <span class="fn">int</span>)        <span class="cm"># True — because bool is a subclass of int</span>
+
+<span class="cm"># type() exact match — does not account for subclasses</span>
+<span class="fn">type</span>(x) == <span class="fn">int</span>               <span class="cm"># True</span>
+<span class="fn">type</span>(<span class="kw">True</span>) == <span class="fn">int</span>             <span class="cm"># False! True is a bool, not exactly int</span>
+<span class="fn">type</span>(<span class="kw">True</span>) == <span class="fn">bool</span>            <span class="cm"># True</span></pre>
+        </div>
+
+        <div class="callout success">
+          <div class="callout-icon">✅</div>
+          <div class="callout-body"><strong>Best Practice:</strong> Prefer <code>isinstance()</code> over <code>type() ==</code> for type checking in most situations.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 1.7 Operators -->
+    <section class="content-section" id="operators">
+      <div class="section-header">
+        <div class="section-icon">➕</div>
+        <div class="section-meta">
+          <div class="label">Section 1.7</div>
+          <h2>Operators</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>Arithmetic Operators</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Arithmetic</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>a, b = <span class="num">17</span>, <span class="num">5</span>
+
+<span class="fn">print</span>(a + b)    <span class="cm"># 22   — addition</span>
+<span class="fn">print</span>(a - b)    <span class="cm"># 12   — subtraction</span>
+<span class="fn">print</span>(a * b)    <span class="cm"># 85   — multiplication</span>
+<span class="fn">print</span>(a / b)    <span class="cm"># 3.4  — division (ALWAYS returns float)</span>
+<span class="fn">print</span>(a // b)   <span class="cm"># 3    — floor division (integer division, rounds DOWN)</span>
+<span class="fn">print</span>(a % b)    <span class="cm"># 2    — modulo (remainder)</span>
+<span class="fn">print</span>(a ** b)   <span class="cm"># 1419857 — exponentiation (17 to the power 5)</span>
+
+<span class="cm"># Useful patterns with % (modulo)
+# Check if a number is even:</span>
+<span class="fn">print</span>(<span class="num">8</span> % <span class="num">2</span> == <span class="num">0</span>)  <span class="cm"># True</span>
+<span class="cm"># Get last digit of a number:</span>
+<span class="fn">print</span>(<span class="num">12345</span> % <span class="num">10</span>)  <span class="cm"># 5</span></pre>
+        </div>
+
+        <h3>Comparison Operators</h3>
+        <p>These always return <code>True</code> or <code>False</code>.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Comparison</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>x, y = <span class="num">10</span>, <span class="num">20</span>
+<span class="fn">print</span>(x == y)   <span class="cm"># False — equal to</span>
+<span class="fn">print</span>(x != y)   <span class="cm"># True  — not equal to</span>
+<span class="fn">print</span>(x &lt;  y)   <span class="cm"># True  — less than</span>
+<span class="fn">print</span>(x &gt;  y)   <span class="cm"># False — greater than</span>
+<span class="fn">print</span>(x &lt;= y)   <span class="cm"># True  — less than or equal</span>
+<span class="fn">print</span>(x &gt;= y)   <span class="cm"># False — greater than or equal</span>
+
+<span class="cm"># Python allows chained comparisons (very useful!)</span>
+age = <span class="num">25</span>
+<span class="fn">print</span>(<span class="num">18</span> &lt;= age &lt; <span class="num">60</span>)  <span class="cm"># True — reads like maths</span></pre>
+        </div>
+
+        <h3>Logical Operators</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Logical operators</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># and — both conditions must be True</span>
+<span class="fn">print</span>(<span class="kw">True</span>  <span class="kw">and</span> <span class="kw">True</span>)   <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="kw">True</span>  <span class="kw">and</span> <span class="kw">False</span>)  <span class="cm"># False</span>
+
+<span class="cm"># or — at least one condition must be True</span>
+<span class="fn">print</span>(<span class="kw">False</span> <span class="kw">or</span>  <span class="kw">True</span>)   <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="kw">False</span> <span class="kw">or</span>  <span class="kw">False</span>)  <span class="cm"># False</span>
+
+<span class="cm"># not — reverses the boolean</span>
+<span class="fn">print</span>(<span class="kw">not</span> <span class="kw">True</span>)          <span class="cm"># False</span>
+<span class="fn">print</span>(<span class="kw">not</span> <span class="kw">False</span>)         <span class="cm"># True</span>
+
+<span class="cm"># Short-circuit evaluation:</span>
+<span class="cm"># 'and' stops at first False value</span>
+<span class="cm"># 'or'  stops at first True value</span>
+x = <span class="num">0</span>
+<span class="fn">print</span>(x <span class="kw">and</span> <span class="num">10</span>/<span class="num">0</span>)  <span class="cm"># 0 — division never evaluated (x is falsy)</span></pre>
+        </div>
+
+        <h3>Assignment Operators</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Assignment operators</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>x = <span class="num">10</span>
+x += <span class="num">3</span>    <span class="cm"># x = x + 3  → 13</span>
+x -= <span class="num">2</span>    <span class="cm"># x = x - 2  → 11</span>
+x *= <span class="num">4</span>    <span class="cm"># x = x * 4  → 44</span>
+x //= <span class="num">3</span>   <span class="cm"># x = x // 3 → 14</span>
+x %= <span class="num">5</span>    <span class="cm"># x = x % 5  → 4</span>
+x **= <span class="num">2</span>   <span class="cm"># x = x ** 2 → 16</span></pre>
+        </div>
+
+        <h3>Identity &amp; Membership Operators</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">is, in operators</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Identity: is / is not  — same object in memory?</span>
+a = [<span class="num">1</span>, <span class="num">2</span>]
+b = [<span class="num">1</span>, <span class="num">2</span>]
+c = a
+<span class="fn">print</span>(a == b)    <span class="cm"># True  — same values</span>
+<span class="fn">print</span>(a <span class="kw">is</span> b)   <span class="cm"># False — different objects in memory</span>
+<span class="fn">print</span>(a <span class="kw">is</span> c)   <span class="cm"># True  — c points to same object as a</span>
+<span class="fn">print</span>(x <span class="kw">is</span> <span class="kw">None</span>)  <span class="cm"># idiomatic way to check for None</span>
+
+<span class="cm"># Membership: in / not in  — is item inside a collection?</span>
+fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>]
+<span class="fn">print</span>(<span class="str">"banana"</span> <span class="kw">in</span> fruits)      <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="str">"mango"</span>  <span class="kw">not in</span> fruits)  <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="str">"lo"</span> <span class="kw">in</span> <span class="str">"Hello"</span>)         <span class="cm"># True — works in strings too</span></pre>
+        </div>
+
+        <h3>Operator Precedence</h3>
+        <p>Python evaluates operators in this order (highest to lowest), just like BODMAS/PEMDAS in maths:</p>
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Priority</th><th>Operator(s)</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>1 (highest)</td><td><code>**</code></td><td>Exponentiation</td></tr>
+              <tr><td>2</td><td><code>+x</code>, <code>-x</code>, <code>~x</code></td><td>Unary +/−, bitwise NOT</td></tr>
+              <tr><td>3</td><td><code>*</code>, <code>/</code>, <code>//</code>, <code>%</code></td><td>Multiply, divide, floor div, modulo</td></tr>
+              <tr><td>4</td><td><code>+</code>, <code>-</code></td><td>Add, subtract</td></tr>
+              <tr><td>5</td><td><code>&lt;&lt;</code>, <code>&gt;&gt;</code></td><td>Bitwise shift</td></tr>
+              <tr><td>6</td><td><code>&amp;</code>, <code>^</code>, <code>|</code></td><td>Bitwise AND, XOR, OR</td></tr>
+              <tr><td>7</td><td><code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>is</code>, <code>in</code></td><td>Comparisons</td></tr>
+              <tr><td>8</td><td><code>not</code></td><td>Logical NOT</td></tr>
+              <tr><td>9</td><td><code>and</code></td><td>Logical AND</td></tr>
+              <tr><td>10 (lowest)</td><td><code>or</code></td><td>Logical OR</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body"><strong>Use parentheses to be explicit.</strong> Even when precedence rules would give the right answer, parentheses make your code easier to read: <code>(a + b) * c</code> is clearer than relying on the reader to remember precedence.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 1.8 Input / Output -->
+    <section class="content-section" id="io">
+      <div class="section-header">
+        <div class="section-icon">💬</div>
+        <div class="section-meta">
+          <div class="label">Section 1.8</div>
+          <h2>Input &amp; Output</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>The <code>print()</code> Function</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">print() options</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Basic print</span>
+<span class="fn">print</span>(<span class="str">"Hello, World!"</span>)
+
+<span class="cm"># Multiple values — separated by space by default</span>
+<span class="fn">print</span>(<span class="str">"Name:"</span>, <span class="str">"Alice"</span>, <span class="str">"Age:"</span>, <span class="num">20</span>)
+<span class="cm"># Output: Name: Alice Age: 20</span>
+
+<span class="cm"># Custom separator with sep=</span>
+<span class="fn">print</span>(<span class="str">"2026"</span>, <span class="str">"07"</span>, <span class="str">"04"</span>, sep=<span class="str">"-"</span>)
+<span class="cm"># Output: 2026-07-04</span>
+
+<span class="cm"># Prevent newline at end with end=</span>
+<span class="fn">print</span>(<span class="str">"Loading"</span>, end=<span class="str">"..."</span>)
+<span class="fn">print</span>(<span class="str">"done"</span>)
+<span class="cm"># Output: Loading...done</span>
+
+<span class="cm"># Print blank line</span>
+<span class="fn">print</span>()</pre>
+        </div>
+
+        <h3>The <code>input()</code> Function</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">input()</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># input() always returns a STRING</span>
+name = <span class="fn">input</span>(<span class="str">"Enter your name: "</span>)
+<span class="fn">print</span>(<span class="str">"Hello,"</span>, name)
+
+<span class="cm"># Must cast to int/float if you need a number</span>
+age = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Enter your age: "</span>))
+<span class="fn">print</span>(<span class="str">"In 10 years you will be"</span>, age + <span class="num">10</span>)
+
+price = <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">"Enter price: "</span>))</pre>
+        </div>
+
+        <div class="callout danger">
+          <div class="callout-icon">❌</div>
+          <div class="callout-body">
+            <strong>Common beginner mistake</strong>
+            <code>age = input("Enter age: ")</code> then <code>age + 10</code> will raise a <code>TypeError</code> because you're trying to add a string and an integer. Always cast <code>input()</code> to the appropriate type.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 1.9 String Formatting -->
+    <section class="content-section" id="formatting">
+      <div class="section-header">
+        <div class="section-icon">✍️</div>
+        <div class="section-meta">
+          <div class="label">Section 1.9</div>
+          <h2>String Formatting</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <p>String formatting lets you embed values inside strings. There are three main methods. <strong>f-strings are the modern, recommended approach.</strong></p>
+
+        <h3>Method 1: f-Strings (Python 3.6+) — Recommended</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">f-strings</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>name  = <span class="str">"Arjun"</span>
+score = <span class="num">95.5</span>
+grade = <span class="str">"A"</span>
+
+<span class="cm"># Basic f-string — prefix with f, embed variables in {}</span>
+<span class="fn">print</span>(<span class="str">f"Student: <span class="kw">{</span>name<span class="kw">}</span>, Score: <span class="kw">{</span>score<span class="kw">}</span>"</span>)
+<span class="cm"># Student: Arjun, Score: 95.5</span>
+
+<span class="cm"># Format specifiers inside {}</span>
+<span class="fn">print</span>(<span class="str">f"Score: <span class="kw">{</span>score:.2f<span class="kw">}</span>"</span>)      <span class="cm"># 2 decimal places: 95.50</span>
+<span class="fn">print</span>(<span class="str">f"Score: <span class="kw">{</span>score:8.2f<span class="kw">}</span>"</span>)     <span class="cm"># width 8, 2 decimals:    95.50</span>
+<span class="fn">print</span>(<span class="str">f"Name: <span class="kw">{</span>name:&lt;10<span class="kw">}</span>|"</span>)       <span class="cm"># left-align in 10 chars: Arjun     |</span>
+<span class="fn">print</span>(<span class="str">f"Name: <span class="kw">{</span>name:&gt;10<span class="kw">}</span>|"</span>)       <span class="cm"># right-align:            Arjun|</span>
+<span class="fn">print</span>(<span class="str">f"Name: <span class="kw">{</span>name:^10<span class="kw">}</span>|"</span>)       <span class="cm"># center-align:     Arjun     |</span>
+
+<span class="cm"># Expressions inside {}  </span>
+<span class="fn">print</span>(<span class="str">f"2 + 2 = <span class="kw">{</span>2+2<span class="kw">}</span>"</span>)
+<span class="fn">print</span>(<span class="str">f"Upper: <span class="kw">{</span>name.upper()<span class="kw">}</span>"</span>)
+
+<span class="cm"># Debugging with f"{var=}" (Python 3.8+)</span>
+x = <span class="num">42</span>
+<span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>x=<span class="kw">}</span>"</span>)   <span class="cm"># x=42</span></pre>
+        </div>
+
+        <h3>Method 2: <code>.format()</code></h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">.format() method</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Positional</span>
+<span class="fn">print</span>(<span class="str">"Hello, {}! You scored {:.1f}."</span>.<span class="fn">format</span>(name, score))
+
+<span class="cm"># Named</span>
+<span class="fn">print</span>(<span class="str">"Hello, {n}! Score: {s:.1f}"</span>.<span class="fn">format</span>(n=name, s=score))
+
+<span class="cm"># Indexed</span>
+<span class="fn">print</span>(<span class="str">"{0} got {1:.1f} in {0}'s exam"</span>.<span class="fn">format</span>(name, score))</pre>
+        </div>
+
+        <h3>Method 3: <code>%</code> Formatting (Legacy)</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">% formatting (older style)</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="fn">print</span>(<span class="str">"Hello, %s! Score: %.1f"</span> % (name, score))
+<span class="cm"># %s = string, %d = integer, %f = float, %.2f = float with 2 decimals</span></pre>
+        </div>
+
+        <div class="callout success">
+          <div class="callout-icon">✅</div>
+          <div class="callout-body"><strong>Use f-strings.</strong> They are faster, more readable, and support any Python expression inside <code>{}</code>. Use <code>.format()</code> when you need to store the template as a variable. Avoid <code>%</code> formatting in new code.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 1.10 Comments -->
+    <section class="content-section" id="comments">
+      <div class="section-header">
+        <div class="section-icon">#️⃣</div>
+        <div class="section-meta">
+          <div class="label">Section 1.10</div>
+          <h2>Comments &amp; Docstrings</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>Comments</h3>
+        <p>Comments are notes for humans — Python ignores them completely. Use them to explain <em>why</em> code does something, not <em>what</em> it does (the code itself shows what).</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Types of comments</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Single-line comment — starts with #</span>
+x = <span class="num">42</span>  <span class="cm"># inline comment — use sparingly</span>
+
+<span class="cm"># Multiple lines — just use multiple # lines
+# Python has no /* */ block comment syntax.
+# Each line starts with #</span>
+
+<span class="cm"># ❌ Bad comment — just restates the code:</span>
+x = x + <span class="num">1</span>  <span class="cm"># add 1 to x</span>
+
+<span class="cm"># ✅ Good comment — explains WHY:</span>
+x = x + <span class="num">1</span>  <span class="cm"># account for 0-based index offset</span></pre>
+        </div>
+
+        <h3>Docstrings</h3>
+        <p>A <strong>docstring</strong> is a special string placed immediately after a <code>def</code> or <code>class</code> statement. It documents what a function/class does and is accessible at runtime via <code>.__doc__</code> or <code>help()</code>.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Writing docstrings</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">def</span> <span class="fn">calculate_grade</span>(score):
+    <span class="str">"""
+    Return the letter grade for a given numeric score.
+
+    Args:
+        score (float): Numeric score between 0 and 100.
+
+    Returns:
+        str: Letter grade — 'A', 'B', 'C', 'D', or 'F'.
+
+    Examples:
+        >>> calculate_grade(92)
+        'A'
+        >>> calculate_grade(55)
+        'F'
+    """</span>
+    <span class="kw">if</span>   score >= <span class="num">90</span>: <span class="kw">return</span> <span class="str">"A"</span>
+    <span class="kw">elif</span> score >= <span class="num">75</span>: <span class="kw">return</span> <span class="str">"B"</span>
+    <span class="kw">elif</span> score >= <span class="num">60</span>: <span class="kw">return</span> <span class="str">"C"</span>
+    <span class="kw">elif</span> score >= <span class="num">40</span>: <span class="kw">return</span> <span class="str">"D"</span>
+    <span class="kw">else</span>:            <span class="kw">return</span> <span class="str">"F"</span>
+
+<span class="cm"># Access the docstring</span>
+<span class="fn">print</span>(calculate_grade.__doc__)
+<span class="fn">help</span>(calculate_grade)</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 1.11 PEP 8 -->
+    <section class="content-section" id="pep8">
+      <div class="section-header">
+        <div class="section-icon">📏</div>
+        <div class="section-meta">
+          <div class="label">Section 1.11</div>
+          <h2>Indentation &amp; PEP 8</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>Indentation is Mandatory in Python</h3>
+        <p>Most languages use <code>{}</code> to group code. Python uses <strong>indentation</strong> (spaces at the start of a line). This enforces readability. The standard is <strong>4 spaces per level</strong> — never use tabs.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Indentation</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">if</span> <span class="kw">True</span>:
+    <span class="fn">print</span>(<span class="str">"indented 4 spaces — this is inside the if block"</span>)
+    <span class="kw">if</span> <span class="kw">True</span>:
+        <span class="fn">print</span>(<span class="str">"indented 8 spaces — nested block"</span>)
+<span class="fn">print</span>(<span class="str">"back to no indent — outside the if block"</span>)
+
+<span class="cm"># ❌ Wrong — mixing spaces and tabs, or inconsistent spacing</span>
+<span class="cm"># will raise an IndentationError</span></pre>
+        </div>
+
+        <h3>Key PEP 8 Rules</h3>
+        <p><strong>PEP 8</strong> is Python's official style guide. Following it makes your code readable by any Python developer.</p>
+
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Rule</th><th>✅ Correct</th><th>❌ Incorrect</th></tr></thead>
+            <tbody>
+              <tr><td>4 spaces per indent level</td><td><code>&nbsp;&nbsp;&nbsp;&nbsp;x = 1</code></td><td><code>&nbsp;&nbsp;x = 1</code></td></tr>
+              <tr><td>Max 79 characters per line</td><td>Wrap with <code>\</code> or parentheses</td><td>Very long line that scrolls off screen</td></tr>
+              <tr><td>2 blank lines around top-level functions/classes</td><td>Two empty lines before <code>def</code></td><td>No space or only one blank line</td></tr>
+              <tr><td>1 blank line between methods inside class</td><td>One empty line between methods</td><td>No space between methods</td></tr>
+              <tr><td>Spaces around operators</td><td><code>x = y + z</code></td><td><code>x=y+z</code></td></tr>
+              <tr><td>No spaces inside brackets</td><td><code>func(a, b)</code></td><td><code>func( a, b )</code></td></tr>
+              <tr><td>Variable names in snake_case</td><td><code>student_name</code></td><td><code>studentName</code>, <code>StudentName</code></td></tr>
+              <tr><td>Class names in PascalCase</td><td><code>StudentRecord</code></td><td><code>student_record</code></td></tr>
+              <tr><td>Constants in UPPER_SNAKE_CASE</td><td><code>MAX_ATTEMPTS = 3</code></td><td><code>maxAttempts = 3</code></td></tr>
+              <tr><td>Imports on separate lines</td><td><code>import os</code><br><code>import sys</code></td><td><code>import os, sys</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body">
+            <strong>Let your editor help you</strong>
+            VS Code with the Pylance extension highlights PEP 8 violations as you type. You can also install <code>flake8</code> (<code>pip install flake8</code>) and run it on your files from the terminal: <code>flake8 myfile.py</code>.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Practice -->
+    <section class="content-section" id="practice">
+      <div class="section-header">
+        <div class="section-icon">✏️</div>
+        <div class="section-meta">
+          <div class="label">Practice</div>
+          <h2>Module 1 Exercises</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 1 — Hello World & Setup</div>
+          <ol>
+            <li>Install Python 3 and VS Code on your machine.</li>
+            <li>Create a file called <code>hello.py</code>. Write code to print: <code>Hello, I am [your name] and I am learning Python!</code></li>
+            <li>Run it from the terminal.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 2 — Variables & Types</div>
+          <ol>
+            <li>Create variables for your name (<code>str</code>), age (<code>int</code>), height in metres (<code>float</code>), and whether you are a student (<code>bool</code>).</li>
+            <li>Print each variable along with its type using <code>type()</code>.</li>
+            <li>Try reassigning <code>age</code> to a string. What does <code>type()</code> show now?</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 3 — Type Casting</div>
+          <ol>
+            <li>Ask the user for two numbers using <code>input()</code>. Add them and print the result. What happens if you forget to cast?</li>
+            <li>Convert the string <code>"3.99"</code> to an integer in one step without getting an error.</li>
+            <li>Print <code>bool(0)</code>, <code>bool("")</code>, <code>bool(None)</code>, <code>bool("false")</code>. What do you notice about the last one?</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 4 — Operators</div>
+          <ol>
+            <li>Given <code>a = 17</code> and <code>b = 5</code>, print the results of all arithmetic operators.</li>
+            <li>Write an expression that checks if a number is divisible by both 3 and 5.</li>
+            <li>Without running it, predict: <code>2 + 3 * 4 ** 2</code>. Then verify.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 5 — String Formatting</div>
+          <ol>
+            <li>Ask for name, age, and city. Print a sentence using an f-string: <br><em>"My name is Alice, I am 20 years old and I live in Hyderabad."</em></li>
+            <li>Format a price <code>999.5</code> to always show 2 decimal places and a ₹ symbol.</li>
+            <li>Print a table of numbers 1–5 and their squares, right-aligned in a column of width 6.</li>
+          </ol>
+        </div>
+
+        <div class="callout info">
+          <div class="callout-icon">📝</div>
+          <div class="callout-body"><strong>Assignment submission:</strong> Save your solutions as <code>module1_assignment.py</code>. Include your name, roll number, and date as a comment at the top. Submit via the course portal.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Module Nav -->
+    <div class="module-nav">
+      <a href="index.html" class="prev">
+        <span class="nav-dir">← Back</span>
+        <span class="nav-title">Course Home</span>
+      </a>
+      <a href="module2.html" class="next">
+        <span class="nav-dir">Next Module →</span>
+        <span class="nav-title">Module 2: Control Flow</span>
+      </a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><strong>Pramanicus Academy</strong> — Ramanthapur, Hyderabad</p>
+  <p style="margin-top:.3rem">Python Training · Module 1 of 8 · <a href="index.html">Back to Course Home</a></p>
+</footer>
+
+</body>
+</html>

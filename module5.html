@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 5: OOP — Pramanicus Academy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Module 5</span></div>
+  <h1>Module 5: Object-Oriented Programming</h1>
+  <p class="subtitle">Classes · Encapsulation · Inheritance · Polymorphism · Abstraction · Magic Methods</p>
+  <div class="header-pills"><span>📅 Week 3</span><span>🟡 Intermediate</span><span>5–6 Sessions</span></div>
+</header>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">🐍 Python Notes</div>
+    <a href="index.html">Home</a>
+    <a href="module1.html">1 · Fundamentals</a>
+    <a href="module2.html">2 · Control Flow</a>
+    <a href="module3.html">3 · Data Structures</a>
+    <a href="module4.html">4 · Functions</a>
+    <a href="module5.html" class="active">5 · OOP</a>
+    <a href="module6.html">6 · Exceptions &amp; Files</a>
+    <a href="module7.html">7 · Modules &amp; Stdlib</a>
+    <a href="module8.html">8 · Iterators &amp; Decorators</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Module 5 Contents</div>
+    <ul>
+      <li><a href="#what"><span class="sec-num">5.1</span>What is OOP?</a></li>
+      <li><a href="#classes"><span class="sec-num">5.2</span>Classes &amp; Objects</a></li>
+      <li><a href="#init"><span class="sec-num">5.3</span>__init__ &amp; self</a></li>
+      <li><a href="#encapsulation"><span class="sec-num">5.4</span>Encapsulation</a></li>
+      <li><a href="#inheritance"><span class="sec-num">5.5</span>Inheritance &amp; MRO</a></li>
+      <li><a href="#polymorphism"><span class="sec-num">5.6</span>Polymorphism</a></li>
+      <li><a href="#abstraction"><span class="sec-num">5.7</span>Abstraction (ABC)</a></li>
+      <li><a href="#magic"><span class="sec-num">5.8</span>Magic Methods</a></li>
+      <li><a href="#decorators"><span class="sec-num">5.9</span>@property, @classmethod, @staticmethod</a></li>
+      <li><a href="#practice"><span class="sec-num">✏</span>Practice Exercises</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+
+    <div class="callout info">
+      <div class="callout-icon">🎯</div>
+      <div class="callout-body">
+        <strong>Learning Objectives</strong>
+        Design and implement classes with attributes and methods, apply the four OOP principles (encapsulation, inheritance, polymorphism, abstraction), use magic methods for operator overloading, and write @property, @classmethod, @staticmethod decorators.
+      </div>
+    </div>
+
+    <!-- 5.1 What is OOP -->
+    <section class="content-section" id="what">
+      <div class="section-header">
+        <div class="section-icon">🏗️</div>
+        <div class="section-meta"><div class="label">Section 5.1</div><h2>What is Object-Oriented Programming?</h2></div>
+      </div>
+      <div class="section-body">
+        <p>OOP is a programming paradigm that organises code around <strong>objects</strong> — bundles that combine <em>data</em> (attributes) and <em>behaviour</em> (methods) into a single unit. Rather than writing separate functions that manipulate data, you create objects that know both what they are and what they can do.</p>
+
+        <div class="key-point">
+          <strong>Analogy: A Car</strong>
+          A car has <em>attributes</em> (colour, model, fuel level, speed) and <em>methods</em> (start(), accelerate(), brake(), refuel()). The car's internal engine mechanics are hidden — you just press the pedal. This is OOP.
+        </div>
+
+        <h3>Four Pillars of OOP</h3>
+        <div class="two-col">
+          <div class="concept-card">
+            <div class="concept-title">🔒 Encapsulation</div>
+            <p>Bundle data and methods together; hide internal details. Only expose what's needed.</p>
+          </div>
+          <div class="concept-card">
+            <div class="concept-title">👨‍👦 Inheritance</div>
+            <p>A child class inherits attributes and methods from a parent class, then extends or overrides them.</p>
+          </div>
+          <div class="concept-card">
+            <div class="concept-title">🎭 Polymorphism</div>
+            <p>Different objects respond to the same method call in their own way. One interface, many behaviours.</p>
+          </div>
+          <div class="concept-card">
+            <div class="concept-title">🎭 Abstraction</div>
+            <p>Hide complex implementation details. Show only the necessary interface to the outside world.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.2 Classes & Objects -->
+    <section class="content-section" id="classes">
+      <div class="section-header">
+        <div class="section-icon">📐</div>
+        <div class="section-meta"><div class="label">Section 5.2</div><h2>Classes &amp; Objects</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>A <strong>class</strong> is a blueprint (template). An <strong>object</strong> (or instance) is a specific thing created from that blueprint. You can create many objects from one class.</p>
+
+        <div class="key-point">
+          <strong>Analogy:</strong> A class is like an architectural drawing for a house. Each actual house built from that drawing is an object (instance). All houses have the same structure, but different colours, sizes, and owners.
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Defining a class and creating objects</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">class</span> <span class="cls">Dog</span>:
+    <span class="cm"># Class variable — shared by ALL instances</span>
+    species = <span class="str">"Canis lupus familiaris"</span>
+
+    <span class="cm"># Instance method — self refers to the specific object</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, breed, age):
+        <span class="cm"># Instance variables — unique to each object</span>
+        self.name  = name
+        self.breed = breed
+        self.age   = age
+
+    <span class="kw">def</span> <span class="fn">bark</span>(self):
+        <span class="kw">return</span> <span class="str">f"<span class="kw">{</span>self.name<span class="kw">}</span> says: Woof!"</span>
+
+    <span class="kw">def</span> <span class="fn">describe</span>(self):
+        <span class="kw">return</span> <span class="str">f"<span class="kw">{</span>self.name<span class="kw">}</span> is a <span class="kw">{</span>self.age<span class="kw">}</span>-year-old <span class="kw">{</span>self.breed<span class="kw">}</span>"</span>
+
+<span class="cm"># Create instances (objects)</span>
+rex   = <span class="cls">Dog</span>(<span class="str">"Rex"</span>, <span class="str">"Labrador"</span>, <span class="num">3</span>)
+buddy = <span class="cls">Dog</span>(<span class="str">"Buddy"</span>, <span class="str">"Poodle"</span>, <span class="num">1</span>)
+
+<span class="cm"># Access attributes and methods</span>
+<span class="fn">print</span>(rex.name)          <span class="cm"># "Rex"</span>
+<span class="fn">print</span>(rex.<span class="fn">bark</span>())        <span class="cm"># "Rex says: Woof!"</span>
+<span class="fn">print</span>(buddy.<span class="fn">describe</span>()) <span class="cm"># "Buddy is a 1-year-old Poodle"</span>
+
+<span class="cm"># Class variable accessible on class or instance</span>
+<span class="fn">print</span>(<span class="cls">Dog</span>.species)      <span class="cm"># "Canis lupus familiaris"</span>
+<span class="fn">print</span>(rex.species)      <span class="cm"># same</span></pre>
+        </div>
+
+        <h3>Instance Variables vs Class Variables</h3>
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th></th><th>Instance Variable</th><th>Class Variable</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Defined</strong></td><td>Inside <code>__init__</code> using <code>self.x</code></td><td>At class level, outside any method</td></tr>
+              <tr><td><strong>Scope</strong></td><td>Belongs to one specific object</td><td>Shared by all instances</td></tr>
+              <tr><td><strong>Use case</strong></td><td>Attributes that differ per object (name, age)</td><td>Attributes common to all (species, tax_rate)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5.3 __init__ and self -->
+    <section class="content-section" id="init">
+      <div class="section-header">
+        <div class="section-icon">🔧</div>
+        <div class="section-meta"><div class="label">Section 5.3</div><h2>__init__ &amp; self Explained</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3><code>__init__</code> — The Constructor</h3>
+        <p><code>__init__</code> is a special method automatically called when you create a new object. Its purpose is to <strong>initialise the object's attributes</strong>. Think of it as "setting up the new object".</p>
+
+        <h3><code>self</code> — Reference to the Current Object</h3>
+        <p><code>self</code> is a reference to the specific instance that the method is operating on. It must be the first parameter of every instance method, but Python passes it automatically — you never provide it when calling.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Understanding self</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">class</span> <span class="cls">Counter</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, start=<span class="num">0</span>):
+        self.value = start   <span class="cm"># self.value is an instance variable</span>
+
+    <span class="kw">def</span> <span class="fn">increment</span>(self):
+        self.value += <span class="num">1</span>    <span class="cm"># self refers to THIS specific counter</span>
+
+    <span class="kw">def</span> <span class="fn">reset</span>(self):
+        self.value = <span class="num">0</span>
+
+c1 = <span class="cls">Counter</span>()
+c2 = <span class="cls">Counter</span>(<span class="num">10</span>)
+
+c1.<span class="fn">increment</span>()
+c1.<span class="fn">increment</span>()
+<span class="fn">print</span>(c1.value)   <span class="cm"># 2   — c1 and c2 are independent</span>
+<span class="fn">print</span>(c2.value)   <span class="cm"># 10  — unchanged
+
+# When you call c1.increment(), Python translates it to:
+# Counter.increment(c1)  ← self IS c1</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5.4 Encapsulation -->
+    <section class="content-section" id="encapsulation">
+      <div class="section-header">
+        <div class="section-icon">🔒</div>
+        <div class="section-meta"><div class="label">Section 5.4</div><h2>Encapsulation</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>Encapsulation means <strong>bundling data and methods together</strong> and <strong>restricting direct access</strong> to some attributes. You expose a controlled interface instead of raw data.</p>
+
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Convention</th><th>Prefix</th><th>Behaviour</th></tr></thead>
+            <tbody>
+              <tr><td>Public</td><td>No prefix: <code>self.name</code></td><td>Accessible from anywhere</td></tr>
+              <tr><td>Protected</td><td>Single underscore: <code>self._salary</code></td><td>Convention: "internal use". Can still be accessed, but signals "don't touch unless you know what you're doing"</td></tr>
+              <tr><td>Private</td><td>Double underscore: <code>self.__pin</code></td><td>Name-mangled to <code>_ClassName__pin</code>. Hard (but not impossible) to access from outside</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Bank account with encapsulation</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">class</span> <span class="cls">BankAccount</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, owner, balance=<span class="num">0</span>):
+        self.owner      = owner        <span class="cm"># public</span>
+        self._bank_name = <span class="str">"PramanicusBank"</span>  <span class="cm"># protected</span>
+        self.__balance  = balance      <span class="cm"># private</span>
+        self.__pin      = <span class="num">1234</span>        <span class="cm"># private</span>
+
+    <span class="kw">def</span> <span class="fn">deposit</span>(self, amount):
+        <span class="kw">if</span> amount <= <span class="num">0</span>:
+            <span class="kw">raise</span> <span class="cls">ValueError</span>(<span class="str">"Deposit amount must be positive"</span>)
+        self.__balance += amount
+        <span class="fn">print</span>(<span class="str">f"Deposited ₹<span class="kw">{</span>amount<span class="kw">}</span>. New balance: ₹<span class="kw">{</span>self.__balance<span class="kw">}</span>"</span>)
+
+    <span class="kw">def</span> <span class="fn">withdraw</span>(self, amount, pin):
+        <span class="kw">if</span> pin != self.__pin:
+            <span class="fn">print</span>(<span class="str">"Wrong PIN!"</span>)
+            <span class="kw">return</span>
+        <span class="kw">if</span> amount > self.__balance:
+            <span class="fn">print</span>(<span class="str">"Insufficient funds"</span>)
+            <span class="kw">return</span>
+        self.__balance -= amount
+
+    <span class="kw">def</span> <span class="fn">get_balance</span>(self):
+        <span class="kw">return</span> self.__balance   <span class="cm"># controlled read access</span>
+
+acc = <span class="cls">BankAccount</span>(<span class="str">"Alice"</span>, <span class="num">1000</span>)
+acc.<span class="fn">deposit</span>(<span class="num">500</span>)
+<span class="fn">print</span>(acc.<span class="fn">get_balance</span>())      <span class="cm"># 1500</span>
+<span class="cm"># print(acc.__balance)        ← AttributeError</span>
+<span class="cm"># print(acc._BankAccount__balance)  ← works (name mangling)</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5.5 Inheritance -->
+    <section class="content-section" id="inheritance">
+      <div class="section-header">
+        <div class="section-icon">👨‍👧</div>
+        <div class="section-meta"><div class="label">Section 5.5</div><h2>Inheritance &amp; MRO</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>Inheritance allows a class to <strong>inherit attributes and methods from a parent class</strong>. The child class gets everything the parent has, and can add or override behaviour.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Single inheritance</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">class</span> <span class="cls">Animal</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, age):
+        self.name = name
+        self.age  = age
+
+    <span class="kw">def</span> <span class="fn">breathe</span>(self):
+        <span class="kw">return</span> <span class="str">f"<span class="kw">{</span>self.name<span class="kw">}</span> breathes air"</span>
+
+    <span class="kw">def</span> <span class="fn">speak</span>(self):
+        <span class="kw">return</span> <span class="str">"..."</span>   <span class="cm"># default — will be overridden</span>
+
+
+<span class="kw">class</span> <span class="cls">Dog</span>(<span class="cls">Animal</span>):                 <span class="cm"># Dog inherits from Animal</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, age, breed):
+        <span class="fn">super</span>().<span class="fn">__init__</span>(name, age)  <span class="cm"># call parent's __init__</span>
+        self.breed = breed           <span class="cm"># add new attribute</span>
+
+    <span class="kw">def</span> <span class="fn">speak</span>(self):                 <span class="cm"># override parent method</span>
+        <span class="kw">return</span> <span class="str">"Woof!"</span>
+
+    <span class="kw">def</span> <span class="fn">fetch</span>(self):                 <span class="cm"># new method specific to Dog</span>
+        <span class="kw">return</span> <span class="str">f"<span class="kw">{</span>self.name<span class="kw">}</span> fetches the ball!"</span>
+
+
+<span class="kw">class</span> <span class="cls">Cat</span>(<span class="cls">Animal</span>):
+    <span class="kw">def</span> <span class="fn">speak</span>(self):
+        <span class="kw">return</span> <span class="str">"Meow!"</span>
+
+
+d = <span class="cls">Dog</span>(<span class="str">"Rex"</span>, <span class="num">3</span>, <span class="str">"Labrador"</span>)
+<span class="fn">print</span>(d.<span class="fn">breathe</span>())   <span class="cm"># inherited from Animal</span>
+<span class="fn">print</span>(d.<span class="fn">speak</span>())     <span class="cm"># overridden → "Woof!"</span>
+<span class="fn">print</span>(d.<span class="fn">fetch</span>())     <span class="cm"># Dog-specific method</span>
+
+<span class="cm"># isinstance() checks the entire inheritance chain</span>
+<span class="fn">print</span>(<span class="fn">isinstance</span>(d, <span class="cls">Dog</span>))    <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="fn">isinstance</span>(d, <span class="cls">Animal</span>)) <span class="cm"># True! — Dog IS an Animal</span>
+<span class="fn">print</span>(<span class="fn">issubclass</span>(<span class="cls">Dog</span>, <span class="cls">Animal</span>)) <span class="cm"># True</span></pre>
+        </div>
+
+        <h3>Multiple Inheritance &amp; MRO</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Multiple inheritance and MRO</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">class</span> <span class="cls">Flyable</span>:
+    <span class="kw">def</span> <span class="fn">fly</span>(self):
+        <span class="kw">return</span> <span class="str">"Flying!"</span>
+
+<span class="kw">class</span> <span class="cls">Swimmable</span>:
+    <span class="kw">def</span> <span class="fn">swim</span>(self):
+        <span class="kw">return</span> <span class="str">"Swimming!"</span>
+
+<span class="kw">class</span> <span class="cls">Duck</span>(<span class="cls">Animal</span>, <span class="cls">Flyable</span>, <span class="cls">Swimmable</span>):
+    <span class="kw">def</span> <span class="fn">speak</span>(self):
+        <span class="kw">return</span> <span class="str">"Quack!"</span>
+
+donald = <span class="cls">Duck</span>(<span class="str">"Donald"</span>, <span class="num">5</span>)
+<span class="fn">print</span>(donald.<span class="fn">fly</span>())    <span class="cm"># "Flying!"</span>
+<span class="fn">print</span>(donald.<span class="fn">swim</span>())   <span class="cm"># "Swimming!"</span>
+<span class="fn">print</span>(donald.<span class="fn">speak</span>())  <span class="cm"># "Quack!"</span>
+
+<span class="cm"># Method Resolution Order (MRO) — how Python decides which method to call</span>
+<span class="fn">print</span>(<span class="cls">Duck</span>.<span class="fn">__mro__</span>)
+<span class="cm"># (&lt;class 'Duck'&gt;, &lt;class 'Animal'&gt;, &lt;class 'Flyable'&gt;,
+#  &lt;class 'Swimmable'&gt;, &lt;class 'object'&gt;)</span></pre>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body"><strong>Always call <code>super().__init__()</code></strong> in child classes that override <code>__init__</code>. This ensures the parent class is properly initialised. <code>super()</code> follows the MRO to find the right parent.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5.6 Polymorphism -->
+    <section class="content-section" id="polymorphism">
+      <div class="section-header">
+        <div class="section-icon">🎭</div>
+        <div class="section-meta"><div class="label">Section 5.6</div><h2>Polymorphism</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p><strong>Polymorphism</strong> means "many forms". The same method name behaves differently depending on which object it's called on. This lets you write code that works with objects of different types through a common interface.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Polymorphism — method overriding</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">class</span> <span class="cls">Shape</span>:
+    <span class="kw">def</span> <span class="fn">area</span>(self):
+        <span class="kw">return</span> <span class="num">0</span>
+
+<span class="kw">class</span> <span class="cls">Circle</span>(<span class="cls">Shape</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, r):
+        self.r = r
+    <span class="kw">def</span> <span class="fn">area</span>(self):
+        <span class="kw">import</span> math
+        <span class="kw">return</span> math.pi * self.r ** <span class="num">2</span>
+
+<span class="kw">class</span> <span class="cls">Rectangle</span>(<span class="cls">Shape</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, w, h):
+        self.w, self.h = w, h
+    <span class="kw">def</span> <span class="fn">area</span>(self):
+        <span class="kw">return</span> self.w * self.h
+
+<span class="kw">class</span> <span class="cls">Triangle</span>(<span class="cls">Shape</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, b, h):
+        self.b, self.h = b, h
+    <span class="kw">def</span> <span class="fn">area</span>(self):
+        <span class="kw">return</span> <span class="num">0.5</span> * self.b * self.h
+
+<span class="cm"># Polymorphism in action — same method name, different behaviour</span>
+shapes = [<span class="cls">Circle</span>(<span class="num">5</span>), <span class="cls">Rectangle</span>(<span class="num">4</span>, <span class="num">6</span>), <span class="cls">Triangle</span>(<span class="num">3</span>, <span class="num">8</span>)]
+
+<span class="kw">for</span> shape <span class="kw">in</span> shapes:
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>type(shape).__name__<span class="kw">}</span> area: <span class="kw">{</span>shape.area():.2f<span class="kw">}</span>"</span>)
+<span class="cm"># Circle area: 78.54
+# Rectangle area: 24.00
+# Triangle area: 12.00</span></pre>
+        </div>
+
+        <h3>Duck Typing</h3>
+        <p>Python's polymorphism is based on <strong>duck typing</strong>: <em>"If it walks like a duck and quacks like a duck, it IS a duck."</em> Python doesn't care what type an object is — only whether it has the method you're calling.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Duck typing</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">class</span> <span class="cls">Dog</span>:
+    <span class="kw">def</span> <span class="fn">speak</span>(self): <span class="kw">return</span> <span class="str">"Woof!"</span>
+
+<span class="kw">class</span> <span class="cls">Cat</span>:
+    <span class="kw">def</span> <span class="fn">speak</span>(self): <span class="kw">return</span> <span class="str">"Meow!"</span>
+
+<span class="kw">class</span> <span class="cls">Robot</span>:              <span class="cm"># NOT related to Dog or Cat at all</span>
+    <span class="kw">def</span> <span class="fn">speak</span>(self): <span class="kw">return</span> <span class="str">"Beep boop!"</span>
+
+<span class="kw">def</span> <span class="fn">make_speak</span>(thing):   <span class="cm"># doesn't care about type — just needs .speak()</span>
+    <span class="fn">print</span>(thing.<span class="fn">speak</span>())
+
+<span class="kw">for</span> obj <span class="kw">in</span> [<span class="cls">Dog</span>(), <span class="cls">Cat</span>(), <span class="cls">Robot</span>()]:
+    <span class="fn">make_speak</span>(obj)
+<span class="cm"># Woof!  Meow!  Beep boop!</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5.7 Abstraction -->
+    <section class="content-section" id="abstraction">
+      <div class="section-header">
+        <div class="section-icon">🎭</div>
+        <div class="section-meta"><div class="label">Section 5.7</div><h2>Abstraction — Abstract Base Classes</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>An <strong>abstract class</strong> defines a contract — a set of methods that all subclasses <em>must</em> implement. You cannot instantiate an abstract class directly. This enforces a consistent interface across all subclasses.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Abstract base class with abc module</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+
+<span class="kw">class</span> <span class="cls">Shape</span>(<span class="cls">ABC</span>):              <span class="cm"># inherit from ABC</span>
+    <span class="dec">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">area</span>(self):
+        <span class="kw">pass</span>                    <span class="cm"># no implementation here</span>
+
+    <span class="dec">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">perimeter</span>(self):
+        <span class="kw">pass</span>
+
+    <span class="kw">def</span> <span class="fn">describe</span>(self):         <span class="cm"># non-abstract: has implementation</span>
+        <span class="kw">return</span> <span class="str">f"Area: <span class="kw">{</span>self.area():.2f<span class="kw">}</span>, Perimeter: <span class="kw">{</span>self.perimeter():.2f<span class="kw">}</span>"</span>
+
+<span class="cm"># s = Shape()   ← TypeError: Can't instantiate abstract class</span>
+
+<span class="kw">class</span> <span class="cls">Circle</span>(<span class="cls">Shape</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, r):
+        self.r = r
+    <span class="kw">def</span> <span class="fn">area</span>(self):
+        <span class="kw">import</span> math; <span class="kw">return</span> math.pi * self.r**<span class="num">2</span>
+    <span class="kw">def</span> <span class="fn">perimeter</span>(self):
+        <span class="kw">import</span> math; <span class="kw">return</span> <span class="num">2</span> * math.pi * self.r
+
+c = <span class="cls">Circle</span>(<span class="num">5</span>)
+<span class="fn">print</span>(c.<span class="fn">describe</span>())</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5.8 Magic Methods -->
+    <section class="content-section" id="magic">
+      <div class="section-header">
+        <div class="section-icon">✨</div>
+        <div class="section-meta"><div class="label">Section 5.8</div><h2>Magic / Dunder Methods</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p><strong>Magic methods</strong> (also called dunder methods — "double underscore") are special methods Python calls automatically in response to built-in operations. They let you define how your class responds to operators, built-in functions, and language features.</p>
+
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Method</th><th>Triggered by</th><th>Use case</th></tr></thead>
+            <tbody>
+              <tr><td><code>__init__</code></td><td><code>MyClass()</code></td><td>Constructor / initialise attributes</td></tr>
+              <tr><td><code>__str__</code></td><td><code>str(obj)</code>, <code>print(obj)</code></td><td>Human-readable string representation</td></tr>
+              <tr><td><code>__repr__</code></td><td><code>repr(obj)</code>, REPL output</td><td>Developer/debug representation</td></tr>
+              <tr><td><code>__len__</code></td><td><code>len(obj)</code></td><td>Return "size" of the object</td></tr>
+              <tr><td><code>__eq__</code></td><td><code>obj == other</code></td><td>Equality comparison</td></tr>
+              <tr><td><code>__lt__</code></td><td><code>obj &lt; other</code></td><td>Less-than comparison</td></tr>
+              <tr><td><code>__add__</code></td><td><code>obj + other</code></td><td>Addition operator</td></tr>
+              <tr><td><code>__contains__</code></td><td><code>item in obj</code></td><td>Membership test</td></tr>
+              <tr><td><code>__getitem__</code></td><td><code>obj[key]</code></td><td>Indexing / subscript</td></tr>
+              <tr><td><code>__enter__</code> / <code>__exit__</code></td><td><code>with</code> statement</td><td>Context manager protocol</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">2D Vector with magic methods</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> math
+
+<span class="kw">class</span> <span class="cls">Vector2D</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x, y):
+        self.x, self.y = x, y
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        <span class="kw">return</span> <span class="str">f"Vector({self.x}, {self.y})"</span>
+
+    <span class="kw">def</span> <span class="fn">__repr__</span>(self):
+        <span class="kw">return</span> <span class="str">f"Vector2D(x={self.x}, y={self.y})"</span>
+
+    <span class="kw">def</span> <span class="fn">__add__</span>(self, other):
+        <span class="kw">return</span> <span class="cls">Vector2D</span>(self.x + other.x, self.y + other.y)
+
+    <span class="kw">def</span> <span class="fn">__sub__</span>(self, other):
+        <span class="kw">return</span> <span class="cls">Vector2D</span>(self.x - other.x, self.y - other.y)
+
+    <span class="kw">def</span> <span class="fn">__mul__</span>(self, scalar):
+        <span class="kw">return</span> <span class="cls">Vector2D</span>(self.x * scalar, self.y * scalar)
+
+    <span class="kw">def</span> <span class="fn">__eq__</span>(self, other):
+        <span class="kw">return</span> self.x == other.x <span class="kw">and</span> self.y == other.y
+
+    <span class="kw">def</span> <span class="fn">__abs__</span>(self):          <span class="cm"># magnitude</span>
+        <span class="kw">return</span> math.<span class="fn">sqrt</span>(self.x**<span class="num">2</span> + self.y**<span class="num">2</span>)
+
+    <span class="kw">def</span> <span class="fn">__len__</span>(self):
+        <span class="kw">return</span> <span class="num">2</span>                 <span class="cm"># always 2D</span>
+
+v1 = <span class="cls">Vector2D</span>(<span class="num">1</span>, <span class="num">2</span>)
+v2 = <span class="cls">Vector2D</span>(<span class="num">3</span>, <span class="num">4</span>)
+
+<span class="fn">print</span>(v1 + v2)       <span class="cm"># Vector(4, 6)   — uses __add__</span>
+<span class="fn">print</span>(v1 * <span class="num">3</span>)        <span class="cm"># Vector(3, 6)   — uses __mul__</span>
+<span class="fn">print</span>(v1 == v2)      <span class="cm"># False          — uses __eq__</span>
+<span class="fn">print</span>(<span class="fn">abs</span>(v2))       <span class="cm"># 5.0            — uses __abs__</span>
+<span class="fn">print</span>(<span class="fn">len</span>(v1))       <span class="cm"># 2              — uses __len__</span>
+<span class="fn">print</span>(v1)            <span class="cm"># Vector(1, 2)   — uses __str__</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5.9 Decorators -->
+    <section class="content-section" id="decorators">
+      <div class="section-header">
+        <div class="section-icon">🏷️</div>
+        <div class="section-meta"><div class="label">Section 5.9</div><h2>@property, @classmethod, @staticmethod</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3><code>@property</code> — Computed Attributes</h3>
+        <p>Makes a method accessible like an attribute. Allows getter, setter, and deleter logic.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">@property</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">class</span> <span class="cls">Circle</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, radius):
+        self._radius = radius
+
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">radius</span>(self):
+        <span class="kw">return</span> self._radius
+
+    <span class="dec">@radius.setter</span>
+    <span class="kw">def</span> <span class="fn">radius</span>(self, value):
+        <span class="kw">if</span> value < <span class="num">0</span>:
+            <span class="kw">raise</span> <span class="cls">ValueError</span>(<span class="str">"Radius cannot be negative"</span>)
+        self._radius = value
+
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">area</span>(self):            <span class="cm"># computed — no setter needed</span>
+        <span class="kw">import</span> math
+        <span class="kw">return</span> math.pi * self._radius**<span class="num">2</span>
+
+c = <span class="cls">Circle</span>(<span class="num">5</span>)
+<span class="fn">print</span>(c.radius)     <span class="cm"># 5         — calls getter</span>
+<span class="fn">print</span>(c.area)       <span class="cm"># 78.54...  — computed property</span>
+c.radius = <span class="num">10</span>      <span class="cm"># calls setter</span>
+<span class="cm"># c.radius = -1    ← ValueError</span></pre>
+        </div>
+
+        <h3><code>@classmethod</code> — Alternative Constructors</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">@classmethod</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">class</span> <span class="cls">Date</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, day, month, year):
+        self.day, self.month, self.year = day, month, year
+
+    <span class="dec">@classmethod</span>
+    <span class="kw">def</span> <span class="fn">from_string</span>(cls, date_str):
+        <span class="cm"># "dd-mm-yyyy" → Date object</span>
+        day, month, year = <span class="fn">map</span>(<span class="fn">int</span>, date_str.<span class="fn">split</span>(<span class="str">"-"</span>))
+        <span class="kw">return</span> <span class="fn">cls</span>(day, month, year)  <span class="cm"># cls is the class itself</span>
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        <span class="kw">return</span> <span class="str">f"<span class="kw">{</span>self.day<span class="kw">}</span>/<span class="kw">{</span>self.month<span class="kw">}</span>/<span class="kw">{</span>self.year<span class="kw">}</span>"</span>
+
+d = <span class="cls">Date</span>.<span class="fn">from_string</span>(<span class="str">"04-07-2026"</span>)
+<span class="fn">print</span>(d)   <span class="cm"># 4/7/2026</span></pre>
+        </div>
+
+        <h3><code>@staticmethod</code> — Utility Methods</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">@staticmethod</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">class</span> <span class="cls">MathUtils</span>:
+    <span class="dec">@staticmethod</span>
+    <span class="kw">def</span> <span class="fn">is_even</span>(n):
+        <span class="kw">return</span> n % <span class="num">2</span> == <span class="num">0</span>
+
+    <span class="dec">@staticmethod</span>
+    <span class="kw">def</span> <span class="fn">clamp</span>(value, min_val, max_val):
+        <span class="kw">return</span> <span class="fn">max</span>(min_val, <span class="fn">min</span>(max_val, value))
+
+<span class="fn">print</span>(<span class="cls">MathUtils</span>.<span class="fn">is_even</span>(<span class="num">4</span>))          <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="cls">MathUtils</span>.<span class="fn">clamp</span>(<span class="num">15</span>, <span class="num">0</span>, <span class="num">10</span>))   <span class="cm"># 10</span></pre>
+        </div>
+
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Decorator</th><th>First param</th><th>Accesses</th><th>Common use</th></tr></thead>
+            <tbody>
+              <tr><td><code>@property</code></td><td><code>self</code></td><td>Instance &amp; class</td><td>Computed attribute, validation on set</td></tr>
+              <tr><td><code>@classmethod</code></td><td><code>cls</code></td><td>Class only</td><td>Alternative constructors, factory methods</td></tr>
+              <tr><td><code>@staticmethod</code></td><td>Neither</td><td>Nothing (pure function)</td><td>Utility functions logically grouped with class</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Practice -->
+    <section class="content-section" id="practice">
+      <div class="section-header">
+        <div class="section-icon">✏️</div>
+        <div class="section-meta"><div class="label">Practice</div><h2>Module 5 Exercises</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 1 — Student Class</div>
+          <ol>
+            <li>Create a <code>Student</code> class with name, roll_number, and a list of marks. Add a <code>percentage()</code> method and a <code>grade</code> property. Implement <code>__str__</code> and <code>__repr__</code>.</li>
+            <li>Add a <code>@classmethod from_csv_row(cls, row)</code> that takes a comma-separated string like <code>"Alice,101,88,92,75"</code> and creates a Student.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 2 — Shape Hierarchy</div>
+          <ol>
+            <li>Create an abstract <code>Shape</code> class with <code>area()</code> and <code>perimeter()</code>. Implement <code>Circle</code>, <code>Rectangle</code>, and <code>Triangle</code> subclasses.</li>
+            <li>Add a <code>total_area(shapes)</code> function that accepts a list of any Shape objects.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 3 — Fraction Class</div>
+          <ol>
+            <li>Create a <code>Fraction</code> class. Implement <code>__add__</code>, <code>__sub__</code>, <code>__mul__</code>, <code>__eq__</code>, and <code>__str__</code>.</li>
+            <li>Auto-simplify fractions using GCD in <code>__init__</code>.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Mini Project 1 — Contact Book (OOP Version)</div>
+          <ol>
+            <li>Create a <code>Contact</code> class (name, phone, email). Implement <code>__str__</code> and <code>__eq__</code>.</li>
+            <li>Create a <code>ContactBook</code> class that holds a list of Contact objects. Add: add, delete, search (by name), list all.</li>
+            <li>Save and load the contact book from a CSV file (preview for Module 6).</li>
+          </ol>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="module-nav">
+      <a href="module4.html" class="prev"><span class="nav-dir">← Previous</span><span class="nav-title">Module 4: Functions</span></a>
+      <a href="module6.html" class="next"><span class="nav-dir">Next Module →</span><span class="nav-title">Module 6: Exception Handling &amp; File I/O</span></a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><strong>Pramanicus Academy</strong> — Ramanthapur, Hyderabad</p>
+  <p style="margin-top:.3rem">Python Training · Module 5 of 8 · <a href="index.html">Back to Course Home</a></p>
+</footer>
+</body>
+</html>

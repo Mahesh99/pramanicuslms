@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 7: Modules, Packages & Standard Library — Pramanicus Academy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Module 7</span></div>
+  <h1>Module 7: Modules, Packages &amp; Standard Library</h1>
+  <p class="subtitle">Importing · Creating Modules · Packages · venv · pip · datetime · math · random · os · sys · re</p>
+  <div class="header-pills"><span>📅 Week 4</span><span>🟡 Intermediate</span><span>3 Sessions</span></div>
+</header>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">🐍 Python Notes</div>
+    <a href="index.html">Home</a>
+    <a href="module1.html">1 · Fundamentals</a>
+    <a href="module2.html">2 · Control Flow</a>
+    <a href="module3.html">3 · Data Structures</a>
+    <a href="module4.html">4 · Functions</a>
+    <a href="module5.html">5 · OOP</a>
+    <a href="module6.html">6 · Exceptions &amp; Files</a>
+    <a href="module7.html" class="active">7 · Modules &amp; Stdlib</a>
+    <a href="module8.html">8 · Iterators &amp; Decorators</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Module 7 Contents</div>
+    <ul>
+      <li><a href="#imports"><span class="sec-num">7.1</span>Importing Modules</a></li>
+      <li><a href="#own"><span class="sec-num">7.2</span>Creating Your Own Module</a></li>
+      <li><a href="#packages"><span class="sec-num">7.3</span>Packages</a></li>
+      <li><a href="#venv"><span class="sec-num">7.4</span>Virtual Environments &amp; pip</a></li>
+      <li><a href="#datetime"><span class="sec-num">7.5</span>datetime module</a></li>
+      <li><a href="#math"><span class="sec-num">7.6</span>math module</a></li>
+      <li><a href="#random"><span class="sec-num">7.7</span>random module</a></li>
+      <li><a href="#os"><span class="sec-num">7.8</span>os &amp; sys modules</a></li>
+      <li><a href="#re"><span class="sec-num">7.9</span>re — Regular Expressions</a></li>
+      <li><a href="#practice"><span class="sec-num">✏</span>Practice Exercises</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+
+    <div class="callout info">
+      <div class="callout-icon">🎯</div>
+      <div class="callout-body">
+        <strong>Learning Objectives</strong>
+        Import and create modules, organise code into packages, manage project dependencies with venv and pip, and use key standard library modules: datetime, math, random, os, sys, and re (regular expressions).
+      </div>
+    </div>
+
+    <!-- 7.1 Importing -->
+    <section class="content-section" id="imports">
+      <div class="section-header">
+        <div class="section-icon">📥</div>
+        <div class="section-meta"><div class="label">Section 7.1</div><h2>Importing Modules</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>A <strong>module</strong> is a Python file (<code>.py</code>) containing functions, classes, and variables. Python's standard library contains hundreds of pre-written modules. You bring them into your code with <code>import</code>.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Import styles</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Style 1: import the whole module</span>
+<span class="kw">import</span> math
+<span class="fn">print</span>(math.pi)           <span class="cm"># access with module.name</span>
+<span class="fn">print</span>(math.<span class="fn">sqrt</span>(<span class="num">16</span>))
+
+<span class="cm"># Style 2: import specific names</span>
+<span class="kw">from</span> math <span class="kw">import</span> pi, sqrt, floor
+<span class="fn">print</span>(pi)                <span class="cm"># use directly without prefix</span>
+<span class="fn">print</span>(<span class="fn">sqrt</span>(<span class="num">25</span>))
+
+<span class="cm"># Style 3: import with alias</span>
+<span class="kw">import</span> datetime <span class="kw">as</span> dt
+<span class="kw">from</span> math <span class="kw">import</span> sqrt <span class="kw">as</span> square_root
+
+<span class="cm"># Style 4: import everything (NOT recommended)</span>
+<span class="kw">from</span> math <span class="kw">import</span> *   <span class="cm"># pollutes namespace — avoid in production code</span>
+
+<span class="cm"># if __name__ == "__main__" — the entry point guard
+# This block runs only when the file is run directly,
+# NOT when it is imported as a module</span>
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    <span class="fn">print</span>(<span class="str">"Running as main script"</span>)</pre>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body"><strong>Import order (PEP 8):</strong> 1) Standard library imports, 2) Third-party library imports, 3) Local module imports. Each group separated by a blank line.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7.2 Creating your own module -->
+    <section class="content-section" id="own">
+      <div class="section-header">
+        <div class="section-icon">🔨</div>
+        <div class="section-meta"><div class="label">Section 7.2</div><h2>Creating Your Own Module</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>Any <code>.py</code> file is a module. Create one to organise reusable code.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">mathutils.py — your own module</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># mathutils.py</span>
+<span class="str">"""Utility functions for mathematical operations."""</span>
+
+PI = <span class="num">3.14159265358979</span>
+
+<span class="kw">def</span> <span class="fn">circle_area</span>(r):
+    <span class="str">"""Return the area of a circle with radius r."""</span>
+    <span class="kw">return</span> PI * r * r
+
+<span class="kw">def</span> <span class="fn">is_prime</span>(n):
+    <span class="str">"""Return True if n is a prime number."""</span>
+    <span class="kw">if</span> n < <span class="num">2</span>: <span class="kw">return</span> <span class="kw">False</span>
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">2</span>, <span class="fn">int</span>(n**<span class="num">0.5</span>) + <span class="num">1</span>):
+        <span class="kw">if</span> n % i == <span class="num">0</span>: <span class="kw">return</span> <span class="kw">False</span>
+    <span class="kw">return</span> <span class="kw">True</span>
+
+<span class="cm"># This only runs when mathutils.py is run directly</span>
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    <span class="fn">print</span>(<span class="fn">circle_area</span>(<span class="num">5</span>))   <span class="cm"># test</span></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">main.py — using your module</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># main.py (same directory as mathutils.py)</span>
+<span class="kw">from</span> mathutils <span class="kw">import</span> circle_area, is_prime
+
+<span class="fn">print</span>(<span class="fn">circle_area</span>(<span class="num">7</span>))    <span class="cm"># 153.94...</span>
+<span class="fn">print</span>(<span class="fn">is_prime</span>(<span class="num">17</span>))      <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="fn">is_prime</span>(<span class="num">18</span>))      <span class="cm"># False</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7.3 Packages -->
+    <section class="content-section" id="packages">
+      <div class="section-header">
+        <div class="section-icon">📦</div>
+        <div class="section-meta"><div class="label">Section 7.3</div><h2>Packages</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>A <strong>package</strong> is a directory containing multiple modules and a special <code>__init__.py</code> file. It lets you organise a large project into a namespace hierarchy.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Package structure</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>my_project/
+│
+├── main.py
+└── utils/               <span class="cm"># ← this is a package</span>
+    ├── __init__.py      <span class="cm"># marks directory as a package</span>
+    ├── math_utils.py
+    ├── string_utils.py
+    └── file_utils.py</pre>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Importing from packages</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># In main.py:</span>
+<span class="kw">from</span> utils <span class="kw">import</span> math_utils           <span class="cm"># import whole module</span>
+<span class="kw">from</span> utils.math_utils <span class="kw">import</span> is_prime  <span class="cm"># import specific function</span>
+<span class="kw">import</span> utils.string_utils <span class="kw">as</span> su       <span class="cm"># with alias</span>
+
+<span class="cm"># __init__.py can expose a cleaner API:</span>
+<span class="cm"># utils/__init__.py</span>
+<span class="kw">from</span> .math_utils   <span class="kw">import</span> is_prime, circle_area
+<span class="kw">from</span> .string_utils <span class="kw">import</span> slugify
+
+<span class="cm"># Then in main.py:</span>
+<span class="kw">from</span> utils <span class="kw">import</span> is_prime   <span class="cm"># feels like it's directly in 'utils'</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7.4 venv and pip -->
+    <section class="content-section" id="venv">
+      <div class="section-header">
+        <div class="section-icon">🌐</div>
+        <div class="section-meta"><div class="label">Section 7.4</div><h2>Virtual Environments &amp; pip</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>A <strong>virtual environment</strong> is an isolated Python installation for one project. This prevents conflicting dependencies between projects. <strong>Always use one.</strong></p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Virtual environment workflow</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># 1. Create a virtual environment in your project folder</span>
+python -m venv venv
+
+<span class="cm"># 2. Activate it</span>
+source venv/bin/activate        <span class="cm"># Linux / macOS</span>
+venv\Scripts\activate           <span class="cm"># Windows CMD</span>
+venv\Scripts\Activate.ps1       <span class="cm"># Windows PowerShell</span>
+
+<span class="cm"># Your terminal prompt should now show (venv)</span>
+
+<span class="cm"># 3. Install packages with pip</span>
+pip install requests             <span class="cm"># install latest version</span>
+pip install requests==2.31.0     <span class="cm"># install specific version</span>
+pip install requests pandas      <span class="cm"># install multiple</span>
+
+<span class="cm"># 4. See installed packages</span>
+pip list
+pip show requests
+
+<span class="cm"># 5. Save your dependencies to a file</span>
+pip freeze > requirements.txt
+
+<span class="cm"># 6. Another developer installs from your file</span>
+pip install -r requirements.txt
+
+<span class="cm"># 7. Deactivate when done</span>
+deactivate</pre>
+        </div>
+
+        <div class="callout success">
+          <div class="callout-icon">✅</div>
+          <div class="callout-body"><strong>Every project = its own virtual environment.</strong> Never install packages globally (without a venv). Commit <code>requirements.txt</code> to git so others can recreate the exact environment.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7.5 datetime -->
+    <section class="content-section" id="datetime">
+      <div class="section-header">
+        <div class="section-icon">📅</div>
+        <div class="section-meta"><div class="label">Section 7.5</div><h2>The datetime Module</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">datetime module</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">from</span> datetime <span class="kw">import</span> datetime, date, timedelta
+
+<span class="cm"># Current date and time</span>
+now   = datetime.<span class="fn">now</span>()
+today = date.<span class="fn">today</span>()
+<span class="fn">print</span>(now)           <span class="cm"># 2026-07-04 09:30:00.123456</span>
+<span class="fn">print</span>(today)         <span class="cm"># 2026-07-04</span>
+
+<span class="cm"># Create a specific date</span>
+birthday = date(<span class="num">2000</span>, <span class="num">6</span>, <span class="num">15</span>)
+dt       = datetime(<span class="num">2026</span>, <span class="num">7</span>, <span class="num">4</span>, <span class="num">9</span>, <span class="num">30</span>)
+
+<span class="cm"># Access components</span>
+<span class="fn">print</span>(now.year, now.month, now.day)
+<span class="fn">print</span>(now.hour, now.minute, now.second)
+
+<span class="cm"># Format: datetime → string</span>
+<span class="fn">print</span>(now.<span class="fn">strftime</span>(<span class="str">"%d-%m-%Y"</span>))       <span class="cm"># 04-07-2026</span>
+<span class="fn">print</span>(now.<span class="fn">strftime</span>(<span class="str">"%I:%M %p"</span>))       <span class="cm"># 09:30 AM</span>
+<span class="fn">print</span>(now.<span class="fn">strftime</span>(<span class="str">"%A, %B %d %Y"</span>))   <span class="cm"># Saturday, July 04 2026</span>
+
+<span class="cm"># Parse: string → datetime</span>
+parsed = datetime.<span class="fn">strptime</span>(<span class="str">"04/07/2026"</span>, <span class="str">"%d/%m/%Y"</span>)
+
+<span class="cm"># Date arithmetic</span>
+one_week  = timedelta(days=<span class="num">7</span>)
+next_week = today + one_week
+<span class="fn">print</span>(next_week)
+
+age_days = (today - birthday).days
+<span class="fn">print</span>(<span class="str">f"Age: <span class="kw">{</span>age_days // 365<span class="kw">}</span> years"</span>)</pre>
+        </div>
+
+        <h3>Common strftime Format Codes</h3>
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Code</th><th>Meaning</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td><code>%Y</code></td><td>4-digit year</td><td>2026</td></tr>
+              <tr><td><code>%m</code></td><td>Month (01–12)</td><td>07</td></tr>
+              <tr><td><code>%d</code></td><td>Day (01–31)</td><td>04</td></tr>
+              <tr><td><code>%H</code></td><td>Hour 24h (00–23)</td><td>09</td></tr>
+              <tr><td><code>%M</code></td><td>Minute (00–59)</td><td>30</td></tr>
+              <tr><td><code>%S</code></td><td>Second (00–59)</td><td>00</td></tr>
+              <tr><td><code>%A</code></td><td>Weekday name</td><td>Saturday</td></tr>
+              <tr><td><code>%B</code></td><td>Month name</td><td>July</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7.6 math -->
+    <section class="content-section" id="math">
+      <div class="section-header">
+        <div class="section-icon">🔢</div>
+        <div class="section-meta"><div class="label">Section 7.6</div><h2>The math Module</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">math module</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> math
+
+<span class="cm"># Constants</span>
+math.pi       <span class="cm"># 3.14159265...</span>
+math.e        <span class="cm"># 2.71828...  (Euler's number)</span>
+math.tau      <span class="cm"># 2π = 6.28318...</span>
+math.inf      <span class="cm"># infinity</span>
+
+<span class="cm"># Rounding</span>
+math.<span class="fn">ceil</span>(<span class="num">3.2</span>)    <span class="cm"># 4   — round up</span>
+math.<span class="fn">floor</span>(<span class="num">3.9</span>)  <span class="cm"># 3   — round down</span>
+math.<span class="fn">trunc</span>(<span class="num">3.9</span>)  <span class="cm"># 3   — truncate (same as int())</span>
+
+<span class="cm"># Powers and roots</span>
+math.<span class="fn">sqrt</span>(<span class="num">25</span>)         <span class="cm"># 5.0  — square root</span>
+math.<span class="fn">pow</span>(<span class="num">2</span>, <span class="num">10</span>)       <span class="cm"># 1024.0 (float)</span>
+math.<span class="fn">cbrt</span>(<span class="num">27</span>)         <span class="cm"># 3.0  — cube root (Python 3.11+)</span>
+math.<span class="fn">log</span>(<span class="num">100</span>, <span class="num">10</span>)     <span class="cm"># 2.0  — log base 10</span>
+math.<span class="fn">log2</span>(<span class="num">8</span>)          <span class="cm"># 3.0</span>
+math.<span class="fn">log</span>(math.e)      <span class="cm"># 1.0  — natural log</span>
+
+<span class="cm"># Combinatorics</span>
+math.<span class="fn">factorial</span>(<span class="num">5</span>)    <span class="cm"># 120</span>
+math.<span class="fn">comb</span>(<span class="num">10</span>, <span class="num">3</span>)     <span class="cm"># 120  — combinations: C(10,3)</span>
+math.<span class="fn">perm</span>(<span class="num">10</span>, <span class="num">3</span>)     <span class="cm"># 720  — permutations: P(10,3)</span>
+math.<span class="fn">gcd</span>(<span class="num">48</span>, <span class="num">18</span>)     <span class="cm"># 6    — greatest common divisor</span>
+math.<span class="fn">lcm</span>(<span class="num">4</span>, <span class="num">6</span>)       <span class="cm"># 12   — least common multiple (3.9+)</span>
+
+<span class="cm"># Trigonometry (angles in radians)</span>
+math.<span class="fn">sin</span>(math.pi / <span class="num">2</span>)  <span class="cm"># 1.0</span>
+math.<span class="fn">cos</span>(<span class="num">0</span>)            <span class="cm"># 1.0</span>
+math.<span class="fn">degrees</span>(math.pi)  <span class="cm"># 180.0  — radians → degrees</span>
+math.<span class="fn">radians</span>(<span class="num">180</span>)      <span class="cm"># 3.14159... — degrees → radians</span>
+
+<span class="cm"># Hypot — Euclidean distance (Pythagoras)</span>
+math.<span class="fn">hypot</span>(<span class="num">3</span>, <span class="num">4</span>)   <span class="cm"># 5.0 (√(3²+4²))</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7.7 random -->
+    <section class="content-section" id="random">
+      <div class="section-header">
+        <div class="section-icon">🎲</div>
+        <div class="section-meta"><div class="label">Section 7.7</div><h2>The random Module</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">random module</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> random
+
+<span class="cm"># Random float 0.0 ≤ x < 1.0</span>
+random.<span class="fn">random</span>()             <span class="cm"># 0.742...</span>
+
+<span class="cm"># Random integer (inclusive on both ends)</span>
+random.<span class="fn">randint</span>(<span class="num">1</span>, <span class="num">100</span>)      <span class="cm"># e.g. 42</span>
+
+<span class="cm"># Random float in a range</span>
+random.<span class="fn">uniform</span>(<span class="num">1.0</span>, <span class="num">5.0</span>)   <span class="cm"># e.g. 3.72</span>
+
+<span class="cm"># Random choice from a sequence</span>
+fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>]
+random.<span class="fn">choice</span>(fruits)        <span class="cm"># "banana"</span>
+
+<span class="cm"># Multiple unique choices (no replacement)</span>
+random.<span class="fn">sample</span>(fruits, k=<span class="num">2</span>)   <span class="cm"># ["cherry", "apple"]</span>
+
+<span class="cm"># Multiple choices (with replacement)</span>
+random.<span class="fn">choices</span>(fruits, k=<span class="num">5</span>, weights=[<span class="num">3</span>,<span class="num">1</span>,<span class="num">1</span>])  <span class="cm"># weighted random</span>
+
+<span class="cm"># Shuffle a list IN PLACE</span>
+deck = <span class="fn">list</span>(<span class="fn">range</span>(<span class="num">1</span>, <span class="num">53</span>))
+random.<span class="fn">shuffle</span>(deck)         <span class="cm"># modifies deck directly</span>
+
+<span class="cm"># Set a seed for reproducibility (useful in testing/exams)</span>
+random.<span class="fn">seed</span>(<span class="num">42</span>)
+<span class="fn">print</span>(random.<span class="fn">randint</span>(<span class="num">1</span>, <span class="num">100</span>))  <span class="cm"># always same result with same seed</span></pre>
+        </div>
+
+        <div class="callout warning">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body"><strong>Not cryptographically secure.</strong> Never use <code>random</code> for passwords, tokens, or security-sensitive values. Use <code>secrets</code> module instead: <code>import secrets; secrets.randbelow(100)</code>.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7.8 os and sys -->
+    <section class="content-section" id="os">
+      <div class="section-header">
+        <div class="section-icon">💻</div>
+        <div class="section-meta"><div class="label">Section 7.8</div><h2>os &amp; sys Modules</h2></div>
+      </div>
+      <div class="section-body">
+
+        <h3>os — Operating System Interface</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">os module</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> os
+
+<span class="cm"># Working directory</span>
+os.<span class="fn">getcwd</span>()                     <span class="cm"># current working directory</span>
+os.<span class="fn">chdir</span>(<span class="str">"/path/to/dir"</span>)         <span class="cm"># change directory</span>
+
+<span class="cm"># Listing and file operations</span>
+os.<span class="fn">listdir</span>(<span class="str">"."</span>)                  <span class="cm"># list files in current dir</span>
+os.<span class="fn">makedirs</span>(<span class="str">"output/data"</span>, exist_ok=<span class="kw">True</span>)  <span class="cm"># create dirs</span>
+os.<span class="fn">remove</span>(<span class="str">"file.txt"</span>)            <span class="cm"># delete a file</span>
+os.<span class="fn">rename</span>(<span class="str">"old.txt"</span>, <span class="str">"new.txt"</span>) <span class="cm"># rename</span>
+
+<span class="cm"># Path operations (prefer pathlib but good to know)</span>
+os.path.<span class="fn">join</span>(<span class="str">"data"</span>, <span class="str">"file.txt"</span>)  <span class="cm"># OS-safe join</span>
+os.path.<span class="fn">exists</span>(<span class="str">"data.csv"</span>)         <span class="cm"># True/False</span>
+os.path.<span class="fn">isfile</span>(<span class="str">"data.csv"</span>)
+os.path.<span class="fn">isdir</span>(<span class="str">"data"</span>)
+os.path.<span class="fn">getsize</span>(<span class="str">"file.txt"</span>)      <span class="cm"># file size in bytes</span>
+
+<span class="cm"># Environment variables</span>
+home = os.environ.<span class="fn">get</span>(<span class="str">"HOME"</span>, <span class="str">"/home/user"</span>)  <span class="cm"># with default</span>
+<span class="fn">print</span>(os.environ[<span class="str">"PATH"</span>])</pre>
+        </div>
+
+        <h3>sys — System-Specific Parameters</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">sys module</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> sys
+
+<span class="cm"># Command-line arguments</span>
+<span class="cm"># python script.py arg1 arg2</span>
+<span class="fn">print</span>(sys.argv)            <span class="cm"># ['script.py', 'arg1', 'arg2']</span>
+<span class="fn">print</span>(sys.argv[<span class="num">0</span>])         <span class="cm"># 'script.py'  — script name</span>
+
+<span class="cm"># Python version info</span>
+<span class="fn">print</span>(sys.version)
+<span class="fn">print</span>(sys.version_info)    <span class="cm"># sys.version_info(major=3, minor=12, ...)</span>
+
+<span class="cm"># Exit the program</span>
+<span class="kw">if</span> <span class="fn">len</span>(sys.argv) < <span class="num">2</span>:
+    <span class="fn">print</span>(<span class="str">"Usage: python script.py &lt;filename&gt;"</span>)
+    sys.<span class="fn">exit</span>(<span class="num">1</span>)              <span class="cm"># exit with error code</span>
+
+<span class="cm"># Module search path</span>
+<span class="fn">print</span>(sys.path)            <span class="cm"># list of dirs Python searches for modules</span>
+sys.path.<span class="fn">append</span>(<span class="str">"/my/custom/modules"</span>)  <span class="cm"># add custom path</span>
+
+<span class="cm"># Recursion limit</span>
+<span class="fn">print</span>(sys.<span class="fn">getrecursionlimit</span>())  <span class="cm"># default 1000</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7.9 re -->
+    <section class="content-section" id="re">
+      <div class="section-header">
+        <div class="section-icon">🔍</div>
+        <div class="section-meta"><div class="label">Section 7.9</div><h2>re — Regular Expressions</h2></div>
+      </div>
+      <div class="section-body">
+
+        <p>A <strong>regular expression</strong> (regex) is a pattern for matching text. Python's <code>re</code> module lets you search, validate, extract, and replace text based on patterns.</p>
+
+        <h3>Core Functions</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">re module functions</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> re
+
+text = <span class="str">"My phone is 9876543210 and email is alice@example.com"</span>
+
+<span class="cm"># re.search() — find first match anywhere in string</span>
+match = re.<span class="fn">search</span>(<span class="str">r"\d{10}"</span>, text)  <span class="cm"># \d = digit, {10} = exactly 10</span>
+<span class="kw">if</span> match:
+    <span class="fn">print</span>(match.<span class="fn">group</span>())    <span class="cm"># 9876543210</span>
+
+<span class="cm"># re.match() — match only at start of string</span>
+re.<span class="fn">match</span>(<span class="str">r"My"</span>, text)
+
+<span class="cm"># re.findall() — all non-overlapping matches as list</span>
+emails = re.<span class="fn">findall</span>(<span class="str">r"[\w.]+@[\w.]+\.\w+"</span>, text)
+digits = re.<span class="fn">findall</span>(<span class="str">r"\d+"</span>, <span class="str">"a1 bb22 ccc333"</span>)
+<span class="fn">print</span>(digits)   <span class="cm"># ['1', '22', '333']</span>
+
+<span class="cm"># re.sub() — replace matches</span>
+clean = re.<span class="fn">sub</span>(<span class="str">r"\s+"</span>, <span class="str">" "</span>, <span class="str">"too   many   spaces"</span>)
+<span class="fn">print</span>(clean)   <span class="cm"># "too many spaces"</span>
+
+<span class="cm"># re.split() — split by pattern</span>
+parts = re.<span class="fn">split</span>(<span class="str">r"[,;\s]+"</span>, <span class="str">"a, b;c  d"</span>)
+<span class="fn">print</span>(parts)   <span class="cm"># ['a', 'b', 'c', 'd']</span>
+
+<span class="cm"># Compile for reuse (more efficient)</span>
+phone_pattern = re.<span class="fn">compile</span>(<span class="str">r"\b\d{10}\b"</span>)
+<span class="fn">print</span>(phone_pattern.<span class="fn">findall</span>(text))</pre>
+        </div>
+
+        <h3>Common Regex Patterns</h3>
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Pattern</th><th>Matches</th></tr></thead>
+            <tbody>
+              <tr><td><code>\d</code></td><td>Any digit (0–9)</td></tr>
+              <tr><td><code>\D</code></td><td>Any non-digit</td></tr>
+              <tr><td><code>\w</code></td><td>Word character (letter, digit, underscore)</td></tr>
+              <tr><td><code>\s</code></td><td>Any whitespace (space, tab, newline)</td></tr>
+              <tr><td><code>.</code></td><td>Any character except newline</td></tr>
+              <tr><td><code>^</code></td><td>Start of string</td></tr>
+              <tr><td><code>$</code></td><td>End of string</td></tr>
+              <tr><td><code>*</code></td><td>0 or more repetitions</td></tr>
+              <tr><td><code>+</code></td><td>1 or more repetitions</td></tr>
+              <tr><td><code>?</code></td><td>0 or 1 (optional)</td></tr>
+              <tr><td><code>{n}</code></td><td>Exactly n repetitions</td></tr>
+              <tr><td><code>{n,m}</code></td><td>Between n and m repetitions</td></tr>
+              <tr><td><code>[abc]</code></td><td>Any one of a, b, c</td></tr>
+              <tr><td><code>[^abc]</code></td><td>Any character except a, b, c</td></tr>
+              <tr><td><code>(abc)</code></td><td>Capture group</td></tr>
+              <tr><td><code>a|b</code></td><td>a or b</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Practical Validation Examples</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Validation with regex</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">import</span> re
+
+<span class="kw">def</span> <span class="fn">is_valid_email</span>(email):
+    pattern = <span class="str">r"^[\w.+\-]+@[\w\-]+\.[a-zA-Z]{2,}$"</span>
+    <span class="kw">return</span> <span class="fn">bool</span>(re.<span class="fn">match</span>(pattern, email))
+
+<span class="kw">def</span> <span class="fn">is_valid_phone</span>(phone):
+    pattern = <span class="str">r"^[6-9]\d{9}$"</span>   <span class="cm"># Indian mobile number</span>
+    <span class="kw">return</span> <span class="fn">bool</span>(re.<span class="fn">match</span>(pattern, phone))
+
+<span class="kw">def</span> <span class="fn">is_strong_password</span>(pwd):
+    <span class="cm"># At least 8 chars, 1 upper, 1 lower, 1 digit, 1 special</span>
+    <span class="kw">return</span> (
+        <span class="fn">len</span>(pwd) >= <span class="num">8</span> <span class="kw">and</span>
+        re.<span class="fn">search</span>(<span class="str">r"[A-Z]"</span>, pwd) <span class="kw">and</span>
+        re.<span class="fn">search</span>(<span class="str">r"[a-z]"</span>, pwd) <span class="kw">and</span>
+        re.<span class="fn">search</span>(<span class="str">r"\d"</span>, pwd)    <span class="kw">and</span>
+        re.<span class="fn">search</span>(<span class="str">r"[!@#$%^&*]"</span>, pwd)
+    )</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Practice -->
+    <section class="content-section" id="practice">
+      <div class="section-header">
+        <div class="section-icon">✏️</div>
+        <div class="section-meta"><div class="label">Practice</div><h2>Module 7 Exercises</h2></div>
+      </div>
+      <div class="section-body">
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 1 — Modules</div>
+          <ol>
+            <li>Create a <code>validators.py</code> module with functions: <code>is_valid_email()</code>, <code>is_valid_phone()</code>, <code>is_positive(n)</code>.</li>
+            <li>Import and use these in a <code>main.py</code> script that validates user input.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 2 — datetime</div>
+          <ol>
+            <li>Write a function that takes a birthdate string (DD/MM/YYYY) and returns the person's exact age in years and days.</li>
+            <li>Print the day of the week for any given date.</li>
+            <li>Calculate how many days until next New Year's Day.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 3 — Random</div>
+          <ol>
+            <li>Build a dice-rolling simulator for Ludo: roll 4 dice, re-roll any sixes until no sixes remain. Count total rolls.</li>
+            <li>Implement a lottery: pick 6 unique numbers from 1–49 and check against user's picked numbers.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 4 — Regex</div>
+          <ol>
+            <li>Extract all URLs from a block of text.</li>
+            <li>Validate a password: must be 8+ chars, have a digit, uppercase, and special character.</li>
+            <li>Parse a log file and extract all timestamps and error messages.</li>
+          </ol>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="module-nav">
+      <a href="module6.html" class="prev"><span class="nav-dir">← Previous</span><span class="nav-title">Module 6: Exceptions &amp; File I/O</span></a>
+      <a href="module8.html" class="next"><span class="nav-dir">Next Module →</span><span class="nav-title">Module 8: Iterators &amp; Decorators</span></a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><strong>Pramanicus Academy</strong> — Ramanthapur, Hyderabad</p>
+  <p style="margin-top:.3rem">Python Training · Module 7 of 8 · <a href="index.html">Back to Course Home</a></p>
+</footer>
+</body>
+</html>

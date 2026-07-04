@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 2: Control Flow — Pramanicus Academy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>/</span><span>Module 2</span>
+  </div>
+  <h1>Module 2: Control Flow</h1>
+  <p class="subtitle">if/elif/else · for/while loops · break/continue · range · enumerate · zip</p>
+  <div class="header-pills">
+    <span>📅 Week 1–2</span>
+    <span>🟢 Beginner</span>
+    <span>3–4 Sessions</span>
+  </div>
+</header>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">🐍 Python Notes</div>
+    <a href="index.html">Home</a>
+    <a href="module1.html">1 · Fundamentals</a>
+    <a href="module2.html" class="active">2 · Control Flow</a>
+    <a href="module3.html">3 · Data Structures</a>
+    <a href="module4.html">4 · Functions</a>
+    <a href="module5.html">5 · OOP</a>
+    <a href="module6.html">6 · Exceptions &amp; Files</a>
+    <a href="module7.html">7 · Modules &amp; Stdlib</a>
+    <a href="module8.html">8 · Iterators &amp; Decorators</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Module 2 Contents</div>
+    <ul>
+      <li><a href="#what"><span class="sec-num">2.1</span>What is Control Flow?</a></li>
+      <li><a href="#if"><span class="sec-num">2.2</span>if / elif / else</a></li>
+      <li><a href="#truthiness"><span class="sec-num">2.3</span>Truthiness &amp; Falsy Values</a></li>
+      <li><a href="#for"><span class="sec-num">2.4</span>for Loops</a></li>
+      <li><a href="#while"><span class="sec-num">2.5</span>while Loops</a></li>
+      <li><a href="#control"><span class="sec-num">2.6</span>break / continue / pass</a></li>
+      <li><a href="#nested"><span class="sec-num">2.7</span>Nested Loops</a></li>
+      <li><a href="#builtins"><span class="sec-num">2.8</span>range, enumerate, zip</a></li>
+      <li><a href="#ternary"><span class="sec-num">2.9</span>Ternary Expressions</a></li>
+      <li><a href="#practice"><span class="sec-num">✏</span>Practice Exercises</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+
+    <div class="callout info">
+      <div class="callout-icon">🎯</div>
+      <div class="callout-body">
+        <strong>Learning Objectives</strong>
+        Write conditional logic with if/elif/else, understand truthiness, iterate with for and while loops, control loop execution with break/continue/pass, use range/enumerate/zip effectively, and write ternary expressions.
+      </div>
+    </div>
+
+    <!-- 2.1 What is Control Flow -->
+    <section class="content-section" id="what">
+      <div class="section-header">
+        <div class="section-icon">🔀</div>
+        <div class="section-meta">
+          <div class="label">Section 2.1</div>
+          <h2>What is Control Flow?</h2>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>By default, Python runs your code <strong>line by line from top to bottom</strong>. <strong>Control flow</strong> lets you change that — making the program branch (run different code based on a condition) or repeat (run the same code multiple times).</p>
+
+        <div class="two-col">
+          <div class="concept-card">
+            <div class="concept-title">🔀 Branching</div>
+            <p>Execute different blocks of code based on a condition. <em>"If the score is ≥ 90, print A. Otherwise, print B."</em></p>
+          </div>
+          <div class="concept-card">
+            <div class="concept-title">🔁 Looping</div>
+            <p>Execute a block of code repeatedly. <em>"Print all numbers from 1 to 100."</em> or <em>"Keep asking for input until the user types 'quit'."</em></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2.2 if/elif/else -->
+    <section class="content-section" id="if">
+      <div class="section-header">
+        <div class="section-icon">❓</div>
+        <div class="section-meta">
+          <div class="label">Section 2.2</div>
+          <h2>if / elif / else</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>Basic Structure</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">if / elif / else syntax</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">if</span> condition:
+    <span class="cm"># runs if condition is True</span>
+<span class="kw">elif</span> another_condition:
+    <span class="cm"># runs if first is False AND this is True</span>
+<span class="kw">else</span>:
+    <span class="cm"># runs if ALL conditions above were False</span></pre>
+        </div>
+
+        <h3>Grade Classification Example</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Grade calculator</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>score = <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">"Enter your score (0-100): "</span>))
+
+<span class="kw">if</span> score >= <span class="num">90</span>:
+    grade = <span class="str">"A"</span>
+    message = <span class="str">"Excellent!"</span>
+<span class="kw">elif</span> score >= <span class="num">75</span>:
+    grade = <span class="str">"B"</span>
+    message = <span class="str">"Good work!"</span>
+<span class="kw">elif</span> score >= <span class="60</span>:
+    grade = <span class="str">"C"</span>
+    message = <span class="str">"Satisfactory"</span>
+<span class="kw">elif</span> score >= <span class="num">40</span>:
+    grade = <span class="str">"D"</span>
+    message = <span class="str">"Needs improvement"</span>
+<span class="kw">else</span>:
+    grade = <span class="str">"F"</span>
+    message = <span class="str">"Please attend remedial classes"</span>
+
+<span class="fn">print</span>(<span class="str">f"Grade: <span class="kw">{</span>grade<span class="kw">}</span> — <span class="kw">{</span>message<span class="kw">}</span>"</span>)</pre>
+        </div>
+
+        <h3>Important Rules</h3>
+        <ul class="checklist">
+          <li>Every <code>if</code> block must end with a colon <code>:</code></li>
+          <li>The code inside the block must be <strong>indented</strong> (4 spaces)</li>
+          <li><code>elif</code> and <code>else</code> are optional — you can have just an <code>if</code></li>
+          <li>You can have <strong>as many <code>elif</code> clauses as you need</strong></li>
+          <li>Only the first matching branch executes — once a condition is True, the rest are skipped</li>
+        </ul>
+
+        <h3>Nested if Statements</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Nested conditions</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>age    = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Age: "</span>))
+has_id = <span class="fn">input</span>(<span class="str">"Do you have a valid ID? (yes/no): "</span>) == <span class="str">"yes"</span>
+
+<span class="kw">if</span> age >= <span class="num">18</span>:
+    <span class="kw">if</span> has_id:
+        <span class="fn">print</span>(<span class="str">"Entry allowed"</span>)
+    <span class="kw">else</span>:
+        <span class="fn">print</span>(<span class="str">"Please bring a valid ID"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Sorry, must be 18+"</span>)
+
+<span class="cm"># The same logic using 'and':</span>
+<span class="kw">if</span> age >= <span class="num">18</span> <span class="kw">and</span> has_id:
+    <span class="fn">print</span>(<span class="str">"Entry allowed"</span>)</pre>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body"><strong>Flatten nested ifs when possible.</strong> Deeply nested conditions become hard to read. Use <code>and</code>/<code>or</code> to combine conditions, or use early <code>return</code> in functions (covered in Module 4).</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2.3 Truthiness -->
+    <section class="content-section" id="truthiness">
+      <div class="section-header">
+        <div class="section-icon">✅</div>
+        <div class="section-meta">
+          <div class="label">Section 2.3</div>
+          <h2>Truthiness &amp; Falsy Values</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <p>In Python, <strong>any value</strong> can be used as a condition in an <code>if</code> statement. Python converts it to <code>True</code> or <code>False</code> automatically. Knowing which values are "falsy" is essential.</p>
+
+        <h3>Falsy Values — Evaluate to False</h3>
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Value</th><th>Type</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><code>False</code></td><td>bool</td><td>The literal False</td></tr>
+              <tr><td><code>None</code></td><td>NoneType</td><td>No value</td></tr>
+              <tr><td><code>0</code></td><td>int</td><td>Zero integer</td></tr>
+              <tr><td><code>0.0</code></td><td>float</td><td>Zero float</td></tr>
+              <tr><td><code>""</code></td><td>str</td><td>Empty string</td></tr>
+              <tr><td><code>[]</code></td><td>list</td><td>Empty list</td></tr>
+              <tr><td><code>()</code></td><td>tuple</td><td>Empty tuple</td></tr>
+              <tr><td><code>{}</code></td><td>dict / set</td><td>Empty dict or set</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Everything else is truthy</strong> — non-zero numbers, non-empty strings, non-empty lists, etc.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Truthiness in practice</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>name = <span class="fn">input</span>(<span class="str">"Enter your name: "</span>)
+
+<span class="cm"># Pythonic way to check for empty input:</span>
+<span class="kw">if</span> name:             <span class="cm"># True if name is not empty</span>
+    <span class="fn">print</span>(<span class="str">f"Hello, <span class="kw">{</span>name<span class="kw">}</span>!"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"No name provided."</span>)
+
+<span class="cm"># Check if a list has items:</span>
+items = []
+<span class="kw">if</span> <span class="kw">not</span> items:
+    <span class="fn">print</span>(<span class="str">"The list is empty"</span>)
+
+<span class="cm"># Check for None:</span>
+value = <span class="kw">None</span>
+<span class="kw">if</span> value <span class="kw">is</span> <span class="kw">None</span>:      <span class="cm"># preferred over 'if not value' for None checks</span>
+    <span class="fn">print</span>(<span class="str">"No value"</span>)</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2.4 for Loops -->
+    <section class="content-section" id="for">
+      <div class="section-header">
+        <div class="section-icon">🔁</div>
+        <div class="section-meta">
+          <div class="label">Section 2.4</div>
+          <h2>for Loops</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>What is a for Loop?</h3>
+        <p>A <code>for</code> loop <strong>iterates over a sequence</strong> — it goes through each item one by one. You can loop over lists, strings, tuples, ranges, dictionaries, and anything else that is iterable.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">for loop syntax</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="kw">for</span> variable <span class="kw">in</span> iterable:
+    <span class="cm"># body — runs once for each item</span></pre>
+        </div>
+
+        <h3>Looping Over Common Types</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">for loop examples</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Loop over a list</span>
+fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>]
+<span class="kw">for</span> fruit <span class="kw">in</span> fruits:
+    <span class="fn">print</span>(fruit)
+
+<span class="cm"># Loop over a string (each character)</span>
+<span class="kw">for</span> char <span class="kw">in</span> <span class="str">"Hello"</span>:
+    <span class="fn">print</span>(char)
+<span class="cm"># Prints: H e l l o (each on a new line)</span>
+
+<span class="cm"># Loop a specific number of times with range()</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):       <span class="cm"># i = 0, 1, 2, 3, 4</span>
+    <span class="fn">print</span>(<span class="str">f"Iteration <span class="kw">{</span>i<span class="kw">}</span>"</span>)
+
+<span class="cm"># Loop over a dictionary</span>
+student = {<span class="str">"name"</span>: <span class="str">"Riya"</span>, <span class="str">"age"</span>: <span class="num">20</span>, <span class="str">"grade"</span>: <span class="str">"A"</span>}
+<span class="kw">for</span> key, value <span class="kw">in</span> student.<span class="fn">items</span>():
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>key<span class="kw">}</span>: <span class="kw">{</span>value<span class="kw">}</span>"</span>)</pre>
+        </div>
+
+        <h3>for / else</h3>
+        <p>Python's <code>for</code> loop has an optional <code>else</code> clause that runs <strong>only if the loop completed without hitting a <code>break</code></strong>. This is unusual but very useful for search patterns.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">for/else — search pattern</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>numbers = [<span class="num">3</span>, <span class="num">7</span>, <span class="num">11</span>, <span class="num">15</span>, <span class="num">20</span>]
+target = <span class="num">11</span>
+
+<span class="kw">for</span> n <span class="kw">in</span> numbers:
+    <span class="kw">if</span> n == target:
+        <span class="fn">print</span>(<span class="str">f"Found <span class="kw">{</span>target<span class="kw">}</span>!"</span>)
+        <span class="kw">break</span>
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>target<span class="kw">}</span> not found in the list"</span>)
+<span class="cm"># The else only runs if 'break' was never hit</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2.5 while Loops -->
+    <section class="content-section" id="while">
+      <div class="section-header">
+        <div class="section-icon">🔄</div>
+        <div class="section-meta">
+          <div class="label">Section 2.5</div>
+          <h2>while Loops</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3>What is a while Loop?</h3>
+        <p>A <code>while</code> loop runs <strong>as long as a condition is True</strong>. Use it when you don't know in advance how many iterations you'll need.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">while loop examples</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Basic countdown</span>
+count = <span class="num">5</span>
+<span class="kw">while</span> count > <span class="num">0</span>:
+    <span class="fn">print</span>(count)
+    count -= <span class="num">1</span>    <span class="cm"># MUST update the condition variable, or infinite loop!</span>
+<span class="fn">print</span>(<span class="str">"Go!"</span>)
+
+<span class="cm"># Input validation — repeat until valid input</span>
+<span class="kw">while</span> <span class="kw">True</span>:
+    age = <span class="fn">input</span>(<span class="str">"Enter your age (1-120): "</span>)
+    <span class="kw">if</span> age.<span class="fn">isdigit</span>() <span class="kw">and</span> <span class="num">1</span> <= <span class="fn">int</span>(age) <= <span class="num">120</span>:
+        age = <span class="fn">int</span>(age)
+        <span class="kw">break</span>           <span class="cm"># valid input — exit the loop</span>
+    <span class="fn">print</span>(<span class="str">"Invalid. Please try again."</span>)
+<span class="fn">print</span>(<span class="str">f"Your age is: <span class="kw">{</span>age<span class="kw">}</span>"</span>)
+
+<span class="cm"># Guessing game</span>
+secret = <span class="num">42</span>
+attempts = <span class="num">0</span>
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    guess = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Guess the number (1-100): "</span>))
+    attempts += <span class="num">1</span>
+    <span class="kw">if</span>   guess < secret: <span class="fn">print</span>(<span class="str">"Too low!"</span>)
+    <span class="kw">elif</span> guess > secret: <span class="fn">print</span>(<span class="str">"Too high!"</span>)
+    <span class="kw">else</span>:
+        <span class="fn">print</span>(<span class="str">f"Correct! You got it in <span class="kw">{</span>attempts<span class="kw">}</span> attempts."</span>)
+        <span class="kw">break</span></pre>
+        </div>
+
+        <div class="callout danger">
+          <div class="callout-icon">🚨</div>
+          <div class="callout-body">
+            <strong>Infinite Loop</strong>
+            If you forget to update the condition variable (or never reach a <code>break</code>), your program will run forever. Press <strong>Ctrl+C</strong> to stop it. Always double-check that your <code>while</code> loop has a path to termination.
+          </div>
+        </div>
+
+        <h3>for vs while — When to Use Which</h3>
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Use <code>for</code> when…</th><th>Use <code>while</code> when…</th></tr></thead>
+            <tbody>
+              <tr><td>You know how many iterations in advance</td><td>You don't know how many iterations you need</td></tr>
+              <tr><td>You're iterating over a collection</td><td>You're waiting for a condition to change</td></tr>
+              <tr><td><code>for i in range(10)</code></td><td>Input validation, game loops, network retry</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2.6 break / continue / pass -->
+    <section class="content-section" id="control">
+      <div class="section-header">
+        <div class="section-icon">⏹️</div>
+        <div class="section-meta">
+          <div class="label">Section 2.6</div>
+          <h2>break / continue / pass</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <div class="table-wrap">
+          <table class="notes-table">
+            <thead><tr><th>Statement</th><th>Effect</th><th>Analogy</th></tr></thead>
+            <tbody>
+              <tr><td><code>break</code></td><td>Exit the loop immediately</td><td>Emergency exit — leave the room entirely</td></tr>
+              <tr><td><code>continue</code></td><td>Skip rest of this iteration; go to next</td><td>Skip this item; move to the next one in line</td></tr>
+              <tr><td><code>pass</code></td><td>Do nothing — a placeholder</td><td>Empty box — "I'll fill this in later"</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">break, continue, pass examples</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># break — stop the loop early</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>):
+    <span class="kw">if</span> i == <span class="num">5</span>:
+        <span class="kw">break</span>           <span class="cm"># stop when we hit 5</span>
+    <span class="fn">print</span>(i)            <span class="cm"># prints 0 1 2 3 4</span>
+
+<span class="cm"># continue — skip even numbers</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    <span class="kw">if</span> i % <span class="num">2</span> == <span class="num">0</span>:
+        <span class="kw">continue</span>        <span class="cm"># skip even numbers</span>
+    <span class="fn">print</span>(i)            <span class="cm"># prints 1 3 5 7 9</span>
+
+<span class="cm"># pass — empty block placeholder</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
+    <span class="kw">pass</span>               <span class="cm"># loop does nothing — useful while developing</span>
+
+<span class="cm"># pass in an if block (when you haven't coded the body yet)</span>
+<span class="kw">if</span> some_condition:
+    <span class="kw">pass</span>               <span class="cm"># TODO: implement this</span>
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"doing something"</span>)
+
+<span class="cm"># Combined example — process valid items, stop on sentinel</span>
+data = [<span class="num">3</span>, <span class="num">7</span>, -<span class="num">1</span>, <span class="num">5</span>, <span class="num">2</span>]   <span class="cm"># -1 signals end of data</span>
+total = <span class="num">0</span>
+<span class="kw">for</span> n <span class="kw">in</span> data:
+    <span class="kw">if</span> n == -<span class="num">1</span>:
+        <span class="kw">break</span>           <span class="cm"># stop at sentinel</span>
+    <span class="kw">if</span> n < <span class="num">0</span>:
+        <span class="kw">continue</span>        <span class="cm"># skip other negatives</span>
+    total += n
+<span class="fn">print</span>(<span class="str">f"Total: <span class="kw">{</span>total<span class="kw">}</span>"</span>)   <span class="cm"># 10</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2.7 Nested Loops -->
+    <section class="content-section" id="nested">
+      <div class="section-header">
+        <div class="section-icon">🪆</div>
+        <div class="section-meta">
+          <div class="label">Section 2.7</div>
+          <h2>Nested Loops</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <p>A loop inside another loop is called a <strong>nested loop</strong>. The inner loop runs completely for every single iteration of the outer loop.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Nested loop — multiplication table</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Multiplication table (1 to 5)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>):          <span class="cm"># outer loop: rows</span>
+    <span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>):      <span class="cm"># inner loop: columns</span>
+        <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>i*j:4<span class="kw">}</span>"</span>, end=<span class="str">""</span>)
+    <span class="fn">print</span>()                    <span class="cm"># newline after each row</span></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Pattern printing — right triangle</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>n = <span class="num">5</span>
+
+<span class="cm"># Right triangle of *</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, n + <span class="num">1</span>):
+    <span class="fn">print</span>(<span class="str">"* "</span> * i)
+<span class="cm"># *
+# * *
+# * * *
+# * * * *
+# * * * * *</span>
+
+<span class="cm"># Pyramid</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, n + <span class="num">1</span>):
+    <span class="fn">print</span>(<span class="str">" "</span> * (n - i) + <span class="str">"* "</span> * i)</pre>
+        </div>
+
+        <div class="callout warning">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body"><strong>Performance note.</strong> If your outer loop runs 1,000 times and your inner loop runs 1,000 times, the body executes 1,000,000 times. Avoid deeply nested loops on large data — they can be very slow.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2.8 range, enumerate, zip -->
+    <section class="content-section" id="builtins">
+      <div class="section-header">
+        <div class="section-icon">🛠️</div>
+        <div class="section-meta">
+          <div class="label">Section 2.8</div>
+          <h2>range(), enumerate(), zip()</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <h3><code>range()</code> — Generate a Sequence of Numbers</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">range()</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># range(stop)           → 0 to stop-1</span>
+<span class="cm"># range(start, stop)    → start to stop-1</span>
+<span class="cm"># range(start,stop,step)→ with custom step</span>
+
+<span class="fn">list</span>(<span class="fn">range</span>(<span class="num">5</span>))           <span class="cm"># [0, 1, 2, 3, 4]</span>
+<span class="fn">list</span>(<span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>))        <span class="cm"># [1, 2, 3, 4, 5]</span>
+<span class="fn">list</span>(<span class="fn">range</span>(<span class="num">0</span>, <span class="num">10</span>, <span class="num">2</span>))    <span class="cm"># [0, 2, 4, 6, 8]  — even numbers</span>
+<span class="fn">list</span>(<span class="fn">range</span>(<span class="num">10</span>, <span class="num">0</span>, -<span class="num">1</span>))   <span class="cm"># [10, 9, 8 ... 1] — countdown</span>
+
+<span class="cm"># Practical use: sum of first N natural numbers</span>
+total = <span class="num">0</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">101</span>):   <span class="cm"># 1 to 100</span>
+    total += i
+<span class="fn">print</span>(total)   <span class="cm"># 5050</span></pre>
+        </div>
+
+        <h3><code>enumerate()</code> — Index + Value Together</h3>
+        <p>When you need both the <strong>position</strong> and the <strong>value</strong> of each item, use <code>enumerate()</code> instead of managing a counter manually.</p>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">enumerate()</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>students = [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Carol"</span>, <span class="str">"Dave"</span>]
+
+<span class="cm"># Without enumerate — manual counter</span>
+i = <span class="num">0</span>
+<span class="kw">for</span> name <span class="kw">in</span> students:
+    <span class="fn">print</span>(i, name)
+    i += <span class="num">1</span>
+
+<span class="cm"># With enumerate — cleaner</span>
+<span class="kw">for</span> i, name <span class="kw">in</span> <span class="fn">enumerate</span>(students):
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>i<span class="kw">}</span>. <span class="kw">{</span>name<span class="kw">}</span>"</span>)
+
+<span class="cm"># Start index from 1 instead of 0</span>
+<span class="kw">for</span> i, name <span class="kw">in</span> <span class="fn">enumerate</span>(students, start=<span class="num">1</span>):
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>i<span class="kw">}</span>. <span class="kw">{</span>name<span class="kw">}</span>"</span>)
+<span class="cm"># 1. Alice
+# 2. Bob
+# 3. Carol
+# 4. Dave</span></pre>
+        </div>
+
+        <h3><code>zip()</code> — Pair Elements from Multiple Iterables</h3>
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">zip()</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre>names  = [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Carol"</span>]
+scores = [<span class="num">88</span>, <span class="num">92</span>, <span class="num">75</span>]
+grades = [<span class="str">"B"</span>, <span class="str">"A"</span>, <span class="str">"C"</span>]
+
+<span class="cm"># zip two lists</span>
+<span class="kw">for</span> name, score <span class="kw">in</span> <span class="fn">zip</span>(names, scores):
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>name<span class="kw">}</span>: <span class="kw">{</span>score<span class="kw">}</span>"</span>)
+
+<span class="cm"># zip three lists</span>
+<span class="kw">for</span> name, score, grade <span class="kw">in</span> <span class="fn">zip</span>(names, scores, grades):
+    <span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>name<span class="kw">}</span> — <span class="kw">{</span>score<span class="kw">}</span> (<span class="kw">{</span>grade<span class="kw">}</span>)"</span>)
+
+<span class="cm"># zip stops at the shortest iterable
+# To pad instead, use itertools.zip_longest</span>
+
+<span class="cm"># Unzipping — convert list of pairs back to two lists</span>
+pairs = [(<span class="str">"Alice"</span>, <span class="num">88</span>), (<span class="str">"Bob"</span>, <span class="num">92</span>)]
+names, scores = <span class="fn">zip</span>(*pairs)
+<span class="fn">print</span>(names)   <span class="cm"># ('Alice', 'Bob')</span></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2.9 Ternary -->
+    <section class="content-section" id="ternary">
+      <div class="section-header">
+        <div class="section-icon">❔</div>
+        <div class="section-meta">
+          <div class="label">Section 2.9</div>
+          <h2>Ternary (Conditional) Expressions</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <p>A ternary expression is a one-line shorthand for an <code>if/else</code> that <strong>evaluates to a value</strong>.</p>
+
+        <div class="code-block">
+          <div class="cb-header"><div class="cb-title">Ternary syntax</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Syntax: value_if_true if condition else value_if_false</span>
+
+<span class="cm"># Long form:</span>
+<span class="kw">if</span> score >= <span class="num">50</span>:
+    result = <span class="str">"Pass"</span>
+<span class="kw">else</span>:
+    result = <span class="str">"Fail"</span>
+
+<span class="cm"># Ternary equivalent:</span>
+result = <span class="str">"Pass"</span> <span class="kw">if</span> score >= <span class="num">50</span> <span class="kw">else</span> <span class="str">"Fail"</span>
+
+<span class="cm"># More examples</span>
+parity = <span class="str">"even"</span> <span class="kw">if</span> n % <span class="num">2</span> == <span class="num">0</span> <span class="kw">else</span> <span class="str">"odd"</span>
+label  = <span class="str">"adult"</span> <span class="kw">if</span> age >= <span class="num">18</span> <span class="kw">else</span> <span class="str">"minor"</span>
+
+<span class="cm"># Use in a print statement</span>
+<span class="fn">print</span>(<span class="str">f"<span class="kw">{</span>name<span class="kw">}</span> is an <span class="kw">{</span><span class="str">'adult'</span> <span class="kw">if</span> age >= 18 <span class="kw">else</span> <span class="str">'minor'</span><span class="kw">}</span>"</span>)</pre>
+        </div>
+
+        <div class="callout warning">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body"><strong>Don't nest ternaries.</strong> <code>a if c1 else b if c2 else c</code> is hard to read. If you need multi-branch logic, use a proper <code>if/elif/else</code> block instead.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Practice -->
+    <section class="content-section" id="practice">
+      <div class="section-header">
+        <div class="section-icon">✏️</div>
+        <div class="section-meta">
+          <div class="label">Practice</div>
+          <h2>Module 2 Exercises</h2>
+        </div>
+      </div>
+      <div class="section-body">
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 1 — Grade Calculator</div>
+          <ol>
+            <li>Ask the user for a score (0–100). Print the grade (A/B/C/D/F) and a personalised message.</li>
+            <li>Handle invalid inputs (numbers outside 0–100) with an appropriate message.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 2 — FizzBuzz</div>
+          <ol>
+            <li>Print numbers from 1 to 100. For multiples of 3 print "Fizz", multiples of 5 print "Buzz", multiples of both print "FizzBuzz".</li>
+            <li>Modify it to use a ternary expression in the print statement.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 3 — Pattern Printing</div>
+          <ol>
+            <li>Print a right-angle triangle of <code>*</code> with n rows (n entered by user).</li>
+            <li>Print an inverted triangle.</li>
+            <li>Print a pyramid (centred triangle).</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 4 — Number Guessing Game</div>
+          <ol>
+            <li>Pick a secret number between 1 and 100 (just hardcode it for now).</li>
+            <li>Use a <code>while</code> loop to let the user guess. Tell them if their guess is too high or too low.</li>
+            <li>Count the number of attempts. Stop after 7 attempts and reveal the answer if not found.</li>
+          </ol>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">🏃 Exercise 5 — Loop Tools</div>
+          <ol>
+            <li>Given a list of 5 student names and 5 scores (two lists), print a numbered leaderboard using <code>enumerate()</code> and <code>zip()</code>.</li>
+            <li>Print all prime numbers between 2 and 50 using a <code>for</code> loop with <code>break</code>.</li>
+          </ol>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="module-nav">
+      <a href="module1.html" class="prev">
+        <span class="nav-dir">← Previous</span>
+        <span class="nav-title">Module 1: Python Fundamentals</span>
+      </a>
+      <a href="module3.html" class="next">
+        <span class="nav-dir">Next Module →</span>
+        <span class="nav-title">Module 3: Data Structures</span>
+      </a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p><strong>Pramanicus Academy</strong> — Ramanthapur, Hyderabad</p>
+  <p style="margin-top:.3rem">Python Training · Module 2 of 8 · <a href="index.html">Back to Course Home</a></p>
+</footer>
+</body>
+</html>
