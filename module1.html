@@ -10,7 +10,8 @@
 
 <header class="site-header">
   <div class="breadcrumb">
-    <a href="index.html">Home</a><span>/</span><span>Module 1</span>
+    <a href="index.html">Home</a>
+    <span>/</span><span>Module 1</span>
   </div>
   <h1>Module 1: Python Fundamentals</h1>
   <p class="subtitle">History · Installation · Variables · Types · Operators · I/O · PEP 8</p>
@@ -25,6 +26,7 @@
   <div class="topnav-inner">
     <div class="topnav-logo">🐍 Python Notes</div>
     <a href="index.html">Home</a>
+    <a href="playground.html" class="topnav-playground">▶ Playground</a>
     <a href="module1.html" class="active">1 · Fundamentals</a>
     <a href="module2.html">2 · Control Flow</a>
     <a href="module3.html">3 · Data Structures</a>
@@ -66,6 +68,14 @@
       <div class="callout-body">
         <strong>Learning Objectives</strong>
         By the end of this module you will be able to: install Python and set up VS Code, run Python both interactively and as a script, declare variables of every core type, perform type casting, use all operator categories, format output with f-strings, and write PEP 8–compliant code.
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">▶</div>
+      <div class="callout-body">
+        <strong>Try it in your browser</strong>
+        Code examples with a green <strong>Run</strong> button can be executed right here using Python WebAssembly — no terminal needed. For free-form experiments, open the <a href="playground.html">Python Playground</a>.
       </div>
     </div>
 
@@ -969,6 +979,9 @@ x = x + <span class="num">1</span>  <span class="cm"># account for 0-based index
   <p><strong>Pramanicus Academy</strong> — Ramanthapur, Hyderabad</p>
   <p style="margin-top:.3rem">Python Training · Module 1 of 8 · <a href="index.html">Back to Course Home</a></p>
 </footer>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.27.6/full/pyodide.js"></script>
+<script src="js/pyodide-runner.js" defer></script>
 
 </body>
 </html>
