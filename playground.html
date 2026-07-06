@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Playground — Pramanicus Academy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>/</span><span>Playground</span>
+  </div>
+  <h1>▶ Python Playground</h1>
+  <p class="subtitle">Write and run Python code directly in your browser — powered by WebAssembly</p>
+  <div class="header-pills">
+    <span>🌐 Browser-based</span>
+    <span>🐍 Python 3.x</span>
+    <span>⚡ No install needed</span>
+  </div>
+</header>
+
+<nav class="topnav" aria-label="Module navigation">
+  <div class="topnav-inner">
+    <div class="topnav-logo">🐍 Python Notes</div>
+    <a href="index.html">Home</a>
+    <a href="playground.html" class="topnav-playground active">▶ Playground</a>
+    <a href="module1.html">1 · Fundamentals</a>
+    <a href="module2.html">2 · Control Flow</a>
+    <a href="module3.html">3 · Data Structures</a>
+    <a href="module4.html">4 · Functions</a>
+    <a href="module5.html">5 · OOP</a>
+    <a href="module6.html">6 · Exceptions &amp; Files</a>
+    <a href="module7.html">7 · Modules &amp; Stdlib</a>
+    <a href="module8.html">8 · Iterators &amp; Decorators</a>
+  </div>
+</nav>
+
+<div class="playground-wrap">
+
+  <div class="playground-banner">
+    <div class="playground-banner-text">
+      <strong>Try Python without leaving the browser.</strong>
+      This playground uses <a href="https://pyodide.org/" target="_blank" rel="noopener">Pyodide</a> to run real Python via WebAssembly. The first run downloads the runtime (~15 MB) — after that, execution is fast.
+    </div>
+  </div>
+
+  <div id="pyodide-status" class="pyodide-status is-loading">Loading Python runtime…</div>
+
+  <div class="playground-intro">
+    <h2>Write your code below</h2>
+    <p>Use the editor to experiment with Python syntax, test ideas from the course modules, or complete practice exercises. Press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> (or <kbd>⌘</kbd>+<kbd>Enter</kbd> on Mac) to run.</p>
+  </div>
+
+  <div id="python-playground" class="playground-panel">
+    <div class="playground-toolbar">
+      <span class="playground-toolbar-title">main.py</span>
+      <button type="button" class="playground-btn playground-run" aria-label="Run Python code">
+        <span aria-hidden="true">▶</span> Run
+      </button>
+      <button type="button" class="playground-btn playground-reset" aria-label="Reset to starter code">Reset</button>
+      <button type="button" class="playground-btn playground-clear" aria-label="Clear editor and output">Clear</button>
+    </div>
+
+    <textarea
+      class="playground-editor"
+      spellcheck="false"
+      aria-label="Python code editor"
+      data-default="# Welcome to the Python Playground!
+# Write any Python 3 code here and click Run.
+
+name = &quot;Alice&quot;
+age = 20
+print(f&quot;Hello, {name}! You are {age} years old.&quot;)
+
+# Try changing the values above, or write your own code:
+for i in range(1, 6):
+    print(&quot;Count:&quot;, i)
+"># Welcome to the Python Playground!
+# Write any Python 3 code here and click Run.
+
+name = "Alice"
+age = 20
+print(f"Hello, {name}! You are {age} years old.")
+
+# Try changing the values above, or write your own code:
+for i in range(1, 6):
+    print("Count:", i)
+</textarea>
+
+    <div class="playground-output-label">Output</div>
+    <div class="playground-output code-output" hidden aria-live="polite"></div>
+  </div>
+
+  <p class="playground-hint">
+    <strong>Note:</strong> <code>input()</code> opens a browser prompt. File I/O and <code>pip install</code> are limited in the browser — use a local Python install for those topics (Modules 6–7).
+  </p>
+
+  <div class="playground-snippets">
+    <h3>Quick-start snippets</h3>
+    <div class="playground-snippet-grid">
+      <button type="button" class="playground-snippet" data-code="# Variables &amp; types
+name = &quot;Bob&quot;
+score = 95.5
+passed = True
+print(name, score, passed)
+print(type(name), type(score))">Variables</button>
+
+      <button type="button" class="playground-snippet" data-code="# If / else
+marks = 78
+if marks >= 90:
+    grade = &quot;A&quot;
+elif marks >= 75:
+    grade = &quot;B&quot;
+else:
+    grade = &quot;C&quot;
+print(f&quot;Grade: {grade}&quot;)">If / else</button>
+
+      <button type="button" class="playground-snippet" data-code="# For loop &amp; list
+fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
+for fruit in fruits:
+    print(fruit.upper())
+
+squares = [x**2 for x in range(1, 6)]
+print(squares)">Loops &amp; lists</button>
+
+      <button type="button" class="playground-snippet" data-code="# Function
+def greet(name, greeting=&quot;Hello&quot;):
+    return f&quot;{greeting}, {name}!&quot;
+
+print(greet(&quot;Alice&quot;))
+print(greet(&quot;Bob&quot;, &quot;Hi&quot;))">Functions</button>
+
+      <button type="button" class="playground-snippet" data-code="# Dictionary
+student = {&quot;name&quot;: &quot;Priya&quot;, &quot;age&quot;: 19, &quot;course&quot;: &quot;Python&quot;}
+for key, value in student.items():
+    print(f&quot;{key}: {value}&quot;)">Dictionary</button>
+
+      <button type="button" class="playground-snippet" data-code="# Class (OOP)
+class Dog:
+    def __init__(self, name):
+        self.name = name
+
+    def bark(self):
+        return f&quot;{self.name} says Woof!&quot;
+
+d = Dog(&quot;Bruno&quot;)
+print(d.bark())">Class</button>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <p><strong>Pramanicus Academy</strong> — Ramanthapur, Hyderabad</p>
+  <p style="margin-top:.3rem">Python Training · <a href="index.html">Back to Course Home</a></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.27.6/full/pyodide.js"></script>
+<script src="js/pyodide-runner.js" defer></script>
+
+</body>
+</html>
