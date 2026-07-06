@@ -13,7 +13,7 @@
     <span>/</span><span>Module 8</span></div>
   <h1>Module 8: Iterators, Generators &amp; Decorators</h1>
   <p class="subtitle">Iterables · Iterators · yield · Generator Expressions · Closures · Custom Decorators · functools</p>
-  <div class="header-pills"><span>📅 Week 4</span><span>🔴 Advanced</span><span>4 Sessions</span></div>
+  <div class="header-pills"><span>Week 4</span><span class="pill-advanced">Advanced</span><span>4 Sessions</span></div>
 </header>
 
 <nav class="topnav">
@@ -359,75 +359,265 @@ inc, rst = <span class="fn">make_counter</span>(<span class="num">10</span>)
     <!-- 8.7 Decorators -->
     <section class="content-section" id="decorators">
       <div class="section-header">
-        <div class="section-icon">🎨</div>
+        <div class="section-icon section-icon-text">DEF</div>
         <div class="section-meta"><div class="label">Section 8.7</div><h2>Decorators</h2></div>
       </div>
       <div class="section-body">
 
-        <p>A <strong>decorator</strong> is a function that <em>wraps another function</em> to add behaviour before and/or after it runs — without changing the original function's code. The <code>@decorator</code> syntax is shorthand for <code>func = decorator(func)</code>.</p>
+        <!-- Slide Viewer -->
+        <div class="slide-viewer" id="decorator-slides">
+          <div class="slide-topbar">
+            <span class="slide-label">Slide</span>
+            <span class="slide-counter"><span class="slide-current">1</span> / <span class="slide-total">8</span></span>
+            <div class="slide-dots-row" id="decorator-dots"></div>
+          </div>
 
-        <h3>Building a Decorator Step by Step</h3>
-        <div class="code-block">
-          <div class="cb-header"><div class="cb-title">Building a decorator from scratch</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
-          <pre><span class="kw">import</span> functools
+          <div class="slides-track">
 
-<span class="cm"># Step 1: basic decorator structure</span>
+            <!-- Slide 1: What is a Decorator? -->
+            <div class="slide active" data-index="0">
+              <div class="slide-heading">What is a Decorator?</div>
+              <p>
+                A <strong>decorator</strong> is a <em>higher-order function</em> — a callable that accepts another
+                function as its argument and returns a new, augmented version of that function called the
+                <em>wrapper</em>. The wrapper executes extra logic before and/or after delegating to the original
+                function, without modifying the original function's source code in any way.
+              </p>
+              <p style="margin-top:.75rem;">
+                Decorators implement the <strong>Decorator design pattern</strong>: they let you attach
+                cross-cutting concerns — such as logging, timing, input validation, caching, or access control —
+                to any function in a clean, reusable, non-invasive way.
+              </p>
+              <div class="callout tip" style="margin-top:1rem;">
+                <div class="callout-body">
+                  <strong>The @ shorthand</strong><br>
+                  Writing <code>@my_decorator</code> immediately above a function definition is
+                  <em>syntactic sugar</em> provided by Python. The two forms below are exactly identical:
+                  <table class="notes-table" style="margin-top:.6rem;">
+                    <tr><th>With @ syntax</th><th>Without @ syntax</th></tr>
+                    <tr>
+                      <td><code>@my_decorator<br>def greet(): ...</code></td>
+                      <td><code>def greet(): ...<br>greet = my_decorator(greet)</code></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2: Why Use Decorators? -->
+            <div class="slide" data-index="1">
+              <div class="slide-heading">Why Use Decorators?</div>
+              <p>Decorators solve a fundamental software engineering challenge: how do you add the same
+              behavior to many functions without duplicating code or changing each function's body?</p>
+              <div class="def-list" style="margin-top:.9rem;">
+                <div class="def-item">
+                  <span class="def-term">Separation of Concerns</span>
+                  <span class="def-desc">Business logic stays in the function; infrastructure concerns (logging, auth, timing) live in the decorator.</span>
+                </div>
+                <div class="def-item">
+                  <span class="def-term">DRY Principle</span>
+                  <span class="def-desc">Write the wrapper logic once and apply it to as many functions as needed via a single <code>@</code> line.</span>
+                </div>
+                <div class="def-item">
+                  <span class="def-term">Composability</span>
+                  <span class="def-desc">Stack multiple decorators on one function; each adds an independent layer of behavior.</span>
+                </div>
+                <div class="def-item">
+                  <span class="def-term">Non-invasive Enhancement</span>
+                  <span class="def-desc">The original function's internal code is untouched and can be tested in isolation without the decorator.</span>
+                </div>
+                <div class="def-item">
+                  <span class="def-term">Readability</span>
+                  <span class="def-desc">The <code>@</code> annotation at the definition site makes it immediately clear that special behavior is being applied.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3: Prerequisite — First-Class Functions -->
+            <div class="slide" data-index="2">
+              <div class="slide-heading">Prerequisite: First-Class Functions</div>
+              <p>
+                Decorators are only possible because Python treats functions as
+                <strong>first-class objects</strong>. This means a function can be:
+              </p>
+              <ul class="slide-list" style="margin-top:.75rem;">
+                <li>Assigned to a variable: <code>f = print</code></li>
+                <li>Passed as an argument to another function</li>
+                <li>Returned as a value from another function</li>
+                <li>Stored in a list, dict, or any data structure</li>
+              </ul>
+              <p style="margin-top:.9rem;">A <strong>higher-order function</strong> is any function that either takes a
+              function as a parameter, returns a function, or both. A decorator is precisely a higher-order function
+              that takes a function and returns an enhanced version of it.</p>
+              <div class="code-block" style="margin-top:1rem;">
+                <div class="cb-header"><div class="cb-title">Functions as first-class objects</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+                <pre><span class="cm"># Functions can be assigned and passed around</span>
+<span class="kw">def</span> <span class="fn">shout</span>(text):
+    <span class="kw">return</span> text.<span class="fn">upper</span>()
+
+<span class="fn">apply</span> = shout             <span class="cm"># assign function to variable</span>
+<span class="fn">print</span>(<span class="fn">apply</span>(<span class="str">"hello"</span>))    <span class="cm"># HELLO</span>
+
+<span class="kw">def</span> <span class="fn">run_twice</span>(fn, value):
+    <span class="kw">return</span> <span class="fn">fn</span>(<span class="fn">fn</span>(value))   <span class="cm"># pass fn as argument</span>
+
+<span class="fn">print</span>(<span class="fn">run_twice</span>(shout, <span class="str">"hello"</span>))   <span class="cm"># HELLO (already upper)</span></pre>
+              </div>
+            </div>
+
+            <!-- Slide 4: Building a Decorator Step by Step -->
+            <div class="slide" data-index="3">
+              <div class="slide-heading">Building a Decorator — Step by Step</div>
+              <p>
+                Every decorator follows the same three-part pattern:
+                (1) accept the original function as a parameter,
+                (2) define an inner <em>wrapper</em> function that adds the extra behavior and calls the original,
+                (3) return the wrapper.
+              </p>
+              <div class="code-block" style="margin-top:.9rem;">
+                <div class="cb-header"><div class="cb-title">Building a decorator from scratch</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+                <pre><span class="kw">import</span> functools
+
+<span class="cm"># Step 1 — outer function receives the target function</span>
 <span class="kw">def</span> <span class="fn">my_decorator</span>(func):
-    <span class="dec">@functools.wraps</span>(func)     <span class="cm"># preserves func's name and docstring</span>
+
+    <span class="cm"># Step 2 — inner wrapper adds behavior around func</span>
+    <span class="dec">@functools.wraps</span>(func)       <span class="cm"># preserves func.__name__ and __doc__</span>
     <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
-        <span class="fn">print</span>(<span class="str">"Before the function"</span>)
-        result = <span class="fn">func</span>(*args, **kwargs)   <span class="cm"># call the original function</span>
-        <span class="fn">print</span>(<span class="str">"After the function"</span>)
+        <span class="fn">print</span>(<span class="str">"Before the function runs"</span>)
+        result = <span class="fn">func</span>(*args, **kwargs)   <span class="cm"># delegate to the original</span>
+        <span class="fn">print</span>(<span class="str">"After the function runs"</span>)
         <span class="kw">return</span> result
+
+    <span class="cm"># Step 3 — return wrapper (not the result of calling it!)</span>
     <span class="kw">return</span> wrapper
 
-<span class="cm"># Apply with @</span>
 <span class="dec">@my_decorator</span>
 <span class="kw">def</span> <span class="fn">greet</span>(name):
     <span class="fn">print</span>(<span class="str">f"Hello, <span class="kw">{</span>name<span class="kw">}</span>!"</span>)
 
 <span class="fn">greet</span>(<span class="str">"Alice"</span>)
-<span class="cm"># Before the function
+<span class="cm"># Before the function runs
 # Hello, Alice!
-# After the function
+# After the function runs</span></pre>
+              </div>
+            </div>
 
-# @my_decorator is exactly the same as:
-# greet = my_decorator(greet)</span></pre>
-        </div>
+            <!-- Slide 5: functools.wraps — Why It Matters -->
+            <div class="slide" data-index="4">
+              <div class="slide-heading">functools.wraps — Why It Matters</div>
+              <p>
+                When you wrap a function, Python replaces it with the inner <code>wrapper</code> function.
+                Without any extra help, the original function's <strong>identity metadata</strong>
+                (<code>__name__</code>, <code>__doc__</code>, <code>__annotations__</code>, etc.)
+                is lost and replaced by the wrapper's metadata. This breaks debugging, documentation
+                tools, and introspection.
+              </p>
+              <p style="margin-top:.7rem;">
+                <code>@functools.wraps(func)</code> copies all these attributes from <code>func</code>
+                onto the wrapper, so the decorated function still appears to be the original.
+              </p>
+              <div class="code-block" style="margin-top:.9rem;">
+                <div class="cb-header"><div class="cb-title">Without vs with functools.wraps</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+                <pre><span class="kw">import</span> functools
 
-        <h3>Practical Decorators</h3>
-        <div class="code-block">
-          <div class="cb-header"><div class="cb-title">Timer decorator</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
-          <pre><span class="kw">import</span> functools, time
+<span class="cm"># Without @functools.wraps</span>
+<span class="kw">def</span> <span class="fn">bad_decorator</span>(func):
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        <span class="kw">return</span> <span class="fn">func</span>(*args, **kwargs)
+    <span class="kw">return</span> wrapper
 
-<span class="kw">def</span> <span class="fn">timer</span>(func):
-    <span class="str">"""Print the execution time of the decorated function."""</span>
+<span class="dec">@bad_decorator</span>
+<span class="kw">def</span> <span class="fn">add</span>(a, b):
+    <span class="str">"""Add two numbers."""</span>
+    <span class="kw">return</span> a + b
+
+<span class="fn">print</span>(add.__name__)   <span class="cm"># wrapper   ← WRONG</span>
+<span class="fn">print</span>(add.__doc__)    <span class="cm"># None      ← WRONG</span>
+
+<span class="cm"># With @functools.wraps</span>
+<span class="kw">def</span> <span class="fn">good_decorator</span>(func):
     <span class="dec">@functools.wraps</span>(func)
     <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
-        start  = time.<span class="fn">perf_counter</span>()
+        <span class="kw">return</span> <span class="fn">func</span>(*args, **kwargs)
+    <span class="kw">return</span> wrapper
+
+<span class="dec">@good_decorator</span>
+<span class="kw">def</span> <span class="fn">add</span>(a, b):
+    <span class="str">"""Add two numbers."""</span>
+    <span class="kw">return</span> a + b
+
+<span class="fn">print</span>(add.__name__)   <span class="cm"># add              ← correct</span>
+<span class="fn">print</span>(add.__doc__)    <span class="cm"># Add two numbers. ← correct</span></pre>
+              </div>
+            </div>
+
+            <!-- Slide 6: Practical — Timer Decorator -->
+            <div class="slide" data-index="5">
+              <div class="slide-heading">Practical: Timer Decorator</div>
+              <p>
+                A <strong>timer decorator</strong> measures how long a function takes to execute.
+                It captures a high-resolution timestamp before the call and another immediately after,
+                then prints the elapsed time. This is useful for profiling and benchmarking without
+                cluttering the function body with timing code.
+              </p>
+              <div class="code-block" style="margin-top:.9rem;">
+                <div class="cb-header"><div class="cb-title">Timer decorator</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+                <pre><span class="kw">import</span> functools, time
+
+<span class="kw">def</span> <span class="fn">timer</span>(func):
+    <span class="str">"""Measure and print the execution time of any decorated function."""</span>
+    <span class="dec">@functools.wraps</span>(func)
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        start  = time.<span class="fn">perf_counter</span>()      <span class="cm"># nanosecond-resolution clock</span>
         result = <span class="fn">func</span>(*args, **kwargs)
         end    = time.<span class="fn">perf_counter</span>()
-        <span class="fn">print</span>(<span class="str">f"[timer] <span class="kw">{</span>func.__name__<span class="kw">}</span> took <span class="kw">{</span>end - start:.4f<span class="kw">}</span>s"</span>)
+        elapsed = end - start
+        <span class="fn">print</span>(<span class="str">f"[timer] <span class="kw">{</span>func.__name__<span class="kw">}</span> took <span class="kw">{</span>elapsed:.6f<span class="kw">}</span> seconds"</span>)
         <span class="kw">return</span> result
     <span class="kw">return</span> wrapper
 
 <span class="dec">@timer</span>
 <span class="kw">def</span> <span class="fn">slow_sum</span>(n):
+    <span class="str">"""Return the sum of the first n integers."""</span>
     <span class="kw">return</span> <span class="fn">sum</span>(<span class="fn">range</span>(n))
 
-<span class="fn">slow_sum</span>(<span class="num">10_000_000</span>)   <span class="cm"># [timer] slow_sum took 0.1234s</span></pre>
-        </div>
+result = <span class="fn">slow_sum</span>(<span class="num">10_000_000</span>)
+<span class="cm"># [timer] slow_sum took 0.123456 seconds</span>
+<span class="fn">print</span>(result)      <span class="cm"># 49999995000000</span></pre>
+              </div>
+              <div class="callout info" style="margin-top:.85rem;">
+                <div class="callout-body">
+                  <code>time.perf_counter()</code> returns a float in seconds measured from an arbitrary
+                  reference point. It is the most precise clock available in Python and is always preferred
+                  over <code>time.time()</code> for benchmarking.
+                </div>
+              </div>
+            </div>
 
-        <div class="code-block">
-          <div class="cb-header"><div class="cb-title">Logger and retry decorators</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
-          <pre><span class="cm"># Logger — log function calls</span>
+            <!-- Slide 7: Practical — Logger Decorator -->
+            <div class="slide" data-index="6">
+              <div class="slide-heading">Practical: Logger Decorator</div>
+              <p>
+                A <strong>logger decorator</strong> automatically records every call to a function —
+                printing the function name, the arguments it received, and the value it returned.
+                This replaces manual <code>print</code> statements scattered throughout the codebase
+                and is especially valuable during debugging.
+              </p>
+              <div class="code-block" style="margin-top:.9rem;">
+                <div class="cb-header"><div class="cb-title">Logger decorator</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+                <pre><span class="kw">import</span> functools
+
 <span class="kw">def</span> <span class="fn">logger</span>(func):
+    <span class="str">"""Log each call: function name, arguments, and return value."""</span>
     <span class="dec">@functools.wraps</span>(func)
     <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
-        args_str = <span class="str">", "</span>.<span class="fn">join</span>(<span class="fn">repr</span>(a) <span class="kw">for</span> a <span class="kw">in</span> args)
-        <span class="fn">print</span>(<span class="str">f"Calling <span class="kw">{</span>func.__name__<span class="kw">}</span>(<span class="kw">{</span>args_str<span class="kw">}</span>)"</span>)
+        pos_args  = <span class="str">", "</span>.<span class="fn">join</span>(<span class="fn">repr</span>(a) <span class="kw">for</span> a <span class="kw">in</span> args)
+        kw_args   = <span class="str">", "</span>.<span class="fn">join</span>(<span class="str">f"<span class="kw">{</span>k<span class="kw">}</span>=<span class="kw">{</span>v!r<span class="kw">}</span>"</span> <span class="kw">for</span> k, v <span class="kw">in</span> kwargs.<span class="fn">items</span>())
+        all_args  = <span class="str">", "</span>.<span class="fn">join</span>(<span class="fn">filter</span>(<span class="bi">None</span>, [pos_args, kw_args]))
+        <span class="fn">print</span>(<span class="str">f"CALL  <span class="kw">{</span>func.__name__<span class="kw">}</span>(<span class="kw">{</span>all_args<span class="kw">}</span>)"</span>)
         result = <span class="fn">func</span>(*args, **kwargs)
-        <span class="fn">print</span>(<span class="str">f"→ returned <span class="kw">{</span>result!r<span class="kw">}</span>"</span>)
+        <span class="fn">print</span>(<span class="str">f"RETURN <span class="kw">{</span>func.__name__<span class="kw">}</span> → <span class="kw">{</span>result!r<span class="kw">}</span>"</span>)
         <span class="kw">return</span> result
     <span class="kw">return</span> wrapper
 
@@ -436,16 +626,59 @@ inc, rst = <span class="fn">make_counter</span>(<span class="num">10</span>)
     <span class="kw">return</span> a + b
 
 <span class="fn">add</span>(<span class="num">3</span>, <span class="num">5</span>)
-<span class="cm"># Calling add(3, 5)
-# → returned 8</span>
+<span class="cm"># CALL  add(3, 5)
+# RETURN add → 8</span></pre>
+              </div>
+            </div>
 
-<span class="cm"># Stacking decorators — applied bottom-up</span>
+            <!-- Slide 8: Stacking Decorators -->
+            <div class="slide" data-index="7">
+              <div class="slide-heading">Stacking Decorators</div>
+              <p>
+                Python allows multiple decorators to be applied to a single function. They are listed
+                one per line above the function definition and are applied in <strong>bottom-up order</strong>
+                — the decorator closest to the function is applied first, and each successive decorator
+                wraps the result of the one below it.
+              </p>
+              <div class="code-block" style="margin-top:.9rem;">
+                <div class="cb-header"><div class="cb-title">Stacking decorators — bottom-up application</div><div class="cb-dots"><span></span><span></span><span></span></div></div>
+                <pre><span class="cm"># Applying two decorators</span>
 <span class="dec">@timer</span>
 <span class="dec">@logger</span>
 <span class="kw">def</span> <span class="fn">multiply</span>(a, b):
+    <span class="str">"""Return the product of a and b."""</span>
     <span class="kw">return</span> a * b
-<span class="cm"># equivalent to: multiply = timer(logger(multiply))</span></pre>
-        </div>
+
+<span class="cm"># Python evaluates this as:
+# multiply = timer(logger(multiply))
+#
+# Call chain when multiply(4, 5) is invoked:
+#   timer's wrapper is entered first
+#     logger's wrapper is entered next
+#       original multiply(4, 5) runs → 20
+#     logger prints "RETURN multiply → 20"
+#   timer prints "[timer] multiply took 0.000012 seconds"</span>
+
+<span class="fn">multiply</span>(<span class="num">4</span>, <span class="num">5</span>)
+<span class="cm"># CALL  multiply(4, 5)
+# RETURN multiply → 20
+# [timer] multiply took 0.000012 seconds</span></pre>
+              </div>
+              <div class="key-point" style="margin-top:.9rem;">
+                <strong>Key rule:</strong> The decorator written <em>closest to the function</em> runs
+                its inner logic <em>first</em>. The outermost decorator's wrapper is the first code that
+                executes when the function is called.
+              </div>
+            </div>
+
+          </div><!-- /.slides-track -->
+
+          <div class="slide-footer">
+            <button class="slide-btn" id="decorator-prev" aria-label="Previous slide">&#8592; Previous</button>
+            <div class="slide-progress-bar"><div class="slide-progress-fill" id="decorator-fill"></div></div>
+            <button class="slide-btn" id="decorator-next" aria-label="Next slide">Next &#8594;</button>
+          </div>
+        </div><!-- /.slide-viewer -->
 
       </div>
     </section>
@@ -656,6 +889,70 @@ getkey = <span class="fn">partial</span>(<span class="kw">lambda</span> i, x: x[
 </footer>
 <script src="https://cdn.jsdelivr.net/pyodide/v0.27.6/full/pyodide.js"></script>
 <script src="js/pyodide-runner.js" defer></script>
+
+<script>
+(function () {
+  'use strict';
+
+  function initSlideViewer(viewerId) {
+    var viewer   = document.getElementById(viewerId);
+    if (!viewer) return;
+
+    var slides   = Array.from(viewer.querySelectorAll('.slide'));
+    var total    = slides.length;
+    var current  = 0;
+
+    var elCurrent = viewer.querySelector('.slide-current');
+    var elTotal   = viewer.querySelector('.slide-total');
+    var dotsRow   = viewer.querySelector('.slide-dots-row');
+    var fill      = viewer.querySelector('.slide-progress-fill');
+    var btnPrev   = viewer.querySelector('[id$="-prev"]');
+    var btnNext   = viewer.querySelector('[id$="-next"]');
+
+    if (elTotal) elTotal.textContent = total;
+
+    /* build dot buttons */
+    slides.forEach(function (_, i) {
+      var dot = document.createElement('button');
+      dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      dot.addEventListener('click', function () { goTo(i); });
+      dotsRow.appendChild(dot);
+    });
+
+    function update() {
+      slides.forEach(function (s, i) { s.classList.toggle('active', i === current); });
+      var dots = dotsRow.querySelectorAll('.slide-dot');
+      dots.forEach(function (d, i) { d.classList.toggle('active', i === current); });
+      if (elCurrent) elCurrent.textContent = current + 1;
+      if (fill) fill.style.width = (((current + 1) / total) * 100) + '%';
+      if (btnPrev) btnPrev.disabled = current === 0;
+      if (btnNext) btnNext.disabled = current === total - 1;
+    }
+
+    function goTo(index) {
+      current = Math.max(0, Math.min(total - 1, index));
+      update();
+    }
+
+    if (btnPrev) btnPrev.addEventListener('click', function () { goTo(current - 1); });
+    if (btnNext) btnNext.addEventListener('click', function () { goTo(current + 1); });
+
+    /* keyboard navigation when viewer is focused/hovered */
+    viewer.setAttribute('tabindex', '0');
+    viewer.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goTo(current + 1); }
+      if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { e.preventDefault(); goTo(current - 1); }
+    });
+
+    update();
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    initSlideViewer('decorator-slides');
+  });
+}());
+</script>
 
 </body>
 </html>

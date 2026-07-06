@@ -1143,3 +1143,205 @@ ul.checklist li::before {
     min-height: 240px;
   }
 }
+
+/* ── Section Icon — Text Badge Variant ──────────────────────────────────── */
+.section-icon-text {
+  font-size: .65rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--purple) 0%, var(--indigo) 100%);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  min-width: 2.4rem;
+  height: 2.4rem;
+  padding: 0 .4rem;
+}
+
+/* ── Header Pill Variant ─────────────────────────────────────────────────── */
+.header-pills .pill-advanced {
+  background: rgba(220, 38, 38, .12);
+  color: #b91c1c;
+  border: 1px solid rgba(220, 38, 38, .3);
+  padding: .2rem .65rem;
+  border-radius: 99px;
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+/* ── Slide Viewer ─────────────────────────────────────────────────────────── */
+.slide-viewer {
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.slide-topbar {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .7rem 1.25rem;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: #fff;
+}
+
+.slide-label {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .85;
+}
+
+.slide-counter {
+  font-size: .82rem;
+  font-weight: 600;
+  background: rgba(255,255,255,.18);
+  padding: .15rem .6rem;
+  border-radius: 99px;
+}
+
+.slide-dots-row {
+  display: flex;
+  gap: .4rem;
+  margin-left: auto;
+}
+
+.slide-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.35);
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+  border: none;
+  padding: 0;
+}
+
+.slide-dot.active {
+  background: #fff;
+  transform: scale(1.25);
+}
+
+.slide-dot:hover:not(.active) {
+  background: rgba(255,255,255,.65);
+}
+
+.slides-track {
+  position: relative;
+  min-height: 380px;
+}
+
+.slide {
+  display: none;
+  padding: 1.75rem 1.75rem 1.25rem;
+  animation: slideFadeIn .25s ease;
+}
+
+.slide.active {
+  display: block;
+}
+
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.slide-heading {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--indigo);
+  margin-bottom: 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 2px solid var(--purple-pale);
+}
+
+.slide p {
+  color: var(--gray-700);
+  line-height: 1.7;
+  font-size: .97rem;
+}
+
+.slide-list {
+  padding-left: 1.4rem;
+  color: var(--gray-700);
+  line-height: 1.8;
+  font-size: .97rem;
+}
+
+.slide-list li + li {
+  margin-top: .2rem;
+}
+
+.slide-footer {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  padding: .85rem 1.25rem;
+  background: var(--gray-50);
+  border-top: 1px solid var(--gray-200);
+}
+
+.slide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .45rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gray-300);
+  background: #fff;
+  color: var(--indigo);
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s, border-color .15s, color .15s;
+  white-space: nowrap;
+}
+
+.slide-btn:hover:not(:disabled) {
+  background: var(--purple-pale);
+  border-color: var(--purple);
+  color: var(--purple);
+}
+
+.slide-btn:disabled {
+  opacity: .4;
+  cursor: default;
+}
+
+.slide-progress-bar {
+  flex: 1;
+  height: 5px;
+  background: var(--gray-200);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.slide-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--indigo) 0%, var(--purple) 100%);
+  border-radius: 99px;
+  transition: width .3s ease;
+}
+
+/* ── Slide Viewer Responsive ─────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .slide {
+    padding: 1.25rem 1rem 1rem;
+  }
+  .slide-heading {
+    font-size: 1.05rem;
+  }
+  .slide-footer {
+    flex-wrap: wrap;
+  }
+  .slide-progress-bar {
+    order: -1;
+    flex-basis: 100%;
+  }
+}
