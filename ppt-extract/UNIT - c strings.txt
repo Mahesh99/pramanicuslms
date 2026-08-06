@@ -1,0 +1,67 @@
+=== SLIDE 1 ===
+1
+C Strings
+A C string is a variable-length array of characters that is delimited by the null character. A string is a sequence of characters. A string literal is enclosed in double quotes.
+=== SLIDE 2 ===
+2
+DECLARING AND INITIALIZING STRING VARIABLES Declaring a String:A string variable is a valid C variable name and always declared as an array.The general form of declaration of a string variable is,		char string_name [size];The size determines the number of characters in the string_name. When the compiler assigns a character string to a character array, it automatically supplies a null character(‘\0’) at the end of the string. The size should be equal to the maximum number of characters in the string plus one.
+=== SLIDE 3 ===
+3
+DECLARING AND INITIALIZING STRING VARIABLES Initializing a String: This can be done in two ways.	1.	char str1[7]=“Welcome”;	2.	char str2[8]={‘W’,’e’,’l’,’c’,’o’,’m’,’e’,’\0’};		
+=== SLIDE 4 ===
+4
+Storing Strings and Characters
+=== SLIDE 5 ===
+5
+Differences Between Strings and Character Arrays
+=== SLIDE 6 ===
+6
+Strings in Arrays
+=== SLIDE 7 ===
+7
+Character Literals and String Literals
+=== SLIDE 8 ===
+8
+String Literal References
+=== SLIDE 9 ===
+9
+Defining Strings
+Memory for strings must be allocated before the string can be used.
+=== SLIDE 10 ===
+10
+Initializing Strings
+=== SLIDE 11 ===
+11
+String Input/Output Functions
+C provides two basic ways to read and write strings.First, we can read and write strings with the formatted input/output functions, scanf/fscanf and printf/fprintf. Second, we can use a special set of string-only functions, get string (gets/fgets) and put string ( puts/fputs ).
+=== SLIDE 12 ===
+12
+			STRING INPUT/OUTPUT FUNCTIONS(Contd…)Formatted input and output functions:	scanf ()	and printf()The string can be read using the scanf function with the format specifier %s. Syntax for reading string using scanf function is		scanf(“%s”, string_name);Disadvantages:The termination of reading of data through scanf function occurs, after finding first white space through keyboard. White space may be new line (\n), blank character, tab(\t).For example if the input string through keyword is “hello world” then only “hello” is stored in the specified string.
+=== SLIDE 13 ===
+13
+			        STRING INPUT/OUTPUT FUNCTIONS(Contd…)The various options associated with printf ()	1. Field width specification	2. Precision specifier	3. Left Justification		Field Width Specification	Syntax:		%ws Here, w is the specified field width and s indicates that it is a string.NOTE:If the string to be printed is larger than the field width w, the entire string will be printed.If the string to be printed is smaller than the field width w, then appropriate numbers of blank spaces are padded at the beginning of the string so as to ensure that field width w is reached.
+=== SLIDE 14 ===
+14
+			STRING INPUT/OUTPUT FUNCTIONS(Contd…)Precision Specifier:		Syntax: 	%w.ns Here, w is the specified field width, n indicates that first n characters have to be displayed and s indicates that the string is being used.The string is printed right justification by default.Left justification:		Syntax:	%-w.ns Here, - just before w indicates that string is printed using left justification.w is the field with and s indicates that the string is being printed.
+=== SLIDE 15 ===
+15
+Character I/O from keyboard:To read characters from the keyboard and write to the screen, it takes the following form: 	char c = getchar( );     //reads one character from the keyboard	              putchar(c);    // display the character on the monitor Un-formatted input functions:	gets ()	and puts()C provides easy approach to read a string of characters using gets() function.	Syntax:  	gets (string_name);The function accepts string from the keyboard. The string entered includes the white spaces. The input will terminate only after pressing <Enter Key>.Once the <Enter key > is pressed, a null character(\0) appended at the end of the string.Advantage: It is capable of reading multiple words from the keyword.To display the string on the screen we use a function puts() .	Syntax:		puts(str);Where str is a string variable containing a string value.
+=== SLIDE 16 ===
+16
+gets and fgets Functions
+=== SLIDE 17 ===
+17
+puts and fputs Operations
+=== SLIDE 18 ===
+18
+Arrays of Strings
+Ragged arrays are very common with strings.Consider, for example, the need to store the days of the week in their textual format.We could create a two-dimensional array of seven days by ten characters, but this wastes space.
+=== SLIDE 19 ===
+19
+Print Days of the Week
+=== SLIDE 20 ===
+20
+Print Days of the Week
+=== SLIDE 21 ===
+21
+Pointers to Strings

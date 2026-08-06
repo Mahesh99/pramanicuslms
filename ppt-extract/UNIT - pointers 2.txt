@@ -1,0 +1,55 @@
+=== SLIDE 1 ===
+1
+Pointer for Inter-function Communication
+One of the most useful applications of pointers is in functions, C uses the pass-by-value for downward communication and the pass-by-address for upward communication.
+=== SLIDE 2 ===
+2
+An Unworkable Exchange
+=== SLIDE 3 ===
+3
+Exchange Using Pointers
+=== SLIDE 4 ===
+4
+Every time we want a called function to have access to a variable in the calling function, we pass the addressof that variable to the called function and usethe indirection operator to access it.
+Note
+=== SLIDE 5 ===
+5
+Functions Returning Pointers
+=== SLIDE 6 ===
+6
+Pointers to Pointers
+ So far, all our pointers have been pointing directly to     data. It is also possible that a pointer point to other pointers. For example, we can have a pointer pointing to a     pointer to an integer.
+=== SLIDE 7 ===
+7
+Pointers to Pointers
+=== SLIDE 8 ===
+8
+Using Pointers to Pointers
+=== SLIDE 9 ===
+9
+Using pointers to pointers
+=== SLIDE 10 ===
+10
+Using pointers to pointers
+=== SLIDE 11 ===
+11
+Using pointers to pointers
+=== SLIDE 12 ===
+12
+Demonstrate Size of Pointers
+=== SLIDE 13 ===
+13
+Demonstrate Size of Pointers
+=== SLIDE 14 ===
+14
+Demonstrate Size of Pointers
+=== SLIDE 15 ===
+15
+Dereference Type Compatibility
+=== SLIDE 16 ===
+16
+A void pointer cannot be dereferenced.
+Note
+When several values need to be sent back to the calling function, use address parameters for all of them. Do not return one value and use address Parameters for the others.
+=== SLIDE 17 ===
+17

@@ -1,0 +1,103 @@
+=== SLIDE 1 ===
+1
+Topics to be coveredPointers: Pointer Constants,Pointer Values, Pointer Variables, Accessing Variables Through Pointers, Pointer Declaration and Definition, Declaration versus Redirection, Initialization of Pointer Variables, Pointer for inter function communication, Pointer to pointers.Arrays and Pointers: Pointer arithmetic and arrays, Memory allocation functions, static and dynamic memory allocation, array of pointers.Strings: Input output functions, string handling functions.
+=== SLIDE 2 ===
+2
+Objectives 
+❏ To understand the concept and use of pointers❏ To be able to declare, define, and initialize pointers❏ To write programs that access data through pointers❏ To use pointers as parameters and return types❏ To understand pointer compatibility, especially regarding pointers to pointers
+                                    Pointers
+=== SLIDE 3 ===
+3
+Derived Types
+=== SLIDE 4 ===
+4
+A pointer is a constant or variable that contains an address that can be used to access data. Pointers are built on the basic concept of pointer constants.
+=== SLIDE 5 ===
+5
+Character Constants and Variables
+A Character Constant is a value and can be stored in a variable.
+=== SLIDE 6 ===
+6
+Pointer Constants
+Pointer constants, drawn from the set of addresses for a computer, exist by themselves. We cannot change them; we can only use them.
+=== SLIDE 7 ===
+7
+Print Character Addresses
+ An address expression(unary expression) consists of an     ampersand (&) and a variable name. The address operator (&) extracts the address for a variable. The address operator format is: 	&variable_name
+=== SLIDE 8 ===
+8
+Integer Constants and Variables
+A variable’s address is the first byte occupied by the variable.
+=== SLIDE 9 ===
+9
+Pointer Variable
+Pointer variable can store the address of a variable into another variable.
+=== SLIDE 10 ===
+10
+Multiple Pointers to a Variable
+=== SLIDE 11 ===
+11
+A pointer that points to no variable contains the special null-pointer constant, NULL.
+Note
+=== SLIDE 12 ===
+12
+An indirect expression, one of the expression types in the unary expression category, is coded with an asterisk (*) and an identifier.The indirection operator is a unary operator whose operand must be a pointer value.For example, to access the variable a through the pointer p, we simply code *pThe indirection operator is:	*p
+Accessing Variables Through Pointers
+=== SLIDE 13 ===
+13
+Accessing Variables Through Pointers
+=== SLIDE 14 ===
+14
+Address and Indirection Operators
+The Indirection and Address Operators are the inverse of each other.
+=== SLIDE 15 ===
+15
+Pointer Variable Declaration
+=== SLIDE 16 ===
+16
+Declaring Pointer Variables
+=== SLIDE 17 ===
+17
+Demonstrate Use of Pointers
+=== SLIDE 18 ===
+18
+Declaration versus Redirection
+An asterisk operator can be used in two different contexts:For declaration and for redirection.Declaration: When an asterisk is used for declaration, it is associated with a type.For example, we define a pointer to an integer as			int *pa;			int *pb;Redirection: When used for redirection, the asterisk is an operator that redirects the operation from the pointer variable to a data variable.For example, given two pointers to integers, pa and pb, sum is computed as		int sum = *pa + *pb;
+=== SLIDE 19 ===
+19
+Uninitialized Pointers
+=== SLIDE 20 ===
+20
+Initializing Pointer Variables
+Example:		int a;			//variable-value unknown		int *p = &a;		//p has valid address		*p = 98;		//a assigned value 98
+=== SLIDE 21 ===
+21
+=== SLIDE 22 ===
+22
+=== SLIDE 23 ===
+23
+Add Two Numbers Using Pointers
+=== SLIDE 24 ===
+24
+Add Two Numbers Using Pointers
+=== SLIDE 25 ===
+25
+Add Two Numbers Using Pointers
+=== SLIDE 26 ===
+26
+Demonstrate Pointer Flexibility
+=== SLIDE 27 ===
+27
+Using One Pointer for Many Variables
+=== SLIDE 28 ===
+28
+Using One Pointer for Many Variables
+=== SLIDE 29 ===
+29
+One Variable with Many Pointers
+=== SLIDE 30 ===
+30
+Using A Variable with Many Pointers
+=== SLIDE 31 ===
+31
+Using A Variable with Many Pointers

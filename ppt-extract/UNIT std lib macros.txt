@@ -1,0 +1,192 @@
+=== SLIDE 1 ===
+UNIT-3
+1
+=== SLIDE 2 ===
+Repetitive control structures – Pre-test and post-test loops, initialization and updation, event and counter controlled loops, while, do..while, for, break and continue statements, comma expressionFunctions – User-defined functions, Function definition, arguments, return value, prototype, arguments and parameters, inner-function communication. Standard functions – Math functions, Random numbers.Scope – local, global.Parameter passing – Call by value and call by reference.Recursive functions – Definition, examples, advantages and disadvantages.Macros – Definition, examples, comparison with functions.
+Topics to be covered in UNIT-3
+2
+=== SLIDE 3 ===
+3
+Standard Functions
+ C provides a rich collection of standard functions whose definitions     have been written and are ready to be used in our programs. To use these functions, we must include their function declarations. We discuss the following:Math FunctionsRandom NumbersSome of the header files includes the following functions are: <stdio.h> 	Standard I/O functions<stdlib.h> 	Utility functions such as string conversion routines, 		memory  allocation routines, etc..,<string.h> 	String manipulation functions<math.h> 	Mathematical functions <ctype.h> 	Character testing and conversion functions
+=== SLIDE 4 ===
+4
+Library Functions and the Linker
+=== SLIDE 5 ===
+Math Functions
+5
+The following are some of the math functions: Absolute Ceil Floor Truncate Round Power Square RootAll the above functions are available in math.h header file.
+=== SLIDE 6 ===
+Absolute Functions: An absolute value is the positive rendering of the values        regardless of its sign. The integer functions are abs, labs, llabs.Syntax:	int abs(int number);	long labs(long number);	long long abs(long number); The float function is fabs:	float abs(float number);Example:	abs(3)		gives 	3		fabs(3.4)	gives 	3.4
+6
+=== SLIDE 7 ===
+Ceil Function: A ceiling is the smallest integer value greater than or equal to a     number. Format of ceil function: 	double ceil(double number);	float ceilf(float number);	long double ceill(long double number); Example: ceil(-1.9)	gives	-1.0ceil(1.1)	gives	2.0Floor Function: A floor is the largest integer value that is equal to less than a number. Format of floor function: 	double floor(double number);	float floorf(float number);	long double floorl(long double number); Example: floor(-1.1)	gives	-2.0floor(1.9)	gives	 1.0
+7
+=== SLIDE 8 ===
+8
+Ceiling Function
+=== SLIDE 9 ===
+9
+Floor Function
+=== SLIDE 10 ===
+Truncate Function: The truncate function return the integral in the direction of 0. Format of trunc function:	double trunc(double number);	float truncf(float number);	long double truncl(long double number); Example: trunc(-1.1)	gives	-1.0trunc(1.9)	gives	 1.0Round Function: The round function returns the nearest integral value. Format of round function:	double round(double number);	float roundf(float number);	long double roundl(long double number); Example: round(-1.1)	gives	-1.0round(1.9)	gives	 2.0round(-1.5)	gives	-2.0
+10
+=== SLIDE 11 ===
+Power Function: The power function returns the value of the x raised to the power y that     is xy.Format of pow function:	double pow(double number1, double number2); Example: pow(2,5)	gives	32Square Root Function: The square root function returns the non negative square root of a      number. Format of sqrt function:	double sqrt(double number); Example: sqrt(4.0)	gives	2.0
+11
+=== SLIDE 12 ===
+Random Numbers: A random number is a number selected from a set in which all members     have the same probability of being selected.  Each time the function is called it generates another number. Random functions uses the previous random number. In C, we can use the default seed provided by the system or we can     specify our own seed. Calling the random function several times generates a series of random     numbers.
+12
+=== SLIDE 13 ===
+13
+Generating a Random Number Series
+=== SLIDE 14 ===
+ C provides two functions to build a random number series, which are     available in stdlib.h header file.	seed random (srand)	random (rand)The seed random function (srand) creates the starting seed for a number     series. Format of srand function is:	void srand(unsigned int seed);Generating the same series in each run: To generate the same number series in each run, we can either omit     srand or we can provide a constant seed, preferably a prime number,     such as 997.Example:	srand(997);
+14
+=== SLIDE 15 ===
+Generating a different series in each run: To generate different series in each run, we use the time of day as the          seed. The C call for the time, which requires the time.hExample:	srand(time(NULL)); Note: srand must be called only once for each randomnumber series.The random number function (rand) returns a pseudo random integer     between 0 and RAND_MAX, which is defined in the standard library     as the largest number that rand can generate.  Each call generates the next number in a random number series. Format of rand function is: 	int rand (void);
+15
+=== SLIDE 16 ===
+16
+Creating Temporal Random Numbers
+=== SLIDE 17 ===
+17
+Creating Temporal Random Numbers
+=== SLIDE 18 ===
+18
+Creating Pseudorandom Numbers
+=== SLIDE 19 ===
+19
+Creating Pseudorandom Numbers
+=== SLIDE 20 ===
+Generating random numbers in the specified range: To generate random numbers in the range 0…50 then the random     function should be rand() % 51.  Here 51 is the scaling factor, it must be greater than the highest number     needed.For different range (not from 0): The random function should be rand() % range + minimum Here range = (maximum - minimum) +1Example:	For the range 3 – 7		range = (7 – 4) + 1		rand() % range + 3
+20
+=== SLIDE 21 ===
+21
+Random Number Scaling for 3–7
+=== SLIDE 22 ===
+22
+Generating Random Numbers in the Range 10 to 20
+=== SLIDE 23 ===
+23
+Generating Random Numbers in the Range 10 to 20
+=== SLIDE 24 ===
+24
+Scope
+ Scope determines the region of the program in which a defined         object is visible.  Scope pertains to any object that can be declared, such as a variable     or a function declaration. There are three types: Global Scope (File Scope) Local Scope (Block Scope) Function Scope
+=== SLIDE 25 ===
+Rules for Local Scope(Block Scope):  Block is zero or more statements enclosed in a set of braces. Variables are in scope from their point of declaration until the end of     the block. Variables defined within a block have a local scope. They are visible in that block scope only. Outside the block they are     not visible. For example, a variable declared in the formal parameter list of a     function has block scope, and active only in the body only. Variable declared in the initialization section of a for loop has also     block scope, but only within the for statement.
+25
+=== SLIDE 26 ===
+//Example for local scope or block scope{ 	int a = 2;				printf (“%d\n”, a);		 /* outer block a 2 is printed */	{		int a = 5;				printf (“%d\n”, a);	/* inner block a 5 is printed */	}	printf (“%d\n”, a);		/* 2 is printed */} /* a no longer defined */		Outer “a” Masked.
+26
+ In the above block, A variable that is declared in an outer block is     available in the inner block unless it is re-declared. In this case the outer block declaration is temporarily “masked”.
+=== SLIDE 27 ===
+Rules for Global Scope (File Scope):  File scope generally includes all declarations outside function and all     function headers. An object with file scope sometimes referred to as a global object. File scope includes the entire source file for a program, including any     files included in it. An object with file scope has visibility through the whole source file     in which it is declared. For Example, a variable declared in the global section can be accessed     from anywhere in the source program.
+27
+=== SLIDE 28 ===
+//Example program for global scopevoid fun1();			void fun2();int count;			void main(){	count = 100;	fun1();}void fun1(){	printf("Count is = %d\n",count);	fun2();}void fun2(){	int count;	for(count = 0;count < 5;count++)		printf("*");}
+28
+Output:Count is = 100*****
+=== SLIDE 29 ===
+Local Variables: Variables that are declared in a block known as local variables. They are known in the block where they are created and active in the     block only. They hold their values during the execution of the block. After completing the execution of the block they are undefined. Global Variables: Global variables are known throughout the entire program and may be     used in any piece of code. Also, they will hold their values during the entire execution of the     program. Global variables are created by declaring them outside of the function     and they can be accessed by any expression. In general we are declaring global variable at the top of the program.
+29
+=== SLIDE 30 ===
+Rules for Function Scope:  Variables defined within a function (including main) are local to this     function and no other function has direct access to them! The only way is by passing variables to a function as parameters. The only way to pass (a single) variable back to the calling     function is via the return statement.
+30
+=== SLIDE 31 ===
+Recursion in C In C, functions can call themselves . A function calling itself is called recursive function. Recursion is a repetitive process, where the function calls itself. Generally normal function only knows how to solve the simplest     case of the problem. When the simplest case is given as an input, the function will     immediately return with an answer. However, if a more complex input is given, a recursive function will     divide the problem into 2 pieces: A part that it knows how to solve and  Another part that it does not know how to solve.
+31
+=== SLIDE 32 ===
+Concept of recursive function: A recursive function is invoked or called to solve a problem.  The statement that solves a problem is known as the base case. Every recursive function must have a base case. The rest of the function is known as the general case. The recursion step is done until the problem converges to become the     simplest case. This simplest case will be solved by the function which will then     return the answer to the previous copy of the function. The sequence of returns will then go all the way up until the original     call of the function finally return the result.
+32
+=== SLIDE 33 ===
+Example: Recursive Factorial Function Iteration Definition:fact (n) = 1                                     		if n=0             = n*(n-1)*(n-2)…….3*2*1   		if n>0 Recursion Definition:fact (n) = 1			if n=0  		(Base Case)	 = n*fact (n-1) 		if n>0		(General Case)
+33
+=== SLIDE 34 ===
+#include<stdio.h>long factorial (long);				/* function prototype */void main (void) {	long int i;	i=4;	printf ("%2ld! = %1ld\n", i, factorial (i)); 	/* function call */}long factorial (long number) 			  /* function definition */{	if (number = =0)		return 1;	else           return (number * factorial (number-1)); }
+34
+OUTPUT:4! = 24
+=== SLIDE 35 ===
+Designing a Recursive Function: In the above program, once the base condition has reached, the solution begins. The program has found one part of the answer and can return that part to the next more general statement.Thus, after calculating factorial (0) is 1, and then it returns 1.That leads to solve the next general case, 	factorial (1)  1*factorial (0)  1*1  1The program now returns the value of factorial (1) to next general case,       factorial (2), 	factorial (2)  2*factorial (1)  2*1  2As the program solves each general case in turn, the program can solve the next higher general case, until it finally solves the most general case, the original problem. The following are the rules for designing a recursive function:	1. First, determine the base case.	2. Then, determine the general case.	3. Finally, combine the base case and general case in to a function.
+35
+=== SLIDE 36 ===
+36
+factorial(4) Recursively:
+=== SLIDE 37 ===
+37
+ITERATION | RECURSION
+Iteration explicitly uses repetition structure. | Recursion achieves repetition by calling the same function repeatedly.
+Iteration is terminated when the loop condition fails | Recursion is terminated when base case is satisfied.
+May have infinite loop if the loop condition never fails | Recursion is infinite if there is no base case or if base case never reaches.
+Iterative functions execute much faster and occupy less memory space. | Recursive functions are slow and takes a lot of memory space compared to iterative  functions
+Difference between Iteration and Recursion
+=== SLIDE 38 ===
+MacrosPreprocessor Commands: The C compiler is made of two functional parts: a preprocessor and a     translator. The preprocessor is a program which processes the source code before it     passes through the compiler. The translator is a program which converts the program into machine     language and gives the object module.There are three major tasks of a preprocessor directive: Inclusion of other files (file inclusion) Definition of symbolic constants and macros(macro definition) Conditional compilation of program code/Conditional execution of     preprocessor directives
+38
+=== SLIDE 39 ===
+Macros (Cont…)File Inclusion: The first job of a preprocessor is file inclusion that is copying of one or     more files into programs. The files are usually header files and external files containing functions     and data declarations.General form is:	#include filenameIt has two different forms:1. #include <filename> It is used to direct the preprocessor to include header files from the     system library.2. #include “filename” It is used to direct the preprocessor look for the files in the current     working directory and standard library.
+39
+=== SLIDE 40 ===
+Macros (Cont…)
+40
+MyFile.h 	#include<stdio.h>	#define sum(x, y)  (x+y)
+//Example program to include user defined header file#include<stdio.h> #include “MyFile.h” void main(){	int a=10,b=20;	printf(“\n The sum=%d”, sum(a,b));}
+OUTPUT:	The sum=30
+=== SLIDE 41 ===
+Macros (Cont…)Macro Definition: A macro definition command associates a name with a sequence of     tokens. The name is called the macro name and the tokens are referred to as the     macro body.The following syntax is used to define a macro:	#define macro_name(<arg_list>) macro_body Here #define is a define directive, macro_name is a valid C identifier.macro_body is used to specify how the name is replaced in the program before it is compiled.
+41
+=== SLIDE 42 ===
+Macros (Cont…)Macro Definition (Cont…): Macro must be coded on a single line. We can use backslash( \ ) followed immediately by a new line to code     macro in multiple lines. Performs a text substitution – no data type checking. We need to carefully code the macro body. Whenever a macro call is encounter, the preprocessor replaces the call     with the macro body. If body is not created carefully it may create an error or undesired result.
+42
+=== SLIDE 43 ===
+//Example for macro to calculate square of a given number#include<stdio.h>#define square(x) (x*x)	/* macro definition */void main(){	int a=10;	printf("\nThe square of %d=%d", a, square(a));}
+43
+OUTPUT:	The square of 5 = 25
+Macros (Cont…)
+=== SLIDE 44 ===
+Macros (Cont…)Symbolic Constants: Macro definition without arguments is referred as a constant. The body of the macro definition can be any constant value including     integer, float, double, character, or string.  However, character constants must be enclosed in single quotes and     string constants in double quotes.Example:		#define PI 3.14159 Here “PI” replaces with "3.14159“.
+44
+=== SLIDE 45 ===
+Macros (Cont…)Nested Macros: C handles nested macros by simply rescanning a line after macro     expansion. Therefore, if an expansion results in a new statement with a macro ,the     second macro will be properly expanded. For Example: 	#define sqre(a)  (a*a)	#define cube(a)  (sqre(a)*a)	The expansion of 			x=cube(4); 	results in the following expansion: 	x=(sqre(4)*4);	After rescanning becomes		x=((4*4)*4);
+45
+=== SLIDE 46 ===
+Macros (Cont…)Undefining Macros: Once defined, a macro command cannot be redefined. Any attempt to redefine it will result in a compilation error. However, it is possible to redefine a macro by first undefining it, using     the #undef command and defining it again. Example:		#define Val 30			…		#undef Val 		#define Val 50
+46
+=== SLIDE 47 ===
+Macros (Cont…)The Defined Operator: The defined operator can be used only in a conditional compilation. It can be used in macros. The value of defined (macro-name) is 0 if the name is not defined and 1     if it is defined. For Example:		#define Val 24The value of defined(Val) is 1 and the value of !defined(Val) is 0.
+47
+=== SLIDE 48 ===
+Macros (Cont…)Conditional Compilation: It allows us to control the compilation process by including or excluding     statements. Cast expressions, size of, enumeration constants cannot be evaluated in     preprocessor directives.  Its structure is similar to if statement.Syntax for conditional compilation: 	#if expression1		code to be included for true  	#elif expression2		code to be included for true 	#else 		code to be included false	#endif
+48
+=== SLIDE 49 ===
+Macros (Cont…)Conditional Compilation (Cont…): Example: 		#if !defined( NULL ) 			#define NULL 0		#endif  The above code determines the symbolic constant NULL is defined or     not. If NULL is defined, defined(NULL) evaluates to 1,If NULL is not     defined, and this function defines NULL to be 0. Every #if must end with #endif. #ifdef means #if defined(name). #ifndef means #if !defined(name).
+49
+=== SLIDE 50 ===
+Macros (Cont…)Conditional Compilation (Cont…):
+50
+Command | Meaning
+#if expression | When expression is true, the code that follows is included for compilation.
+#endif | Terminates the conditional command.
+#else | Specifies alternate code in two-way decision.
+#elif | Specifies alternate code in multi-way decision.
+#ifdef name | Tests for the macro definition.
+#ifndef name | Tests whether macro is not defined .
+Conditional Compilation Commands
+=== SLIDE 51 ===
+Macros (Cont…)Conditional Compilation (Cont…):#include<stdio.h>#define val 1void main(){ 	#if !defined(number)		#define number 100	#endif	#ifdef val		#define pi 3.14	#endif	printf(“\n The number = %d”,number);	printf(“\n The value of pi = %f”,pi); }
+51
+Output:The number = 100The value of pi = 3.140000
+=== SLIDE 52 ===
+Macros (Cont…)
+52
+Macro | Function
+Macro is Preprocessed | Function is Compiled
+No Type Checking  | Type Checking is Done
+Code Length Increases | Code Length remains Same
+Speed of Execution is Faster | Speed of Execution is Slower
+Before Compilation macro name is replaced by macro value | During function call , Transfer of Control takes place
+Useful where small code appears many time | Useful where large code appears many time
+Generally Macros do not extend beyond one line | Function can be of any number of lines
+Macro does not Check Compile Errors | Function Checks Compile Errors
+Difference between Macro and Function

@@ -1,0 +1,329 @@
+=== SLIDE 1 ===
+UNIT-IV
+arrays- definition, initialization, strings as character arrays ,bubble sort ,sequential search.two dimensional and multidimensional arrays, and variable length arrays.
+=== SLIDE 2 ===
+Agenda
+IntroductionDefinition of an ArrayCategories of an ArrayExamples for array.
+=== SLIDE 3 ===
+Definition of array
+Array- array is a collection of similar data types stored contiguously in memory under the same name.Array- it is a collection of homogeneous elements.HOW TO CREATE AN ARRAY Before we create an array, we need to decide on three properties:     Element type:  what kind of data will your array hold?  ints, double, chars?   Remember, we can only choose one type.Array Name: what kind of name you use to declare array?Which follows the identifier rules.    Array size:  how many elements will your array contain?When we initially write our program, we must pick an array size. An array will stay this size throughout the execution of the program. In other words, we can change the size of an array at compile time, but cannot change it at run-time.
+=== SLIDE 4 ===
+USING ARRAYS IN C  In C, the arrays can be classified based on how the data items are arranged for human understanding    Arrays are broadly classified into three categories,         1. One dimensional arrays         2. Two dimensional arrays         3. Multi dimensional arrays
+=== SLIDE 5 ===
+1. ONE DIMENSIONAL ARRAYS
+One dimensional array is a linear list consisting of related and similar data items. In memory all the data items are stored in contiguous memory locations one after the other. syntax-
+Datatype array_name[size];
+Ex-  int a[10]; created an array of 10 integers      float x[5];      created an array of 5 floating point values    double z[8];     created an array of 8 double values.
+=== SLIDE 6 ===
+Referencing/accessing array elements
+Array elements are accessed with subscript, the number in the brackets following the array name.This number specifies the elements position in  the array.The subscript would be 0,1,...... n-1.
+=== SLIDE 7 ===
+Few important points about the array
+1. an array is a collection of similar elements.2. the first element in the array is numbered from 0 to n-1.3. while declaring an array we have to specify type and size(dimension) of an array to the compiler.4. however big an array all the elements are always stored in contiguous memory location.
+=== SLIDE 8 ===
+Initializing array elements
+We have four options for initializing one dimensional arrays.But, first, REMEMBER THIS:  Just like regular variables, arrays that have not been initialized may contain “garbage values.”But, now, the stakes are even higher.  If you declare an array with 31 elements, and forget to initialize it, you end up with 31 garbage values!Option 1 Initializing all memory locationsIf you know all the data at compile time, you can specify all your data within brackets:          int x [5] = {75, 79, 82, 70, 68};during compilation, 5 contiguous memory locations are reserved by the compiler for the variable temp and all these locations are initialized as shown in Fig. If the size of integer is 2 bytes, 10 bytes will be allocated for the variable temp.        x[0]        x[1]        x[2]        x[3]         x [4]        1000     1002    1004      1006      1008               Address              Figure:  Storage Representation of array
+=== SLIDE 9 ===
+// C program to read an array elements and find the sum of the elements.
+#include <stdio.h>void main(){ 	int a[10];            int i, SIZE, total=0;            printf(“\n Enter the size of the array : “);            scanf(“%d”,&size);  	for (i = 0; i < SIZE ; i++)      		scanf(“%d”,&a[i]);	for (i = 0; i < SIZE ; i++)		total += a[i];   	printf("Total of array element values is %d\n", total);   	getch();}
+=== SLIDE 10 ===
+Option 2 initialization without size If we omit the size of your array, but specify an initial set of data, the compiler will automatically determine the size of your array. This way is referred as initialization without size. int X [] = {75, 79, 82, 70, 68};the array size will be set of the total number of initial values specified.Here, the compiler creates an array of 5 elements.
+ x[0]        x[1]          x[2]        x[3]         x [4]   1000      1002          1004      1006        1008               Address              Figure:  Storage Representation of array
+=== SLIDE 11 ===
+Option 3 Partial Array InitializationIf the number of values to be initialized is less than the size of the array, then the elements are initialized in the order from 0th location. The remaining locations will be initialized to zero automatically.Even though compiler allocates 5 memory locations, using this declaration statement, the compiler initializes first three locations with 75,70 and 82,the next set of memory locations are automatically initialized to 0’s by the compiler as shown in figure
+x[0]      x[1]      x[2]      x[3]     x [4]   1000   1002   1004  1006    1008               Address              Figure:  Storage Representation of array
+=== SLIDE 12 ===
+Option 4 If you do not know any data ahead of time, but you want to initialize everything to 0, just use 0 within { }. For example:   int x [5] = {0};
+x[0]      x[1]      x[2]      x[3]       x [4]   1000   1002     1004    1006    1008               Address              Figure:  Storage Representation of array
+ For example: 		int x [5] = {5};
+x[0]      x[1]      x[2]      x[3]     x [4]   1000   1002   1004  1006    1008               Address              Figure:  Storage Representation of array
+=== SLIDE 13 ===
+Array of characters(string)
+In c language array of characters are treated as character string.The size in the character array represents the maximum number of characters that the string can hold.For example:   char name[6];Declares name as an character array (string) that can hold a maximum of 6 characters.    “SNIST”     
+S
+N
+I
+S
+T
+\0
+Whenever compiler find array of characters , it terminates with the additional character call it as null character.  so name[5]- contains the null character.When declaring character arrays, we must always use one extra space for the null character.
+=== SLIDE 14 ===
+Initialization of character array char name[]= {‘s’,’n’,’i’,’s’,’t’,’\0’}; or char name[]=“snist”;- in this declaration compiler automatically inserts the null character.Bound checkingIn c there is no check to see whether the subscript used for an array exceeds the size of an array or not.
+Ex-  main()       {            int x[50];            for(i=0;i<=60;i++)            {                   x[i]=i;             }        }
+This will leads to unpredictable results.There is no error message from compiler
+=== SLIDE 15 ===
+TWO DIMENSIONAL ARRAYS
+Whenever you want to store the tabular data use the two dimensional array.Example- store the student name, rollno, and attendance.The data must be in rows and columns.- matrixDeclaration of two-dimensional array        data type   array_name[rows][columns]; 
+=== SLIDE 16 ===
+2- dimensional arrays
+Example            char names[3][4];in the above declarationchar(dataType)     specifies type of element in each slotnames(array_name)    specifies name of the array [3](rows)     specifies number of rows[4](cols)       specifies number of columns Initialization of two dimensional arrays An array may be initialized at the time of declaration: 		char names [3][4] = {					      {‘J’, 'o', 'h', 'n'},  					      {‘M’, 'a', 'r', 'y'},					      {‘I’, 'v', 'a', 'n'}					    }; While initializing a 2-d array it is necessary to mention the column dimension. so that compiler automatically arrange the elements in rows and columns.Row dimension is optional.In memory all the elements are stored in row – major- format.
+=== SLIDE 17 ===
+They are stored in memory as  			col0		col1		col2Row0	[0][0]       [0][1]	       [0][2]Row1	[1][0]       [1][1]	      [1][2]Row2	[2][0]       [2][1]	      [2][2]
+=== SLIDE 18 ===
+Memory Map of a 2-Dimensional Array
+=== SLIDE 19 ===
+ int x[4][3]={ 				{1,    2,    3},				{4,    5,    6},				{7,    8,    9},				{10, 11, 12}}; int x[3][2]={1,2,3,4,5,6}; int x[][4]={1,2,3,4,5,6}; int x[2][]={1,2,3,4,5,6};  int x[][]={1,2,3,4,5,6};
+Never work
+Initializing 2D arrays
+An array may be initialized at the time of declaration:
+=== SLIDE 20 ===
+Initializing 2D arrays
+char names[3][4] = {			   { 'J', 'o', 'h', 'n'} ,  			   { 'M', 'a', 'r', 'y'} ,			   { 'I', 'v', 'a', 'n'}			  }; 
+An integer array may be initialized to all zeros as follows:This only works for zero.
+int nums[3][4] = {0};
+nums[0][0] = 16;printf("%d", nums[1][2]); 
+To access an element of a 2D array, you need to specify both the row and the column:
+'J' 'o' 'h' 'n'
+'M' 'a' 'r' 'y'
+is stored:
+'J'
+'o'
+'h'
+'n'
+'M'
+'a'
+'r'
+'y'
+Address     
+...42694270427142724273427442754276...
+Two-dimensional arrays in C are stored in "row-major format": the array is laid out contiguously, one row at a time:
+=== SLIDE 21 ===
+3. Multidimensional array
+C allows arrays of three or more dimensions.Syntax       
+Data type array_name[size1][size2]..[sizen];
+Array declarations should understand from right-to-leftint a[10][3][2];“an array of ten arrays of three arrays of two ints”
+=== SLIDE 22 ===
+int arr[3][4][2] ={{			{		{{ 2, 4 },	{ 7, 6 },	{ 8, 9 },{ 7, 8 },	{ 3, 4 },	{ 7, 2 },{ 3, 4 },	{ 5, 3 },	{ 3, 4 },{ 5, 6 }	{ 2, 3 }	{ 5, 1 }},			},		}};
+Three-Dimensional Array
+array of three arrays
+Array of 4 rows and 2 columns
+=== SLIDE 23 ===
+Three-Dimensional Array
+=== SLIDE 24 ===
+Memory mapping of three dimensional array
+=== SLIDE 25 ===
+/* write a c program to calculate the addition of two matrices*/#include<stdio.h>#include<conio.h>void main() {  int m,n,i,j,a[10][10],b[10][10],c[10][10]; printf("\n enter the size of the matrix\n"); scanf("%d %d", &m,&n); printf("enter the elements of matrix a\n"); for(i=0;i<m;i++) { for(j=0;j<n;j++)  {   scanf("%d", &a[i][j]);   }//forj  }//fori  printf("\nenter the elements of matrix b\n");  for(i=0;i<m;i++)  {  for(j=0;j<n;j++)  {   scanf("%d",&b[i][j]);   }//forj   }//fori
+ //addition of matrix   for(i=0;i<m;i++)   {   for(j=0;j<n;j++)   {   c[i][j]=a[i][j]+b[i][j];   }//forj   }//for i   //display resultant matrix   for(i=0;i<m;i++)   {   for(j=0;j<n;j++)   {   printf("%d\t",c[i][j]);   }   printf("\n");   }//fori   getch();   }
+=== SLIDE 26 ===
+/* Fill 2-d array, print out values, sum the array. 	*/#include <stdio.h>#define M	3					/* Number of rows */#define N	4					/* Number of columns */int	main(void){	int		a [ M ] [ N ], i, j, sum = 0;	for ( i = 0; i < M; ++i )		/* fill the array */		for (j = 0; j < N, ++j )			a [ i ] [ j ] = i + j;	for ( i = 0; i < M; ++i ){		/* print array values */		for (j = 0; j < N, ++j ) 			printf(“a [ %d ] [ %d ] = %d     “, i, j, a[ i ] [ j ]);		printf (“\n”);	}	for ( i = 0; i < M; ++i )		/* sum the array 		*/		for (j = 0; j < N, ++j )			sum += a[ i ] [ j ];	printf(“\nsum = %d\n\n”);	return 0;}
+=== SLIDE 27 ===
+pointers
+Introduction Pointers are one of the derived types in C. One of the powerful tool and easy to use once they are mastered. Some of the advantages of pointers are listed below:A pointer enables us to access a variable that is defined outside the function.Pointers are more efficient in handling the data tables.Pointers reduce the length and complexity of a program.The use of a pointer array to character strings save data storage space in memory.The real power of C lies in the proper use of pointers.
+=== SLIDE 28 ===
+As we know, computers use their memory for storing the instructions of a program, as well as the values of the variables that are associated with it. The computer’s memory is a sequential collection of ‘storage cells’.Each cell can hold one byte of information, has a unique number associated with it called as  ‘address’.The computer addresses are numbered consecutively, starting from zero. The last address depends on the memory size.Let us assume the size of the memory is 64K then,	The total memory locations = 64K				      = 64   *   1K				      = 64   *   1024 bytes				      = 65536 bytes (locations)So, here the last address is 65535(started with 0).
+=== SLIDE 29 ===
+Whenever we declare a variable, the system allocates , an appropriate location to hold the value of the variable somewhere in the memory,.Consider the following declaration,	int i=10;This declaration tells the C compiler to perform the following activities:Reserve space in the memory to hold the integer value.Associate the name i with this memory location.Store the value 10 at this location.We can represent i’s location in the memory by the following memory map:
+10
+  i
+65524
+Variable name
+Value at location
+Address of variable
+=== SLIDE 30 ===
+We can print the address through following program.    main() {  int i=10;  printf(“address of i=%u”,&i);  printf(“value of i=%d”,i);  } 
+65524
+10
+& operator is used to print the address of the variable.The format specifier of address is %u (unsigned integer),the reason is addresses are always positive values. We can also use %x to know the address of a variable. 
+Note - & operator should not be used for the constant expressions. 	&125		(Pointing at constant)	            int a[10];	             &a		(pointing to array name) 	              &(x+y)	(pointing at expressions)	
+=== SLIDE 31 ===
+Pointer- definition
+A variable Which holds the address of some other variable is called pointer variable. A pointer variable should always contain the address only.The * Operator (asterisk)It is called as ‘Value at address’ operator. It returns the value stored at a particular address.It is also Known as Indirection or Dereferencing Operator. accessing a variable through pointerthe following sequence of operations have to be performed ,to use pointers.   Declare an ordinary variable.Declare a pointer variable.Initialize a pointer variable (Provide link between pointer variable and ordinary variable).Access the value of a variable using pointer variable. 
+=== SLIDE 32 ===
+Declaring a variable
+the syntax for declaring a pointer variable 
+data type    *ptr_name;
+This tells the compiler three things about the variable ptr_name.The asterisk(*) tells that the variable ptr_name is a pointer variable.2.ptr_name needs a memory location.3.ptr_name points to a variable of type data type.  For example,			int *p; p is a pointer variable of type integer, which stored the address of the  integer variable. It doesn’t mean the p is going to store the integer value
+=== SLIDE 33 ===
+Initialize a pointer variableOnce a pointer variable has been declared, it can be made to point to a variable using statement such as
+ptr_name=&var;
+Which cause ptr_name to point to var.Now ptr_name contains the address of var. This is known as pointer initialization.Before a pointer is initialized it should not be used.
+ Access the value of a variable using pointer variable.     
+*ptr_name
+=== SLIDE 34 ===
+10
+8342
+i
+pi
+8342
+8338
+output
+=== SLIDE 35 ===
+The following code illustrates how to declare int ,char and float pointers. Here we have declared three variables of type int, float and char ,also three pointer variables points to int, float and char. Remember here  pf points to the value of type float but its type is unsigned integer only 
+10
+15.67
+A
+i
+c
+f
+6432
+4562
+8765
+=== SLIDE 36 ===
+Pointer to pointer
+A variable which contains the address of a pointer variable is known as pointer to pointer.Syntax for declaring pointer to pointer         
+data type **ptr_ptr;
+main() {   int i=100,*j,**k;  j=&i;  k=&j; printf(“\n address of i=%u”,&i); printf(“\n address of i=%u”,j);printf(“\n address of i=%u”,*k);printf(“\n address of j=%u”,&j);printf(“\n address of j =%u”,k);printf(“\n address of k=%u”,&k);printf(“\n value of i =%d”,i);Printf(“\n valude of i=%d”,*(&i)); printf(“\n value of i=%d”,*j);Printf(“\n value of i=%d”,**k);} 
+100
+2002
+2000
+k
+2000
+2002
+2004
+j
+i
+=== SLIDE 37 ===
+Lab programs- 22/11/2011
+Write a c program for multiplication of two matrices.Cycle- 7.1 a function that takes an integer n as argumnet and return 1 if it is prime number and 0 otherwise.7.2 a function that takes a real number x and positive integer n asarguments and return xn7.3 a function that takes a positive integer n as an argument and returns the nth fibonacci number7.4 factorial of a number using recursive and non recursive functions.7.5 gcd of two numbers using recursion and non recursion.7.6 Lcm of two numbers using recursion.
+=== SLIDE 38 ===
+Passing parameters to a function
+Parameters to be passed to a function in two ways. 1. call by value 2. call by reference. 1. call by value-      in which values of the actual arguments are copied into the corresponding formal arguments of the called function.    whatever changes made in the formal arguments in the called function have no effect on the values of the actual arguments. 2. call by reference-In this method the addresses of the actual arguments in the calling function are copied into the formal arguments of the called function.Whatever changes made in the formal arguments in the called function can have effect to the value of the actual arguments in the calling function.        
+=== SLIDE 39 ===
+Write a c program to swapping of two numbers  using call by value and call by reference.
+Call by value void swap(int,int); void main()  {   int a=10,b=20;   swap(a,b);   printf(“\n a and b values after swapping”);  printf(“\na=%d,b=%d”,a,b);  }//main  // function definition  swap(int x,int y)  {    int temp;     temp=x;    x=y;   y=temp;   printf(“\nx=%d,y=%d”,x,y);}//swap()   
+Call by reference void swap(int,int); void main() {   int a=10,b=20;   swap(&a,&b);  printf(“\n and b values after swapping”); printf(“\n a=%d b=%d”,a,b); }//main  //function definition swap(int *x,int *y) {     int temp;      temp=*x;    *x=*y;   *y=temp; }//swap
+=== SLIDE 40 ===
+Write a function to compute are and circumference of  a circle, having area and circumference as pointer  arguments and radius as an ordinary argument.
+ void main()  {     int radius;    float area,circum;    printf(“\n enter radius of a circle”);    scanf(“%d”,&radius);    areacircum(radius, &area,&circum);    printf(“area=%f”, area);    printf(“\n circumference=%f”,circum);   }//main    areacircum(int r,float *a, float  *c)       {      *a=3.14*r*r;     *c=2*3.14*r;        }    
+=== SLIDE 41 ===
+Arithmetic operations on pointers
+ void main(){    int i=3,*x;    float j=1.5,*y;    char k=‘c’,*z;    x=&i;    y=&j;    z=&k;   printf(“\n address in x=%u”,x);   printf(“\n address in y=%u’,y);   printf(“\n address in z= %u,z);   x++;  y++;  z++;  printf(“\n address in x=%u”,x);   printf(“\n address in y=%u’,y);   printf(“\n address in z= %u,z);}  
+address in x=65524address in y=65520address in z=65519
+Whenever a pointer is incremented it points to the immediately  next location  of its type.When an integer pointer x is incremented  it points to an address two locations after the current location.  
+address in x=65526address in y=65524address in z=65520
+If pointer variable is decremented it points to  the earlier locations by its type.
+=== SLIDE 42 ===
+The following operations we can perform on the pointers. 1. add number to a pointer.           
+ void main()  {     int i=10,*j;     j=&i;     printf(“j value=%u”,j);     j=j+1;     printf(“j value=%u”,j);     j=j+3; printf(“j value=%u”,j);
+2. Subtract a number from a pointer
+ void main()  {     int i=10,*j;     j=&i;     printf(“j value=%u”,j);     j=j-1;     printf(“j value=%u”,j);     j=j-3; printf(“j value=%u”,j);
+=== SLIDE 43 ===
+3. Subtraction of one pointer from another pointer  one pointer can be subtracted from the other pointer both must be point to elements of the same array.The resultant value would be the number of elements  separating the corresponding array elements.
+void main(){  int a[]={10,20,30,40,50};  int *i,*j;  clrscr();  i=&a[1];  j=&a[4];  printf("\nvalue of i=%u",i);  printf("\nvalue of j=%u",j);  printf("\n%d %d",j-i,*j-*i);  getch();  }
+Out put 3  30
+=== SLIDE 44 ===
+4. comparison of two pointer variables.         pointer variables can be compared if both the pointer variables point to the objects of the same data type.   comparisions can be useful when both pointer variables point to elements of the same array. 
+void main(){ int a[]={10,20,30,40,50,60}; int *x,*y; clrscr(); x=&a[4]; y=&a[5]; if(x<y)   printf("\n the x value is less than y value"); else    printf("\n the x value is less than y value");    getch();    }//main
+=== SLIDE 45 ===
+The following operations should not be applied on the pointers.  1. addition of two pointers.               2. multiplication of a pointer with a constant  3. division of a pointer with a constant.
+ int x=10,y=20; int *i,*j;  i=&x;  j=&y;printf(“%d”,i+j);
+=== SLIDE 46 ===
+Arrays and pointers
+Print the elements of the array using subscript  void main()  {     int arr[]={10,20,30,40,50};     int i;     for(i=0;i<5;i++)     {        printf(“\n address =%u”,&arr[i]);        printf(“ value =%d”,arr[i]);    }  assume that the address of zeroth element is 1000
+Print array elements using pointers void main()  {     int arr[]={10,20,30,40,50};     int i,*j;     j=&arr[0];//assign address of 0th element     for(i=0;i<5;i++)     {        printf(“\n address =%u”,j]);        printf(“ value =%d”,*j);       j++;    }
+Note- accessing the elements with pointer variable is much faster than the accessing the array elements   with the subscript.
+=== SLIDE 47 ===
+Passing arrays as arguments to functions
+We can pass array elements as arguments to the called function in two ways  1. pass individual array element at a time.  2. pass the entire array at a time1. passing individual array elements. we can pass individual array elements to the called functions by either call by value or call by reference.
+Call by value  void main(){    int i;     int arr[]={10,20,30,40,50};    for(i=0;i<5;i++)     display(arr[i]);   getch();}//maindisplay( int x) {    printf(“%d”,x);}//display  
+Call by reference void main(){    int i;     int arr[]={10,20,30,40,50};    for(i=0;i<5;i++)     display(&arr[i]);   getch();}//maindisplay( int *x) {    printf(“%d”,*x);}//display
+=== SLIDE 48 ===
+2. pass the entire array at a time
+Fixed length array- the size of the array is known when the program is written.   int arr[10];Variable length array- the size  of the array is known when the program is run.   int arr[n];If u want to pass the fixed length array as argument to the called function, simply pass the array name to called function. 
+void display(int x[]);void main(){ int arr[5]={10,20,30,40,50}; clrscr(); display(arr); getch();}//main
+void display(int x[]){int i;for(i=0;i<5;i++){printf(" %d",x[i]);}//for}//display()
+=== SLIDE 49 ===
+In variable length array we have to pass array name as well as size of the array to the called function.
+void display(int arr[],int size);void main(){int a[10];int n,i;clrscr();printf("\n enter the size of the array");scanf("%d",&n);for(i=0;i<n;i++)scanf("%d",&a[i]);display(a,n);getch();}//main
+void display(int arr[],int size){int i;for(i=0;i<size;i++)printf(" %d",arr[i]);}
+Note- In c, the name of an array gives the  address of the first element in the array
+=== SLIDE 50 ===
+ int arr[]={10,20,30,40};     arr- when we specify name of the array we get its base address.(address of the 0th element of an array)    *arr- gives the value of the zeroth element of the array- 10.*arr and *(arr+0) both expressions gives value 10. The following notations are same:arr[i]*( arr + i )*( i + arr )i[arr]
+ void main(){   int arr[]={10,20,30,40};  int i;  for(i=0;i<4;i++)  {    printf(“\naddress=%u”,&arr[i]);    printf(“value=%d %d %d %d”,arr[i],*(arr+i),*(i+arr),i[arr]);  }//for  }//main
+=== SLIDE 51 ===
+/* Demo: 2-D array is an array of arrays */main( ){int s[4][2] = { 			{ 1234, 56 },			{ 1212, 33 },			{ 1434, 80 },			{ 1312, 78 }		       } ;int i ;for ( i = 0 ; i <= 3 ; i++ )printf ( "\nAddress of %d th 1-D array = %u", i, s[i] ) ;}
+Pointers and 2-Dimensional Arrays
+s[2][1]                  all the statements are same they prints values.      * ( s[2] + 1 )* ( * ( s + 2 ) + 1 )
+=== SLIDE 52 ===
+main( ){int s[4][2] = {{ 1234, 56 },{ 1212, 33 },{ 1434, 80 },{ 1312, 78 }} ;int i, j ;
+for ( i = 0 ; i <= 3 ; i++ ){printf ( "\n" ) ;for ( j = 0 ; j <= 1 ; j++ )printf ( "%d ", *( *( s + i ) + j ) ) ;}}And here is the output...1234 561212 331434 801312 78
+=== SLIDE 53 ===
+Assign pointer to an 2-d array
+ void main( ){int s[4][2] = {{ 1,10 },{ 2, 20 },{ 3, 30 },{ 4, 40 }} ;int ( *p )[2] ;int i, j, *pint ;for ( i = 0 ; i <= 3 ; i++ ){p = &s[i] ;pint = p ;printf ( "\n" ) ;for ( j = 0 ; j <= 1 ; j++ )printf ( "%d ", *( pint + j ) ) ;}}
+Output 1 10 2 20 3 30 4 40
+ int (*p)[2];- pointer to  an array of two integers if u omit parenthesis around p means array of    two integer pointers.
+=== SLIDE 54 ===
+Array of pointers
+ int a[10];- array of 10 integers float x[10];- array of 10 real numbers char ch[10];- array of 10 characters. array of pointers- nothing but collection of addresses. Addresses of the individual variables are stored into an array or address of the array elements.  syntax 
+Data_type *array_name[size];
+ example    int *arr[10];// array of 10 integer pointers   float *x[10];// array of 10 real number pointers
+=== SLIDE 55 ===
+Array of pointers
+ void main( ){int *arr[4] ; /* array of integer pointers */int i = 31, j = 5, k = 19, l = 71, m ;arr[0] = &i ;arr[1] = &j ;arr[2] = &k ;arr[3] = &l ;for ( m = 0 ; m <= 3 ; m++ )printf ( "%d ", * ( arr[m] ) ) ;}
+=== SLIDE 56 ===
+ int a[10];- it is an array of 10 integers int  *a[10];- it is an array of 10 integer pointers int (*a)[10];- it is a pointer to an array of 10 integers.
+=== SLIDE 57 ===
+Pointer as return type of a function
+Called function returns pointer to the calling function.
+Example void main(){   int a,b; 
+=== SLIDE 58 ===
+Storage classes in c
+The storage class determines the part of member storage is allocated for an object and how long the storage allocation continues to exit.A scope specifies the part of the program which a variable name is visible, that is the accessibility of the variable by its name.  Storage class tells us:    1) Where the variable is stored.    2) Initial value of the variable.    3) Scope of the variable. Scope specifies the part of the program which a variable is accessed.   4) Life of the variable. How long variable exist in the program.There are four types of storage classes:1) Automatic storage class2) Register storage class3) Static storage class4) External storage class
+=== SLIDE 59 ===
+1.Automatic storage class
+the variable is declared with keyword auto. ( auto keyword is optional while declaring variables.) they must be declared at the start of a block.Memory is allocated automatically upon entry to a block and freed automatically upon exit from the block. Storage- automatic variable stored in the memory.Default initial value- garbage value.Scope- local to the block in which they are declared, including any blocks nested within that block. For this reasons automatic variable are also called local variable.7.      Life – within the block in which the variable is defined.
+Examples main()  {    auto int x;   printf(“%d”,x);}Output – gives  garbage value.
+ void main(){   int x=10;  {    int x=20;    {       int x=30;       printf(“x=%d”,x);     }     printf(“x=%d”,x);   }printf(“x=%d”,x);}
+Output- 30 20 10
+=== SLIDE 60 ===
+2. Register storage class
+Automatic variables are allocated storage in the main memory of the computer; however, for most computers, accessing data in memory is considerably slower than processing directly in the CPU. Registers are memory located within the CPU itself where data can be stored and accessed quickly.  Normally, the compiler determines what data is to be stored in the registers of the CPU at what times. Thus, register variables provide a certain control over efficiency of program execution.Variables which are used repeatedly or whose access times are critical may be declared to be of storage class register. Variables can be declared with keyword register as register int x;Storage- variable stored in cpu registers rather than memory.Default initial value- garbage value.Scope- local to the block in which they are declared, including any blocks nested within that block. For this reasons automatic variable are also called local variable.9.      Life – within the block in which the variable is defined.
+=== SLIDE 61 ===
+3.Static storage class
+Variables must be declared with the key word static. static int x;Storage- variable stored in computer  memory.Default initial value- zero.Scope- local to the block in which they are declared.Life –value of the variable persists between the different function calls.Static automatic variables continue to exist even after the block in which they are defined terminates. Thus, the value of a static variable in a function is retained between repeated function calls to the same function. In the case of recursive function calls we use static storage class. Static variables may be initialized in their declarations; however, the initializes must be constant expressions, and initialization is done only once at compile time when memory is allocated for the static variable.Static and auto variables are differ in their life and initial value. 
+  
+=== SLIDE 62 ===
+Difference between static and auto
+ void main(){  add();  add();  add(); getch();}//main add(){  auto int i=1;  printf(“%d”,i);  i++;}//add
+ void main(){  add();  add();  add(); getch();}//main add(){  static  int i=1;  printf(“%d”,i);  i++;}//add
+Out put 1 1 1 
+Out put 1 2 3 
+ void main(){  static int i; printf(“%d”,i); }
+Out put 0
+=== SLIDE 63 ===
+4. External storage class
+All variables we have seen so far have had limited scope (the block in which they are declared) and limited lifetimes (as for automatic variables). These variables are declared with keyword extern as          extern int x; ( extern keyword may be omitted).Storage- Memory.Default initial value- zero.Scope- as long as the programs execution.Life- doesn’t come to an end.External variables are declared outside the all the functions. So that they are available to all the functions in a program.
+=== SLIDE 64 ===
+ int i; void main(){   printf(“%d”,i);->0   add();--------1   add();------2   sub();------1   sub();----0    }//main() add(){   i++;  printf(“i=%d”i);}//add()Sub() {    i--;    printf(“i=%d”,i); }//sub()  
+ extern int x=100; void main(){  int x=200;   printf(“x=%d”,x);   display();}// display(){  print(“%d”,x);}
+Note- local variable has highest preference than global variable so that local variable value gets printed.
+=== SLIDE 65 ===
+ 
+ int x=20; void main() {   extern int y;   printf(“%d %d”,x,y);} int y=20;     
+ If any variable declared out side of  the main is treated as extern variable/ global variable.If any variable declared as global  variable inside of the main that must  be declared with key word extern  and defined outside of the main. 
+=== SLIDE 66 ===
+strings
+A string is an array of characters.A group of characters stored in an array is called string. Declaration
+Char arry_name[size];
+Size specifies no of characters in the array.When string stored into an array, compiler     automatically insert null character ‘\n’at the end of the   string.The size must be specified one extra space.  
+=== SLIDE 67 ===
+Initialization of strings
+  char name[10]= “hyderabad”;                        or   char name[10]= {‘h’,’y’,’d’,’e’,’r’,’a’,’b’,’a’,’d’,’\0’};When character array is initialized we must explicitly specify the null character.Character array initialized without specifying the size also.       char name[]=“hyderabad”;Compiler automatically determines the size of this array based on the no of elements initialized.  
+=== SLIDE 68 ===
+Reading string from terminal(keyboard)
+ scanf() can be used to read a string with format specifier %s.                      
+char name[10];Scanf(“%s”,name);
+Scanf() function assigns the characters typed at keyboard to array until the enter key is pressed.  once enter key is pressed, scanf() places a ‘\0’ character at the end of an array.
+Note – problem with the scanf() function is that it terminates  input on the first white space it finds. So a string with multiple words are not accepted by the string.  ex-                hyderabad snist would not be accepted.
+=== SLIDE 69 ===
+To read the multiple words of a string use another function gets().
+ void main(){   char name[30];   printf(“enter the string”);    gets(name); } 
+=== SLIDE 70 ===
+Writing\  display strings on to a screen
+We can use printf() function to display string on to a screen with %s format specifier.   
+Printf(“%s”,name);
+ in this case also printf() function cannot print the     multiple words.        like hyderabad snist
+To overcome this problem use puts() to display multiple words. unlike printf() function, puts() places the cursor to the   next line. \n is not necessary.
+=== SLIDE 71 ===
+Use puts and gets functions 
+  void main()  {      char name[30];      puts(“enter the string”);      gets(name);      puts(name);  }
+=== SLIDE 72 ===
+/* Program to demonstrate printing of a string */ void main( ){char name[ ] = "Klinsman" ;int i = 0 ;while ( i <= 7 ){printf ( "%c", name[i] ) ;i++ ;}}
+Print a string using loops
+=== SLIDE 73 ===
+ void main( ){char name[ ] = "Klinsman" ;int i = 0 ;while ( name[i] != `\0' ){printf ( "%c", name[i] ) ;i++ ;}}
+With the help of null character
+=== SLIDE 74 ===
+ void main( ){char name[ ] = "Klinsman" ;char *ptr ;ptr = name ; /* store base address of string */while ( *ptr != `\0' ){printf ( "%c", *ptr ) ;ptr++ ;}}
+With the help of pointers to print string
+=== SLIDE 75 ===

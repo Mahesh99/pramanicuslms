@@ -1,0 +1,269 @@
+@import "tailwindcss";
+@import "../styles/course.css";
+
+:root {
+  --background: #f9fafb;
+  --foreground: #1f2937;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+.classroom-login {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+.classroom-login-brand {
+  background: linear-gradient(165deg, #fafbfc 0%, #f1f3f6 50%, #e9ecef 100%);
+  color: var(--gray-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  border-right: 1px solid var(--gray-200);
+}
+
+.classroom-login-brand-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 28rem;
+}
+
+.classroom-login-logo {
+  width: min(100%, 22rem);
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+
+.classroom-login-tagline {
+  margin-top: 1.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--gray-800);
+}
+
+.classroom-login-location {
+  margin-top: 0.45rem;
+  font-size: 0.9rem;
+  color: var(--gray-500);
+}
+
+.classroom-login-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+  background: #ffffff;
+}
+
+.classroom-login-panel-inner {
+  width: 100%;
+  max-width: 28rem;
+}
+
+.auth-card--flat {
+  max-width: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  background: transparent;
+}
+
+.auth-notice {
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  border-radius: 8px;
+  color: #92400e;
+  font-size: 0.88rem;
+  margin: 0 0 1.25rem;
+  padding: 0.75rem 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .classroom-login {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .classroom-login-brand {
+    min-height: 14rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .classroom-login-logo {
+    width: min(100%, 16rem);
+  }
+
+  .classroom-login-tagline {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .classroom-login-panel {
+    padding: 2rem 1.25rem 3rem;
+  }
+}
+
+.auth-page {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(ellipse at top, #dbeafe 0%, transparent 55%),
+    var(--gray-50);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.auth-card h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.auth-sub {
+  color: var(--gray-600);
+  font-size: 0.92rem;
+  margin-bottom: 1.25rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.auth-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+.auth-form input {
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.auth-form input:focus {
+  outline: 2px solid #93c5fd;
+  border-color: var(--blue);
+}
+
+.btn-primary {
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-google {
+  width: 100%;
+  background: white;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 0.25rem;
+}
+
+.btn-google:hover {
+  background: var(--gray-50);
+}
+
+.auth-divider {
+  text-align: center;
+  color: var(--gray-500);
+  font-size: 0.8rem;
+  margin: 1rem 0;
+  position: relative;
+}
+
+.auth-error {
+  color: var(--red);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.auth-success {
+  color: var(--green);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.auth-footer {
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  text-align: center;
+}
+
+.topnav-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Markdown-rendered module content (from Supabase `modules.content_md`) */
+.content-intro {
+  margin-bottom: 2rem;
+}
+
+.content-intro .callout {
+  margin-top: 0;
+}
+
+.module-nav-wrap {
+  max-width: 1200px;
+  margin: -3rem auto 0;
+  padding: 0 1.5rem 5rem;
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .module-nav-wrap {
+    grid-template-columns: 1fr;
+    margin-top: -2rem;
+  }
+}
+
+.content .code-block pre,
+.content .md-code-block pre {
+  margin: 0;
+}

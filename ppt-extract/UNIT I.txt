@@ -1,0 +1,225 @@
+=== SLIDE 1 ===
+1
+Objectives 
+❏ To review basic computer systems concepts❏ To be able to understand the different computing environments and their components❏ To review the history of computer languages❏ To be able to list and describe the classifications of computer languages❏ To understand the steps in the development of a computer program❏ To review the system development life cycle
+Introduction to Computers
+=== SLIDE 2 ===
+2
+1.1 Computer Systems
+Today computer systems are found everywhere. Computers have become almost as common as televisions. But what is a computer? A computer is a system made of two major components: hardware and software.
+Computer HardwareComputer Software
+Topics discussed in this section:
+=== SLIDE 3 ===
+3
+FIGURE 1-1  A Computer System
+--- NOTES ---
+Hardward: Monitor, keyboard,mouse,cpu,printer,scanner,fingerprint sensor..etcSoftware: OS(windows,linux,mac..etc), drivers,firmware..etc
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 4 ===
+4
+FIGURE 1-2  Basic Hardware Components
+--- NOTES ---
+Storages: hdd,ssd,flash
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 5 ===
+5
+FIGURE 1-4  Relationship between system and application software
+--- NOTES ---
+System Softwares: OS, Program translator(compiler), Firmware, Device Drivers, Utility software(winzip)Application softwares: MS office, Photoshop, VS Code, Dev C++..etc 
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 6 ===
+6
+1.2 Computing Environments
+In the early days of computers, there was only one environment, the mainframe computer hidden in a central computing department. With the advent of minicomputers and personal computers, the environment changed with computers on virtually every desktop. In this section we describe several different environments.
+Personal Computing EnvironmentTime-Sharing EnvironmentClient/Server EnvironmentDistributed Computing
+Topics discussed in this section:
+=== SLIDE 7 ===
+7
+FIGURE 1-5  Personal Computing Environment
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 8 ===
+8
+FIGURE 1-6  Time-sharing Environment
+=== SLIDE 9 ===
+9
+FIGURE 1-7  The Client/Server Environment
+=== SLIDE 10 ===
+10
+FIGURE 1-8  Distributed Computing
+=== SLIDE 11 ===
+11
+1-3   Computer Languages
+To write a program for a computer, we must use a computer language. Over the years computer languages have evolved from machine language to natural languages.
+Machine LanguagesSymbolic LanguagesHigh-Level Languages
+Topics discussed in this section:
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 12 ===
+12
+FIGURE 1-9  Computer Language Evolution
+=== SLIDE 13 ===
+13
+PROGRAM 1-1
+The Multiplication Program in Machine Language
+=== SLIDE 14 ===
+14
+The only language understood by computer hardware is machine language.
+Note
+=== SLIDE 15 ===
+15
+PROGRAM 1-2
+The Multiplication Program in Symbolic Language
+=== SLIDE 16 ===
+16
+Symbolic language uses symbols, or mnemonics, to represent the various machine language instructions.
+Note
+=== SLIDE 17 ===
+17
+PROGRAM 1-3
+The Multiplication Program in C
+continued
+=== SLIDE 18 ===
+18
+PROGRAM 1-3
+The Multiplication Program in C (continued)
+=== SLIDE 19 ===
+19
+1.4 Creating and Running Programs
+In this section, we explain the procedure for turning a program written in C into machine language. The process is presented in a straightforward, linear fashion, but you should recognize that these steps are repeated many times during development to correct errors and make improvements to the code.
+Writing and Editing Programs Compiling ProgramsLinking ProgramsExecuting Programs
+Topics discussed in this section:
+=== SLIDE 20 ===
+20
+FIGURE 1-10  Building a C Program
+=== SLIDE 21 ===
+21
+1.5 System Development
+We’ve now seen the steps that are necessary to build a program. In this section, we discuss how we go about developing a program. This critical process determines the overall quality and success of our program. If we carefully design each program using good structured development techniques, our programs will be efficient, error-free, and easy to maintain.
+System Development Life CycleProgram Development
+Topics discussed in this section:
+=== SLIDE 22 ===
+22
+FIGURE 1-11  Waterfall Model
+=== SLIDE 23 ===
+23
+Program Development
+1.Understand the problem2.Develop solution                     1.Sequence Chart                   2.Algorithm/psuedocode                   3.Flowchat        3.Write the program4.Test the program
+=== SLIDE 24 ===
+24
+Defining the problem, also known as program analysis, involves the following tasks.      Specifying the input requirements      Specifying the output requirements      Specifying the processing requirementsAn Algorithm is a step-by-step description of the solution to a problemWriting the program is called CodingThe logic that has been developed in the algorithm is used to  write the        program Using any programming language, the algorithm can be  converted to             coding. Documentation exists to assist in the understanding or use of a program
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 25 ===
+25
+ Compiling is a process in which the source program instructions are       translated  into  a  form  that  is suitable for execution by the     computer During execution, the executable object code is loaded into the    computer memory and the program instructions are executed Testing is the process of executing a program with the deliberate     intent of finding errors  Debugging is the process of identifying the root cause of an     error and correcting it  Programs require a continuing process of maintenance to keep     pace with changing requirements and implementation     technologies.
+=== SLIDE 26 ===
+26
+FIGURE 1-12  Structure Chart for Calculating Square Footage
+=== SLIDE 27 ===
+27
+				It is the step by step method of performing any task- It consists of a set of explicit and unambiguous finite steps,-which produces the corresponding output and terminate in a fixed     amount of time.-It may have zero or more inputs and produces one or more   outputs.
+1.6 Algorithm
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 28 ===
+28
+From Algorithms to Hardware
+Algorithm
+Program
+A real computer
+Translate (by a human being)
+Translate (by another program)
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 29 ===
+29
+Properties of an algorithm:-Finiteness    :- An algorithm must terminate in a finite number of                            steps.Definiteness  :- Each step of the algorithm must be precisely and                             unambiguously stated.Effectiveness:-Each step must be effective, and can be                             performed exactly in a finite amount of time.Generality     :- The algorithm must be complete in itself.Input/Output  :- Each algorithm must take zero, one or more                             inputs and produces one or more output values.                          
+The algorithm written in english like language is called pseudo code.
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+--- NOTES ---
+Task-greatest numberRecipe directions
+=== SLIDE 30 ===
+30
+                                         It is a diagrammatic representation of an algorithm. It is constructedby using different types of boxes and symbols .The operation to be performed is written inside the box.
+A Flow Chart is a blue print or a logical diagram of the solution to a Problem
+1.7 Flowchart 
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 31 ===
+31
+SYMBOLS USED WITH FLOWCHARTS
+NAME | SYMBOL | PURPOSE
+Terminal |  | Beginning and ending of flow chart
+Input/output |  | Input/output data
+Process |  | Mathematical calculations, data transfer, logical operations
+Decision Making |  | Alternate path
+connector |  | Transfer to another point in a flow chart
+Flow Direction |  | Path of a logical flow in a program
+oval
+parallelogram
+Rectangle
+diamond
+circle
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 32 ===
+32
+Addition of  2 number:-Algorithm:-Start.Read a, b.Compute c<- a+bDisplay cstop
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 33 ===
+33
+Flowchart for  hello_world.c
+int main (){    printf("Hello, world!\n");}
+An oval denotes either the start or the end of the program, or a haltoperation within the program (which we’ll learn about later).A parallelogram denotes either an input operation or an output operation.An arrow denotes the flow of the program.
+=== SLIDE 34 ===
+34
+2.Find the area of Triangle:-
+Algorithm:-
+Start.Read radius as ‘r’Compute area<-3.14*r*r.Display areaStop
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 35 ===
+35
+Categories of an algorithm:-It is mainly divided in to three types.Sequence                     -   A series of steps that we perform one after the other.                  -    Steps carried out in given sequenceSelection                  -    Making a choice from multiple available options.		    -    Next step depends on outcome of conditionIteration                   -   Performing repetitive tasks               -   Partial sequence of steps executed repeatedly until condition reached
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 36 ===
+36
+SELECTION:-
+1.Find the largest of two numbers        start      read a,b      If a>b          print ‘a’ is the largest number      else           print ‘b’ is the largest number      End-if    stop.
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 37 ===
+37
+SELECTION:-
+1.Find the largest of three numbers          start      read a,b,c      If a>b          Then If a>c                   print ‘a’ is the largest number               else                   print ‘c’ is the largest number           End-if      Else If b>c           then                  print ‘b’ is the largest number            else                  print ‘c ‘ is the largest number.      End-if   stop.
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 38 ===
+38
+Iteration:-
+ Print numbers 1 to n. 1.start 2.Read n 3.Initialize i 4.while (i<=n) 5. Print i
+1
+;
+6. i      i+1;7.End while8.Stop
+start
+Readn
+ii+1
+i>=n
+Print i
+stop
+NO
+YES
+i1
+--- NOTES ---
+Md.Jaffar Sadiq Asst.Prof. IT Dept. SNIST
+=== SLIDE 39 ===
+39
+1.8 Software Engineering
+Software engineering is the establishment and use of sound engineering methods and principles to obtain software that is reliable and that works on real machines. This definition, from the first international conference on software engineering in 1969, was proposed 30 years after the first computer was built. During that period, software was more of an art than a science. 

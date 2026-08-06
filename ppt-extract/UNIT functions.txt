@@ -1,0 +1,173 @@
+=== SLIDE 1 ===
+UNIT-3
+1
+=== SLIDE 2 ===
+Repetitive control structures – Pre-test and post-test loops, initialization and updation, event and counter controlled loops, while, do..while, for, break and continue statements, comma expressionFunctions – User-defined functions, Function definition, arguments, return value, prototype, arguments and parameters, inner-function communication. Standard functions – Math functions, Random numbers.Scope – local, global.Parameter passing – Call by value and call by reference.Recursive functions – Definition, examples, advantages and disadvantages.Macros – Definition, examples, comparison with functions.
+Topics to be covered in UNIT-3
+2
+=== SLIDE 3 ===
+3
+Objectives 
+To design and implement programs with more than one function.To understand the purpose of the function declaration, call, and definition.To understand the four basic function designs.To understand how two functions communicate through parameters.To understand the differences between global and local scope.
+                                    Functions
+=== SLIDE 4 ===
+4
+Derived Types
+There are six derived types in C: Functions ,Arrays, Pointer, Structure, Union and Enumerated Types.
+=== SLIDE 5 ===
+5
+Designing Structured Programs
+ The programs we have done so far have been very simple. They solved problems that could be understood without too much effort.  The principles of top–down design and structured programming         dictate that a program should be divided into a main module and its     related modules. Each module is in turn divided into sub-modules until the resulting     modules are intrinsic; that is, until they are implicitly understood     without further division.
+=== SLIDE 6 ===
+6
+Structure Chart
+ Top-down design is usually done using a visual representation of the     modules known as a structured chart. 
+=== SLIDE 7 ===
+7
+FUNCTIONS IN C A function is a self-contained block of code that carries out some         specific and well-defined task. In general, the purpose of a function is to receive zero or more pieces     of data, operate on them, and return at most one piece of data. C functions are classified into two categories	1. Library Functions	2. User Defined Functions
+=== SLIDE 8 ===
+8
+FUNCTIONS IN C (contd…)Library Functions:  These are the built in functions available in standard library of C. The standard C library is collection of various types of functions which     perform some standard and predefined tasks.Example:  abs (a) function gives the absolute value of a, available in <math.h> pow (x, y) function computes x power y. available in <math.h>  printf () and scanf () performs I/O functions and etc.., 
+=== SLIDE 9 ===
+9
+FUNCTIONS IN C (contd…)User Defined Functions:  These functions are written by the programmer to perform some specific     tasks. Example: main (), sum (), fact () , show(), display() and etc., The main distinction between these two categories is that library     functions are not required to be written by us whereas a user defined     function has to be developed by the user at the time of writing a     program.Note: In C, a program is made of one or more functions, one and only one of     which must be called main.  The execution of the program always starts with main, but it can call     other functions to do some part of the job.
+=== SLIDE 10 ===
+10
+Advantages of User-defined FunctionsModular Programming: It facilitates top down modular programming.Reduction of Source Code: The length of the source program can be reduced by using functions at appropriate places.Easier Debugging: It is easy to locate and isolate a faulty function for further investigation.Code Reusability: A program can be used to avoid rewriting the same sequence of code at two or more locations in a program.Function Sharing: Programming teams does a large percentage of programming. If the program is divided into subprograms, each subprogram can be written by one or two team members of the team rather than having the whole team to work on the complex program.
+=== SLIDE 11 ===
+11
+Structure Chart for a C Program
+=== SLIDE 12 ===
+12
+User-defined Functions
+ Like every other object in C, functions must be both declared and    defined. The function declaration or prototype gives the whole picture of the     function that needs to be defined later. The function definition contains the code for a function. A function name is used three times in a C program: for declaration,      in a call, and for definition.
+=== SLIDE 13 ===
+13
+The general form of a C user-defined function: 
+ return_type function_name (argument declaration)                {     //local declarations       ……           //statements        ……     return (expression); }
+=== SLIDE 14 ===
+14
+The general form of a C user-defined function (contd…)
+return-type: Specifies the type of value that a function returns using the return     statement.  It can be any valid data type. If no data type is specified the function is assumed to return an integer     result. function-name: Must follow same rules of variable names in C. No two functions have the same name in a C program. argument declaration: It is a comma-separated list of variables that receive the values of the     argument when function is called. If there is no argument declaration the bracket consists of keyword void.
+=== SLIDE 15 ===
+15
+ A function name is used three times in a C program: for declaration,      in a call, and for definition.Function Declaration (or) Prototype: The ANSI C standard expands the concept of forward function     declaration.This expanded declaration is called a function prototype.A function prototype performs two special tasks: First it identifies the return type of the function so that the compile can     generate the correct code for the return data. Second, it specifies the type and number of arguments used by the     function.Note: The prototype normally goes near the top of the program and must appear before any call is made to the function.
+User-defined Functions (Contd…)
+=== SLIDE 16 ===
+16
+The general form of the function prototype or declaration is:
+User-defined Functions (Contd…)
+=== SLIDE 17 ===
+17
+The Function Call: A function call is a postfix expression. The operand in a function is the function name. The operator is the parameter lists (…), which contain the actual     parameters.Example:            	 void main ()             	 {             		  sum (a, b);             	 }  When the compiler encounters the function call ,the control is transferred     to the function sum(). The function is executed line by line and produces the output for the sum     of two numbers and then control is transferred back to the main function.
+User-defined Functions (Contd…)
+User-defined Functions (Contd…)
+=== SLIDE 18 ===
+18
+Function Definition: The function definition contains the code for a function. It is made up of two parts:  The function header and the function body, the compound statement     is must.Function header consists of three parts: the return type,  the function name, and  the formal parameter list. Function body contains local declarations and function statement. Variables can be declared inside function body. Function can not be defined inside another function.
+User-defined Functions (Contd…)
+=== SLIDE 19 ===
+19
+Function Definition
+User-defined Functions (Contd…)
+=== SLIDE 20 ===
+20
+Category of User –Defined Functions:A function, depending on whether arguments are present or not and whether a value is returned or not, may belong to one of the following categories: Category 1: Functions with no arguments and no return valuesCategory 2: Functions with no arguments and return valuesCategory 3: Functions with arguments and no return valuesCategory 4: Functions with arguments and return values
+User-defined Functions (Contd…)
+=== SLIDE 21 ===
+21
+1. Functions with no arguments and no return values: This type of function has no arguments, meaning that it does not    receive any data from the calling function. Similarly function does not return any value.
+User-defined Functions (Contd…)
+ In the figure, the function greeting () do not receive any values from the     function main () and it does not return any value to the function main (). Observe the transfer of control between the functions indicated with arrows.
+=== SLIDE 22 ===
+22
+/*Example for Functions with no arguments and no return values   to print addition of sum of two numbers*/#include<stdio.h>void sum(); 		/* function prototype */void main(){	sum (); 		/* function calling*/}void sum ()		/* Function Definition */{	int x, y, z;	printf (“\n Enter the values of x and y:  “);	scanf (“%d%d”, &x, &y);	z=x+y;	printf (“\n The sum = %d”,z);}
+User-defined Functions (Contd…)
+=== SLIDE 23 ===
+23
+2. Functions with no arguments and return values: Generally, there are two ways that a function terminates execution and     returns to the caller. When the last statement in the function has executed and conceptually       the function’s ending ‘}’ is encountered. Whenever it faces return statement. The return statement: It is the mechanism for returning a value from the called function to its caller. The general form of the return statement is:                              return expression;
+User-defined Functions (Contd…)
+=== SLIDE 24 ===
+24
+Functions with no arguments and return values (Contd…)  The calling function is free to ignore the returned value. Expression after the return is not necessary.The return statement has two important uses:It causes an immediate exit of the control from the function. That is ,it   causes program execution to return to the called function.It returns the value present in the expression. Example:	return(x + y);                          return (6 * 8);                          return (3);                          return;
+=== SLIDE 25 ===
+25
+ In this category, there is no data transfer from the calling function to the called     function. But, there is data transfer from called function to the calling function. In the above Figure, observe that the function getQuantity () do not receive any     value from the function main ().But, it accepts data from the keyboard, and     returns the value to the calling function.
+Functions with no arguments and return values (Contd…)
+=== SLIDE 26 ===
+26
+/*Example for Functions with no arguments and return values   to print addition of sum of two numbers*/#include<stdio.h>int sum();	/* function prototype */int main(){	int c;	c = sum();    	/*function calling */	printf (“\n The sum = %d”, c);}int sum ()		/* Function Definition */{	int x, y;	printf (“\n Enter the values of x and y:  “);	scanf (“%d%d”, &x, &y);	/* return value to the calling function */	return x+y;}
+User-defined Functions (Contd…)
+=== SLIDE 27 ===
+27
+3. Functions with arguments and no return values:  In this category there is data transfer from the calling function to the     called function using parameters. But, there is no data transfer from called function to the calling     function. Local Variables: Variables that are defined within a function are called local variables. A local variable comes into existence when the function is entered and     is destroyed upon exit. Function Arguments: The arguments that are supplied to function are in two categories             1. Actual Arguments/Parameters             2. Formal Arguments/Parameters
+User-defined Functions (Contd…)
+=== SLIDE 28 ===
+28
+Functions with arguments and no return values (Contd…)Actual Arguments/Parameters: Actual parameters are the expressions in the calling functions. These are the parameters present in the calling statement (function     call). Formal Arguments/Parameters: Formal parameters are the variables that are declared in the header of     the function definition.  Note: Actual and Formal parameters must match exactly in type, order, and number. Their names however, do not need to match.
+User-defined Functions (Contd…)
+=== SLIDE 29 ===
+29
+User-defined Functions (Contd…)
+Functions with arguments and no return values (Contd…)
+Observe from the above figure, the function printOne () receives one value from the function main (), display the value copy of a.
+=== SLIDE 30 ===
+30
+/*Example for Functions with arguments and no return values   to print addition of sum of two numbers*/#include<stdio.h>void sum(int,int);	/* function prototype */void main (){	int a, b;	printf (“\n Enter the values of a and b:  “);	scanf (“%d%d”, &a, &b);  	sum (a, b);    /*calling function */}void sum (int x, int y)	/* function definition */{	int z;	z=x+y;	printf (“\n The Sum =%d”, z);}
+User-defined Functions (Contd…)
+=== SLIDE 31 ===
+31
+Passing Parameters to Functions: There are two ways of passing parameters to the functions.	1. Call by value	and 	2. Call by referenceCall by value:  When a function is called with actual parameters, the values of actual     parameters are copied into the formal parameters. If the values of the formal parameters changes in the function, the values of     the actual parameters are not changed. This way of passing parameters is called call by value (pass by value). In the below example, the values of the arguments to swap () 10 and 20 are     copied into the parameters x and y. Note that the values of x and y are swapped in the function. But, the values of actual parameters remain same before swap and after swap.Note: In call by value any changes done on the formal parameter will not affect the actual parameters.
+User-defined Functions (Contd…)
+=== SLIDE 32 ===
+32
+/*Example for Functions with arguments and no return values   to swap two numbers*/#include<stdio.h>void swap (int , int );	/*function prototype */void main (){	int a, b;	printf (“\n Enter the values of a and b:  “);	scanf (“%d%d”, &a, &b);	swap (a, b);    /*function calling*/   printf (“\nFrom main The Values of a and b a=%d, b=%d “, a, b);}void swap (int x, int y)	/* function definition */{ 	int temp;   	temp=x;	x=y;	y=temp;   	printf (“\n The Values of a and b after swapping a=%d, b =%d”, x, y);}
+User-defined Functions (Contd…)
+=== SLIDE 33 ===
+33
+4. Functions with arguments and return values: In this category there is data transfer between the calling function and     called function.
+User-defined Functions (Contd…)
+Observe from the above figure, the function sqrt() receive one value from the function main (), finds the square of the number and sends the result back to the calling function.
+=== SLIDE 34 ===
+34
+/*Example for Functions with arguments and return values   to swap two numbers*/#include<stdio.h>int swap (int , int );	/*function prototype*/void main(){	int a,b;	printf (“\n Enter the values of a and b:  “);	scanf (“%d%d”, &a, &b);	c = sum (a, b);    /*calling function */	printf (“\n The Sum =%d”, c);}int sum (int x, int y)	/* Function definition */{	int z;	return x+y;}
+User-defined Functions (Contd…)
+=== SLIDE 35 ===
+35
+Parts of a Function Call
+=== SLIDE 36 ===
+36
+Examples of Function Calls
+=== SLIDE 37 ===
+37
+   Sample Program with Subfunction
+=== SLIDE 38 ===
+38
+   Sample Program with Subfunction
+=== SLIDE 39 ===
+39
+   Sample Program with Subfunction
+=== SLIDE 40 ===
+40
+void Function with a Parameter
+=== SLIDE 41 ===
+41
+void Function with a Parameter
+=== SLIDE 42 ===
+42
+Read a Number and Square It
+=== SLIDE 43 ===
+43
+Read a Number and Square It
+=== SLIDE 44 ===
+44
+Read a Number and Square It
+=== SLIDE 45 ===
+45
+Read a Number and Square It
+=== SLIDE 46 ===
+46
+Nesting of functions C permits nesting of functions, main function can call function1, function1 can call function2, which in turn calls function3 ..,There is no limit as how deeply functions can be nested. Consider the following example:In the below example ,when the main() function finds the function call sum(), then the control is transferred from main() to the function sum(), there sum() is calling the function read(), then the control is transferred to read() function, then the body of the function read() executes, then the control is transferred back to sum(). Again read() function is invoked.Observe the chain of control transfers between the nested functions.
+=== SLIDE 47 ===
+47
+#include<stdio.h>		//Example program for nested-functionsint read ();int sum ();void main (){ 	int  a, b;	printf (“%d”, sum ());}int sum (){	x=read ();	y=read ();	return x + y;}int read (){	int p;	printf (“\n Enter any value: “);	scanf (“%d”, &p);	return p;}

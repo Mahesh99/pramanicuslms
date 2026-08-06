@@ -1,0 +1,47 @@
+=== SLIDE 1 ===
+1
+String Manipulation Functions
+The C Library provides a rich set of string handling functions that are placed under the header file <string.h>.Some of the string handling functions are:	strlen()		strcat()		strcpy()		strrchr()	strcmp() 	strstr()		strchr()		strrev()Some of the functions in stdlib.h file are:	malloc()		calloc()		realloc()		free()Some of the functions in ctype.h file are:	toupper()	tolower()	toascii()		
+=== SLIDE 2 ===
+2
+				STRING HANDLING FUNCTIONS(Contd…)strlen () function: This function counts and returns the number of characters in a string. It takes the form	Syantax:	int  n=strlen(string); Where n is an integer variable, which receives the value of the length of the string. The counting ends at the first null character.
+=== SLIDE 3 ===
+3
+				STRING HANDLING FUNCTIONS(Contd…)strcat () function:The strcat function joins two strings together. It takes of the following form: 		 strcat(string1,string2);string1 and string2 are character arrays.When the function strcat is executed, string2 is appended to string1.It does so by removing the null character at the end of string1 and placing string2 from there. strcat function may also append a string constant to a string variable. The following is valid.		strcat(part1,”Good”); C permits nesting of strcat functions. Example: 		strcat(strcat(string1,string2),string3);
+=== SLIDE 4 ===
+4
+String Concatenation
+=== SLIDE 5 ===
+5
+			STRING HANDLING FUNCTIONS(Contd…)strcmp () function:The strcmp function compares two strings, it returns the value 0 if they are equal.If they are not equal, it returns the numeric difference between the first non matching characters in the strings.It takes the following form:		strcmp(str1,str2); returning value less than 0 means ''str1'' is less than ''str2'‘returning value 0 means ''str1'' is equal to ''str2'‘returning value greater than 0 means ''str1'' is greater than ''str2'' string1 and string2 may be string variables or string constants.Example: 	strcmp(name1,name2); 		strcmp(name1,”John”); 		strcmp(“their” ,”there”);
+=== SLIDE 6 ===
+6
+String Compares
+=== SLIDE 7 ===
+7
+			STRING HANDLING FUNCTIONS(Contd…)strcpy () function: It copies the contents of one string to another string.It takes the following form:		strcpy(string1,string2); The above function assign the contents of string2 to string1.string2 may be a character array variable or a string constant.  Example: 		strcpy(city ,”Delhi”);		strcpy(city1,city2);strrev() function: Reverses the contents of the string. It takes of the form 		strrev(string);Example:#include<stdio.h>#include<string.h>void main(){  	char s[]=”hello”;	strrev(s);	puts(s);} 
+=== SLIDE 8 ===
+8
+String Copy
+=== SLIDE 9 ===
+9
+String-number Copy
+Always use strncpy to copy one string to another.
+=== SLIDE 10 ===
+10
+			STRING HANDLING FUNCTIONS(Contd…)strstr () function:It is a two-parameter function that can be used to locate a sub-string in a string.It takes the form:		strstr (s1, s2);Example:	strstr (s1,”ABC”);The function strstr searches the string s1 to see whether the string s2 is contained in s1.If yes, the function returns the position of the first occurrence of the sub-string. Otherwise, it returns a NULL pointer. strchr() function:It is used to determine the existence of a character in a string.Example:   strchr (s1,’m’);   //It locates the first occurrence of the character ‘m’.Example:  strrchr(s2,’m’);  //It locates the last occurrence of the character ‘m’.
+=== SLIDE 11 ===
+11
+String in String
+=== SLIDE 12 ===
+12
+Character in String (strchr)
+=== SLIDE 13 ===
+The basic string span function, strspn, searches the string, spanning characters that are in the set and stopping at the first character that is not in the set.They return the number of characters that matched those in the set.If no characters match those in the set, they return zero.The function declaration is shown below:		int strspn(const char* str, const char* set);The second function, strcspn, is string complement span; its functions stop at the first character that matches one of the characters in the set.		int strcspn(const char* str, const char* ste);
+=== SLIDE 14 ===
+14
+String Span
+=== SLIDE 15 ===
+/*Define functions- length of a string, copy, concatenate, convert into uppercase letters, compare two strings for alphabetical order- over strings and implement in a program*/#include<stdio.h>#include<string.h>#include<stdlib.h>main() {	char str1[15],str2[15];	int n,c,len;	printf("\n Enter the string1 ");	gets(str1);	printf("\n Enter the string2 ");	gets(str2);	printf("\n***************************");	printf("\n 1. String Length          ");	printf("\n 2. String Copy            ");	printf("\n 3. String Comparison     ");	printf("\n 4. String Concat	     ");	printf("\n***************************");
+=== SLIDE 16 ===
+printf("\n Enter the choice u want to perform");scanf("%d",&n);	switch(n)	{		case 1:	len=strlen(str1);				printf("\n The length of the string entered is %d",len); 				break;		case 2:	strcpy(str1,str2);     				printf("\n 1st string =%s,2nd string=%s",str1,str2); 				break;		case 3:	c=strcmp(str1,str2);				if(c==0)					printf("\n Both are  equal");				else					printf("\n Both are different"); 				break;		case 4:	printf("\n The resultant string is: %s",strcat(str1,str2));				break;		default: 	printf("\n Enter correct choice");	}}

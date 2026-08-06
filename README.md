@@ -1,57 +1,93 @@
-# Python Training Notes — Pramanicus Academy
+# Pramanicus LMS — Python Training
 
-Detailed teaching notes for the 4-week Python Training programme at **Pramanicus Academy**, Ramanthapur, Hyderabad.
+Authenticated course notes for **Pramanicus Academy** (Ramanthapur, Hyderabad).
 
-Each module is a standalone HTML page with full explanations, worked code examples, comparison tables, callout boxes, and practice exercises.
+Students sign in with **Google** or **email/password**. Only invited emails can open modules.
 
-## Course Files
+## Stack
 
-| File | Content |
-|------|---------|
-| [`index.html`](index.html) | Course home — module navigator |
-| [`module1.html`](module1.html) | Python Fundamentals |
-| [`module2.html`](module2.html) | Control Flow |
-| [`module3.html`](module3.html) | Data Structures |
-| [`module4.html`](module4.html) | Functions |
-| [`module5.html`](module5.html) | Object-Oriented Programming |
-| [`module6.html`](module6.html) | Exception Handling &amp; File I/O |
-| [`module7.html`](module7.html) | Modules, Packages &amp; Standard Library |
-| [`module8.html`](module8.html) | Iterators, Generators &amp; Decorators |
-| [`style.css`](style.css) | Shared stylesheet |
-| [`syllabus.md`](syllabus.md) | Quick-reference Markdown syllabus |
+- Next.js (App Router)
+- Supabase Auth + Postgres (invites / enrollments)
+- Module content converted from the original HTML notes (interactive Run buttons kept)
 
-## Making the Notes Available to Students via GitHub Pages
+## Setup
 
-### Step 1 — Enable GitHub Pages (do this once, takes 30 seconds)
-1. Go to this repository on GitHub
-2. Click **Settings** → **Pages** (in the left sidebar)
-3. Under "Source", select **Deploy from a branch**
-4. Set branch to **`main`**, folder to **`/ (root)`**
-5. Click **Save**
+### 1. Install
 
-GitHub will publish the site at:
-```
-https://mahesh99.github.io/Waterreminder/
+```bash
+npm install
 ```
 
-Students bookmark this URL — it always shows the latest notes and works on any device.
+### 2. Supabase project
 
-### Option B — Share files directly (offline)
-Download and share any HTML file. Students double-click to open in any browser — no internet needed after download.
+1. Create a free project at [supabase.com](https://supabase.com)
+2. In **SQL Editor**, run [`supabase/schema.sql`](supabase/schema.sql)
+3. **Authentication → Providers**
+   - Enable **Email** (email + password)
+   - Enable **Google** and add your Google OAuth client ID/secret
+4. **Authentication → URL configuration**
+   - Site URL: `http://localhost:3000` (and your production URL later)
+   - Redirect URLs: `http://localhost:3000/auth/callback`
 
-### Option C — LMS
-Paste the GitHub Pages URL as a resource link inside Google Classroom, Moodle, or any LMS.
+### 3. Environment
 
----
+Copy `.env.example` to `.env.local` and fill in values from Supabase **Project Settings → API**:
 
-## Course Overview
+```bash
+cp .env.example .env.local
+```
 
-| | |
-|---|---|
-| **Duration** | 4 Weeks |
-| **Python Version** | 3.x |
-| **Mode** | Classroom / Online |
-| **Prerequisite** | Basic computer literacy |
+Set `ADMIN_EMAILS` to your own login email(s).
 
----
-*Pramanicus Academy — Ramanthapur, Hyderabad*
+### 4. Seed module content into Supabase
+
+Module content lives in the `modules` table (`content_md` column), not in files —
+adding a new course later is just new database rows, never new files.
+
+```bash
+npm run seed:modules
+```
+
+This reads `legacy/module*.html`, converts each to Markdown, and upserts it into
+`modules.content_md` for the `python-training` course. Re-run anytime you edit
+the legacy HTML to refresh the stored Markdown. To edit content going forward,
+update the `content_md` value directly in Supabase (Table Editor or SQL) —
+no redeploy needed.
+
+### 5. Run
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Invite flow
+
+1. Sign in with an admin email listed in `ADMIN_EMAILS`
+2. Open **Invites** (`/admin/invites`)
+3. Add a student email
+4. Student signs up / signs in with that same email (Google or password)
+5. Modules unlock automatically
+
+## Scripts
+
+| Command | Purpose |
+|---------|---------|
+| `npm run dev` | Local development |
+| `npm run build` | Production build |
+| `npm run seed:modules` | Convert `legacy/` HTML → Markdown, upsert into Supabase |
+
+Original static HTML lives in [`legacy/`](legacy/) for reference.
+
+## Adding another course later
+
+No new files needed:
+
+1. Insert a row into `courses` (new `slug`, e.g. `js-training`)
+2. Insert rows into `modules` with `course_id` pointing at that course, and
+   `content_md` holding the lesson Markdown
+3. Invite students into `enrollments` for that `course_id`
+
+The same pages/components serve any course's content — only the database rows
+change.

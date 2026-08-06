@@ -1,0 +1,185 @@
+=== SLIDE 1 ===
+1
+					Topics to be covered in Unit 6Enumerated, Structure, and Union types – The type definition (typedef), enumerated types, Structure, UnionsFiles – File name, file information table, streams, text and binary streams, stream file processing, system created steams, Standard library I/O functions, file open and close, Formatting I/O functions, Character I/O functions, Binary I/O, Standard library functions
+=== SLIDE 2 ===
+2
+Objectives 
+❏ To introduce the structure, union, and enumerated types❏ To use the type definition statement in programs❏ To use enumerated types❏ To create and use structures in programs❏ To be able to use unions in programs
+	Enumerated, Structure and Union Types
+=== SLIDE 3 ===
+3
+Derived Types
+=== SLIDE 4 ===
+4
+The Type Definition (typedef)
+A type definition, typedef, gives a name to a data type by creating a new type that can then be used anywhere a type is permitted.Its purpose is to redefine the name of an existing variable type.
+Type-definition Format
+=== SLIDE 5 ===
+5
+ The general syntax of the typedef is as follows,	typedef data_type IDENTIFIER;where typedef is the keyword that tells the compiler about the type definition, data_type refers to an existing data type and IDENTIFIER refers the “new” name given to the data type.Note that using typedef, we are not creating new data types. Instead we are creating only new name for the existing data type.These new data type names are called user-defined data types.
+=== SLIDE 6 ===
+6
+Suppose we want to store marks scored in various subjects in variables sub1, sub2 and sub3. These variables can be declared as follows, 		int sub1, sub2, sub3;Using the user-defined data types, the variables can be declared as shown below,		typedef int MARKS;		MARKS sub1, sub2, sub3;
+=== SLIDE 7 ===
+7
+//Example program to demonstrate typedef
+=== SLIDE 8 ===
+8
+Enumerated Types
+The enumerated type is a user-defined type based on the standard integer type.In an enumerated type, each integer value is given an identifier called an enumeration constant. 
+=== SLIDE 9 ===
+9
+Declaring an Enumerated Type: To declare an enumerated type, we must declare its identifier and its values. Because it is derived from integer type, its operations are the same as for integers. Syntax for defining an enumerated type is as follows,enum type_Name{	member1;	member2;	….	….};
+=== SLIDE 10 ===
+10
+Where enum is the keyword that tells the compiler about enumerated type definition, enum type_Name together represent the user defined data type and member1, member2… are integer constants but represented using descriptive names. These are called enumerator constants or enumerators.The definition is terminated with a semicolon. The syntax for declaring the variables are shown below: 		enum type_Name var;
+=== SLIDE 11 ===
+11
+Following are some of the examples of enumerator type:
+enum color{	RED, 	BLUE,	GREEN};enum color c1, c2; 
+enum days{	SUNDAY,	MONDAY,	…	SATURDAY} d1;
+=== SLIDE 12 ===
+12
+Assigning Values to Enumerated Types After an enumerated variable has been declared, we can store values in it. While, the compiler automatically assigns values to enumerated types starting with 0, the next values are initialized with a value by adding 1 to previous value.For example, 	enum color {RED, BLUE, GREEN, WHITE};Here red representing the value 0, blue is 1, green is 2, white is 3.You can also create variables from the enumerated type.For example, enum color skyColor;
+=== SLIDE 13 ===
+13
+We can override it and assign our own values.For example, to make JAN start with 1 we could use the following declaration.enum month{   JAN=1, FEB, MAR, APR, MAY,JUN, JUL, AUG, SEP, OCT, NOV, DEC}m1;Note that we need not to assign every enumerator constant value. If we omit the initializes, the complier assigns the next value by adding 1. Consider the following enumerated declaration,enum days{	sun=3, mon, tue, wed=0, thu, fri, sat} d1, d2;
+=== SLIDE 14 ===
+14
+//Example program to demonstrate enum#include<stdio.h>main(){	enum color	{		RED,		GREEN,		BLUE	}c1;	printf("%d	%d	%d",RED,GREEN,BLUE);	c1 = BLUE;	printf("\n%d	",c1);}
+Output:0	1	22
+=== SLIDE 15 ===
+15
+=== SLIDE 16 ===
+16
+=== SLIDE 17 ===
+17
+Structure
+A structure is a collection of related elements, possibly of different types, having a single name.DEFINITION OF STRUCTURES:Like all data types, structures must be declared and defined.A structure definition forms a template that may be used to crate structure objects.C has two ways to define a structure: 	tagged structure and type-defined structures.
+=== SLIDE 18 ===
+18
+TAGGED STRUCTURE: The structure definition associated with the structure name is referred as tagged structure.It does not create an instance of a structure and does not allocate any memory. The general form or syntax of tagged structure definition is as follows,	struct tag_name	{		type1 member1;		type2 member2;		……………	 };where struct is the keyword which tells the compiler that a structure is being defined, tag_name is the name of the structure and member1, member2 … are called members of the structure. The members are declared within curly braces.The closing brace must end with the semicolon.
+=== SLIDE 19 ===
+19
+Example: Student details using tagged structure     struct student      {	char name [10];	int roll_number;	float avg_marks;      };				// no memory is allocated for the structureMemory is not reserved for the structure definition since no variables are associated with the structure definition.The members of the structure do not occupy any memory until they are associated with the structure variables. The declaration of the structure variable takes of the form:		struct tag_name var1, var2…;Where, struct is the keyword, tag_name is the name of the structure.Structure variables are separated by comma, followed by semicolon.
+=== SLIDE 20 ===
+20
+Structure variable names can be created any where in the program.For example the variable declaration as follows: 	      struct student s1;   // memory is allocated for the variableNow a variable of type struct student (derived type) is created and the memory is allocated for the variable s1. The following figure shows the memory organization for the above example s1.
+=== SLIDE 21 ===
+21
+The number of bytes allocated for the structure variable is the sum of sizes of the individual members.In the above example the size of s1=16 bytes (10+2+4).You can also create structure variables in the following way: 	struct tag_name	{		type1 member1;		type2 member2;		……………	 }var1, var2…;		//Here each variable occupies memory.Example: Student details using structure variables.      	struct student 	{		char name [10];		int roll_number;		float avg_marks;	}s1;			//Here memory is allocated for a variable s1.
+=== SLIDE 22 ===
+22
+We can omit the tag_name from the structure definition, the following is valid.    struct  {	char name [10];	int roll_number; float avg_marks;   } s1, s2;	 Declares s1 and s2 as structure variables representing two students.This structure definition and declaration is normally not used because we can not declare variables in later stage in the program.
+=== SLIDE 23 ===
+23
+Structure Declaration Format
+=== SLIDE 24 ===
+24
+TYPEDEFINED STRUCTURE:The structure definition associated with keyword typedef is called type-defined structure. This is the most powerful way of defining the structure.The syntax of typedefined structure is:	typedef struct	{		type1 member1;		type2 member2;		……	} TYPE_ID;Where, typedef is keyword added to the beginning of the definition, struct is the keyword which tells the compiler that a structure is being defined and member1, member2…are called fields of the structure.The closing brace must end with type definition name which in turn ends with semicolon.
+=== SLIDE 25 ===
+25
+Example: Student details 		typedef struct  		/*Structure Definition*/	{		char name [10];		int roll_number;		float avg_marks;	} STUDENT;	//no memory is allocated for structure 	 /*Structure Declaration*/	 STUDENT s1, s2; 	//memory is allocated for the variables Note: Using typedef it is not possible to declare a variable. But, we can have user defined data type. TYPE_ID can be treated as the new data type.
+=== SLIDE 26 ===
+26
+INITIALIZATION OF STRUCTURES:The rules for structure initialization are similar to the rules for array initialization. The initializers are enclosed in braces and separate by commas.They must match their corresponding types in the structure definition.The syntax is shown below: 	struct tag_name variable = {value1, value2,… valuen};Structure initialization can be done in any of the following initializations.Initialization along with Structure definitionConsider the structure definition for student with three fields name, roll number and average marks. The initialization of variable can be done as shown below: 	struct student 	{ 		char name [5]; 		int roll_number; 		float avg;  	} s1= {“Ravi”, 10, 67.8};
+=== SLIDE 27 ===
+27
+Initialization during Structure declaration:Consider the structure definition for student with three fields name, roll number and average marks. The initialization of variable can be done as shown below, 	struct student 	{ 		char name[5]; 		int roll_number; 		float avg;  	};	struct student s1= {“Ravi”, 10, 67.8};
+=== SLIDE 28 ===
+28
+Initializing Structures
+=== SLIDE 29 ===
+29
+Points to Remember:The members of the structure cannot be initialized in the structure definition.For example,	struct s	{		 char name [10] ="ravi”;		 int rno;	} s1;		//It is invalid.The initial values are assigned to members of the structure on one-to-one basis i.e., the values are assigned to various members in the order specified from the first member.For example, 		s1= {“ravi”, 60, 56.7};is valid. Here, the string “ravi” will be assigned to the first member, 60 is assigned to the second member and 56.7 is assigned to the third member.
+=== SLIDE 30 ===
+30
+During partial initialization, the values are assigned to members in the order specified and the remaining members are initialized with garbage values. For example, 		s1= {“ravi”};will assign the string “ravi” to name and the remaining members are initialized to garbage values.However the statement,	s1= {40, 67.8};is invalid, because, without initializing the first member name, we are trying to initialize last two members.During initialization, the number of initializers should not exceed the number of members. It leads to syntax error.For example, 	s1= {“ravi”, 45, 78.9, 89};	 The compiler issues a syntax error “too many initializers”
+=== SLIDE 31 ===
+31
+ACCESSING STRUCTURES:The members of a structure can be accessed by using dot(.) operator.Before dot, there must always be a structure variable. After the dot, there must always be a structure member.The syntax to access the structure members as follows: 	structure_variable_name. structure_member_nameFor example, consider the example as shown below, 	struct student 	{ 		char name [5]; 		int roll_number; 		float avg;  	};  	struct student s1= {“Ravi”, 10, 67.8};The members can be accessed using the variables as shown below:	s1.name 		//refers the string “ravi”	s1.roll_number 		//refers the roll_number 10	s1.avg     		//refers avg 67.8
+=== SLIDE 32 ===
+32
+Structure Direct Selection Operator
+=== SLIDE 33 ===
+33
+Pointers to Structures
+(*pointerName).fieldName  «  pointerName->fieldName
+=== SLIDE 34 ===
+34
+Interpretation of Invalid Pointer Use
+=== SLIDE 35 ===
+35
+Indirect Selection Operator
+=== SLIDE 36 ===
+36
+Copying a Structure
+=== SLIDE 37 ===
+37
+Arrays with in structures:It is also possible to declare an array as a member of structure, like declaring ordinary variables.For example to store marks of a student in three subjects then we can have the following definition of a structure. 	struct student 	{ 		char name [5]; 		int roll_number;		int marks [3]; 		float avg;  	};Then the initialization of the array marks done as follows, 	struct student s1= {“ravi”, 34, {60,70,80}};The values of the member marks array are referred as follows, 	s1.marks [0] 	will refer the 0th element in the marks	s1.marks [1] 	will refer the 1st element in the marks	s1.marks [2] 	will refer the 2ndt element in the marks
+=== SLIDE 38 ===
+38
+ARRAY OF STRUCTURES:We can also create array of structures. Array of structures can be declared as follows: 	struct tag_name array_name[size];Let’s take an example, to store the information of 3 students, we can have the following structure definition and declaration,	struct student	{		char name[10];		int rno;		float avg;	};	struct student  s[3];
+=== SLIDE 39 ===
+39
+The above code defines an array called s, which contains three elements. Each element is defined to be of type struct student. For the student details, array of structures can be initialized as follows, 	struct student s[3] = {				{“ABC”, 1, 56.7},				{“xyz”, 2, 65.8},				{“pqr”, 3, 82.4}			       };
+=== SLIDE 40 ===
+#include<stdio.h>struct student {	int rollno;	char name[20];};main() {	struct student s1 = {1222,“snist"};	printf("\n%d %s",s1.rollno,s1.name);}
+#include<stdio.h>typedef struct {	int rollno;	char name[20];}student;main() {  student s1 = {1222,"snist"};  printf("\n%d  %s",s1.rollno,s1.name);}
+#include<stdio.h>struct student {	int rollno;	char name[20];}s1;main()  {	s1.rollno = 1222;	gets(s1.name);	printf("\n%d %s",s1.rollno,s1.name);}
+=== SLIDE 41 ===
+41
+=== SLIDE 42 ===
+42
+=== SLIDE 43 ===
+43
+Enter the student details:Enter the name of the student: DineshEnter the Rollno of the student: 09311A0532Enter the Gender (Male/Female): MEnter the marks of the student: 80 76 92The details of the student are:Name of the student: DineshRollno of the student: 09311A0532Gender of the student: MAverage marks of the student: 82.666667
+=== SLIDE 44 ===
+44
+NESTED STRUCTURES:A structure which includes another structure is called nested structure. The syntax for the nesting of the structure as follows:	struct tag_name1	{		type1 member1;		…….		…….	}; 	struct tag_name2	{		type1 member1;		……		……		struct tag_name1 var;		……	};The syntax for accessing members of a nested structure as follows,	outer_structure_variable.inner_structure_variable.membername
+=== SLIDE 45 ===
+45
+Example:	struct data	{		int day;		int month;		int year;	};	struct student	{		char name [10];		int roll_number;		struct data dob;		int marks [3];		float avg;	} s1;The members contained in the inner structure namely day, month and year can be referred to as	s1.dob.day	s1.dob.month	s1.dob.year
+=== SLIDE 46 ===
+46
+Nested Structure
+=== SLIDE 47 ===
+47
+SELF-REFERENTIAL STRUCTUREA structure definition which includes at least one member as a pointer to the same structure is known as self-referential structure.It can be linked together to form useful data structures such as lists, queues, stacks and trees.Terminated with a NULL pointer (0). The syntax for using the self referential structure as follows,	struct tag_name	{		type1 member1;		type2 member2;		….		struct tag_name *next;	};
+=== SLIDE 48 ===
+//Program to demonstrate structure with functions.#include<stdio.h>struct student{	int rollno;	char name[20];}s1;void display(struct student);main(){	s1.rollno = 1222;	gets(s1.name);	display(s1);}void display(struct student s2){	printf("%d%s",s2.rollno,s2.name);}
+=== SLIDE 49 ===
+49
+UNIONSA union is one of the derived data type.Union is a collection of variables referred under a single name.The syntax, declaration and use of union is similar to the structure but its functionality is different.The major distinction between structure and union is, in terms of storage.In structure each member has its own storage location, whereas all the members of a union use the same location.Although a union may contain many members of different types, it can handle only one member at a time.
+=== SLIDE 50 ===
+50
+The general format or syntax of a union definition is as follows,	union tag_name	{		type1 member1;		type2 member2;		……..	  };The compiler allocates a piece of storage that is large enough to hold the largest variable type in the union. A union variable can be declared same way as structure variable.		union tag_name var1, var2...;
+=== SLIDE 51 ===
+51
+union u{   char c;   int i;   float f;};union u a;
+union u{   char c;   int i;   float f;} a;
+typedef union {   char c;   int i;   float f;} U;U a;
+tagged union		variable union	typedef union
+A union definition and variable declaration can be done by using any one on the following:
+=== SLIDE 52 ===
+52
+To access the members of union, the same syntax used to access various members of a structure can be used, by using the dot operator (“. “).For above example, we can access various members of the union as shown below,	a.c		a.i		a.fFor the above example, union contains three members, each with a different data type. However, we can use only one of them at a time.
+=== SLIDE 53 ===
+53
+=== SLIDE 54 ===
+54
+=== SLIDE 55 ===
+55
+ | Arrays | Structures | Unions
+Keyword | … | struct | union 
+Definition | An array is a homogeneous collection of data. | A structure is a collection of logically related elements, possibly of different types, having a single name. | A union is a collection of logically related elements, possibly of different types, having a single name, shares single memory location.
+Declaration | data_type array_Name[size]; | struct tag_name{type1 member1;type1 member2;………………………… };	struct tag_name var;		 | union tag_name{type1 member1;type1 member2;………………………… };	union tag_name var;		
+Initialization | Done by separating list of values with comma (,), specified in Curly braces { }. | Same. | Same.
+Accessing | Accessed by specifying array name with subscript | Accessed by specifying structure variablename. membername | Accessed by specifying union variablename. membername
+=== SLIDE 56 ===
+56
+Memory Allocation | Each array element occupies memory, stored in contigenous locations. | Each member of the structure occupies unique location, stored in contigenous locations. | Memory is allocated by considering the size of largest member. All the members share the common location
+Size | Size of the array is depending on the array type and size.sizeof (arr); | Size of the structure depends on the type of members, adding size of all members.sizeof (st_var); | Size is given by the size of largest member storage.sizeof(un_variable); 
+Using pointers | An array elements values can be accessed by using de-referencing operator(*) | Structure members can be accessed by using de-referencing dot operator and selection operator(->) | Same as structure.
+ | We can have array of structures or unions. here the array type is structure or union. | We can have arrays as a member of structures. | We can have array as a member of union. 
+ | All elements can be accessed at a time | All members can be accessed at a time | Only one member can be accessed at a time.

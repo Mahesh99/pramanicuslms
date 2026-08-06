@@ -1,0 +1,85 @@
+=== SLIDE 1 ===
+1
+Arrays and pointers – Pointer arithmetic and arrays, Memory allocation functions – static and dynamic memory allocation, array of pointers.
+=== SLIDE 2 ===
+2
+Objectives 
+❏ To understand the relationship between arrays and pointers❏ To understand the design and concepts behind pointer arithmetic❏ To write programs using arrays and pointer arithmetic❏ To better understand the design behind passing arrays to functions❏ To understand the C implementation of dynamic memory❏ To write programs using static and dynamic memory allocation❏ To understand and implement ragged arrays (arrays of pointers)
+Pointer Applications
+=== SLIDE 3 ===
+3
+Arrays and Pointers
+The name of an array is a pointer constant to the first element. Because the array’s name is a pointer constant, its value cannot be changed.Since the array name is a pointer constant to the first element, the address of the first element and the name of the array both represent the same location in memory.
+=== SLIDE 4 ===
+4
+Pointers to Arrays
+=== SLIDE 5 ===
+5
+                                same                                a                    &a[0]a is a pointer only to the first element—not the whole array.
+The name of an array is a pointer constant;it cannot be used as an lvalue.
+To access an array, any pointer to the first element can be used instead of the name of the array.
+=== SLIDE 6 ===
+6
+Dereference of Array Name
+=== SLIDE 7 ===
+7
+Array Names as Pointers
+=== SLIDE 8 ===
+8
+Multiple Array Pointers
+=== SLIDE 9 ===
+9
+Pointer Arithmetic and Arrays
+Besides indexing, programmers use another powerful method of moving through an array: pointer arithmetic.Pointer arithmetic offers a restricted set of arithmetic operators for manipulating the addresses in pointers. 
+ Pointers and One-Dimensional Arrays Arithmetic Operations on Pointers Using Pointer Arithmetic Pointers and Two-Dimensional Arrays
+=== SLIDE 10 ===
+10
+Pointer Arithmetic
+Given pointer, p, p ± n is a pointer to the value n elements away.
+=== SLIDE 11 ===
+11
+Pointer Arithmetic and Different Types
+=== SLIDE 12 ===
+12
+Dereferencing Array Pointers
+The following expressions are identical.*(a + n)   and    a[n]
+=== SLIDE 13 ===
+13
+Pointers and Relational Operators
+Some valid arithmetic operations on pointers: 		p + 5		5 + p		p -5		p1 – p2		p ++		p --
+=== SLIDE 14 ===
+14
+Find Smallest
+=== SLIDE 15 ===
+15
+Find Smallest
+=== SLIDE 16 ===
+16
+Print Array with Pointers
+=== SLIDE 17 ===
+17
+Print Array with Pointers
+=== SLIDE 18 ===
+18
+Pointers and two dimensional arrays:
+Let us consider a two dimensional array A[i][j] then array elements can be accessed through pointer index notation using  *(*(A + i) + j)For example:for(i =0; i < 3; i++){	for(j =0; j < 4; j++)	{		printf(“%d”, *(*(A + i) + j));	}}
+We recommend index notation for two-dimensional arrays.
+=== SLIDE 19 ===
+19
+Passing an Array to a Function
+Now that we have discovered that the name of an array is actually a pointer to the first element, we can send the array name to a function for processing. When we pass the array, we do not use the address operator. Remember, the array name is a pointer constant, so the name is already the address of the first element in the array.
+=== SLIDE 20 ===
+20
+Variables for Multiply Array Elements By 2
+=== SLIDE 21 ===
+21
+Multiply Array Elements by 2
+=== SLIDE 22 ===
+22
+Multiply Array Elements by 2
+=== SLIDE 23 ===
+23
+Multiply Array Elements by 2
+=== SLIDE 24 ===
+24
+Multiply Array Elements by 2

@@ -1,0 +1,273 @@
+=== SLIDE 1 ===
+UNIT-II
+=== SLIDE 2 ===
+UNIT – IIC fundamentals – History of C Language, Features of C, Structure of C, Character set, identifiers, constants, variables and keywords.  Simple data types – void, integral, foating-point – memory allocation for these types.  Type qualifier const.Operators – Unary, binary and ternary, precedence and association rules among operators.Expressions – Primary expressions, post-fix expressions, pre-fix expressions, unary expressions, binary expressions, evaluating expressions, type conversions, statements.Decision control structures – if..else, dangling else, switch statement.  Repetitive control structures - while, do..while, for, break and continue statements, Nested structures.
+=== SLIDE 3 ===
+Overview of C
+Preceded by BCPL and BDeveloped by Dennis RitchieBell Labs in 1972Used in UNIX, networks standardized during 1983-1988 by ANSI
+=== SLIDE 4 ===
+4
+FIGURE 2-1  Taxonomy of the C Language
+=== SLIDE 5 ===
+Hello World!
+#include <stdio.h>  	/* This is a simple  C program */int main()			{	  printf(“hello, world\n”);                return 0;}
+/*comments*//*Two lines	of comments*/Ignored by the C compiler
+#include <stdio.h> Directive to C preprocessor # (pound sign) – line processed by preprocessor before the program is compiled Tells preprocessor to include contents of stdio.h file in the programstdio.h - standard input/output header file Contains information & declarations about functions In this case, the printf library function Not part of C programming language
+=== SLIDE 6 ===
+int main(){return 0;} int – return type of functionreturn 0;Returns 0 to operating systemIndicates that program executed successfullymain  Every program consists of 1 or more functionsMust have a main function {} – body of function = left & right brackets (block)
+=== SLIDE 7 ===
+Writing and Running Programs
+#include <stdio.h>/* The simplest C Program */int main(int argc, char **argv){  printf(“Hello World\n”);  return 0;}
+1. Write text of program (source code) using an editor such as TC, save as file e.g. my_program.c
+2. Run the compiler to convert program from source to an “executable” or “binary”:         ALT + F9              my_program.obj
+my_program
+$ gcc -Wall –g my_program.c –o my_programtt.c: In function `main':tt.c:6: parse error before `x'tt.c:5: parm types given both in parmlist and separatelytt.c:8: `x' undeclared (first use in this function)tt.c:8: (Each undeclared identifier is reported only oncett.c:8: for each function it appears in.)tt.c:10: warning: control reaches end of non-void functiontt.c: At top level:tt.c:11: parse error before `return'
+3. Compiler gives errors and warnings; edit source file, fix it, and re-compile
+4. Run it and see if it works     CTRL + F9                             (ALT + F5)      C:>/my_program      Hello World      C:>
+What if it doesn’t work?
+=== SLIDE 8 ===
+#include <stdio.h> main() { printf("Hello \n"); /* prints Hello on standard output */ } Output : Hello Explanation The program execution begins with the function main().  The executable statements are enclosed within a block that is marked by ‘{’ and  ‘}’.  The printf() function redirects the output to a standard output, which in most cases is                                                                                             	the output on screen. Each executable statement is terminated by ‘;’ The comments are enclosed in ‘/*...*/’
+=== SLIDE 9 ===
+VariablesWhen you want to process some information, you can save the values     temporarily in variables.In the following program you can define two variables, save the values,   and put the addition in the third variable.
+Program#include <stdio.h> main() {	int i,j,k;   // Defining variables Statement A 	i = 6;     // Statement B 	j = 8;	k = i + j; 	printf("sum of two numbers is %d \n",k); // Printing results } output : sum of two numbers is 14 
+=== SLIDE 10 ===
+				ExplanationStatement A defines variables of the type integer. For each variable you have to attach some data type. The data type defines the amount of storage allocated to variables, the values that they can accept, and the operations that can be performed on variables.The ‘ // ’ is used as single line comment.The ‘%d’ is used as format specifier for the integer. Each data type has a format specifier that defines how the data of that data type will be printed.The assignment operator is ‘=’ and the statement is in the format:Var = expression;Points to RememberThe variables are defined at the begining of the block.The data type is defined at the begining of declaration and followed by a list of variables.It is the data type that assigns a property to a variable.
+=== SLIDE 11 ===
+Variable Names In C, variable names must adhere to the following rules: The name can contain letters, digits, and the underscore character (_)  The first character of the name must be a letter.  The underscore is also a legal first character, but its use is not recommended.  Case matters (that is, upper- and lowercase letters). Thus, the names count and Count refer to two different variables.  C keywords can't be used as variable names A keyword is a “Reserved Word”  that is part of the C language. 
+Variable Name | Legality
+Percent | Legal
+y2x5__fg7h | Legal
+annual_profit | Legal
+_1990_tax | Legal but not advised
+savings#account | Illegal: Contains the illegal character #
+double | Illegal: Is a C keyword
+9winter | Illegal: First character is a digit
+The following list contains some examples of legal and illegal C variable names: 
+=== SLIDE 12 ===
+DO use variable names that are descriptiveDO adopt and stick with a style for naming your variablesDON'T start your variable names with an underscore unnecessarilyDON'T name your variables with all capital letters unnecessarily
+The C Key Words 
+=== SLIDE 13 ===
+Escape Characters
+- If a character precedes with a \ (backslash) it is called escape character
+- It conveys a special meaning to the printf() function other than the                         	normal character it represents
+  - The backslash and the character after it together are considered as an       	escape sequence
+=== SLIDE 14 ===
+INPUTTING THE DATAThe input from a standard input device is taken by using thefunction scanf. In scanf, you have to specify both the variables in which you can take input, and the format specifier, such as %d for the integer.Program#include <stdio.h> main() { 	int i,j,k;	scanf("%d%d",&i,&j);     // statement A 	k = i + j; 	printf("sum of two numbers is %d \n",k); } 						Input : 3 4 			Output: sum of two numbers is 7 
+=== SLIDE 15 ===
+Explanation Statement A indicates the scanf statement that is used for taking input. In scanf you have to specify a list of addresses of variables (&i, &j) which can take input. Before specifying the list of variables you have to include a list of format specifiers that indicate the format of the input. For example, for the integer data type the format specifier is %d.In scanf, you have to specify the address of the variable, such as &i. The address is the memory location where a variable is stored. The reason you must specify the address will be discussed later. The number of format specifiers must be the same as the number of variables.Point to RememberIn scanf, you have to specify the address of a variable, such as &i, &j, and a list of format specifiers.
+=== SLIDE 16 ===
+C Character Set
+These are the characters that C recognizes.Letters (upper case and lower case)A B C D E F G H I J K L MN O P Q R S T U V W X Y Za b c d e f g h i j k l mn o p q r s t u v w x y zDigits0 1 2 3 4 5 6 7 8 9Special Charactersspace (also known as blank)’ " ( ) * + - / : =! & $ ; < > % ? , .ˆ # @ ˜ ‘ { } [ ] \ |
+main | ( | ) | { | printf | ( | "Hello World" | ) | ; | }
+C  Tokens
+The compiler splits the program into tokens. 
+For our first program, the tokens would be:
+=== SLIDE 17 ===
+ Data Types There are only a few basic data types in C:char a single byte, capable of holding one character in the local character setint an integer, typically reflecting the natural size of integers on the host machinefloat single-precision floating pointdouble double-precision floating pointIn addition, there are a number of qualifiers that can be applied to these basic types. short and long apply to integers:short int sh;long int counter;The word int can be omitted in such declarations.The qualifier signed or unsigned may be applied to char or any integerunsigned numbers are always positive or zero.The type long double specifies extended-precision floating point
+=== SLIDE 18 ===
+The char Data Type  The shortest data type is character. It is stored in 1 byte in memory. Corresponding integer values for all characters are  defined in ASCII code (American Standard Code for Information Interchange). For example: character constant ‘a’ has an int value 97, ‘b’ - 98, ‘A’ - 65 etc. The keyword char is used to declare a variable of a character type. char letter =‘A’; char letter =  65; 
+=== SLIDE 19 ===
+The int  Data Type An integer number (also called whole number) has no fractional part or decimal point.The keyword int is used to specify an integer variable. int is stored in a machine word. Machine word is a group of bytes which can be processed at a time as a single unit. A machine word occupies 2 bytes (16 bits) or 4 bytes (32 bits), depending on the machine architecture. 16-bit integer can have values in the range of     - 32768 to 32767 (-2^15 to 2^15-1). One bit is used for sign. For 32-bit integer the range is about from -2 to +2 billions  
+=== SLIDE 20 ===
+Unsigned integer If you know that the variable cannot have negative values, you may declare it as unsigned. unsigned variable type occupies the same amount of computer memory as int but the actual value can be twice as large as the maximum available int, because all values are positive. To decrease the size of allocated memory for a variable which is not too large, you may use the short type which is stored in 2 bytes 
+The float Data Type The data type float represents a floating point number (also called a real number). The keyword float is used to declare a variable of the type float.                 Ex: float float_num1=1.34; The float type variable is usually stored in 4 bytes, which means it is at least 6 digits of precision. 
+=== SLIDE 21 ===
+The double Data Type A floating point number can also be represented by the double data type. The data type double is stored on most machines in 8 bytes which is about 15 decimal places of accuracy. To declare a variable of the type double, use the keyword double.  Big and small numbers Scientific notation is often used to write a big or small numbers. A number is written as the combination of the mantissa, which is followed by the prefix e or E, and the exponent. For example, 87000000 = 8.7e7 - 550 = -5.5e2 0.00000000031 becomes 3.1e-10. 
+=== SLIDE 22 ===
+Types in C
+=== SLIDE 23 ===
+Implicit Conversion
+If the compiler expects one type at a position, but another type is provided, then implicit conversion occurs.Conversion during assignments:char c = 'a';int i;i = c;    /* i  is assigned by the ascii of ‘a’ */Arithmetic conversion – if two operands of a binary operator are not the same type, implicit conversion occurs:int i = 5 , j = 1;float x = 1.0, y;y = x / i;           	/* y = 1.0 /  5.0  */y = j / i;            	/* y = 1 / 5  so  y = 0 */
+You can override C’s default conversions by specifying your own temporary type change using the format:	(data type) expression(data type) can be any valid C data type and expression is any variable, constant or a combination of both
+Explicit Conversion
+=== SLIDE 24 ===
+C Promotion Rules
+The C compiler uses the following rules to promote the types if two operands do not agree in expressions
+=== SLIDE 25 ===
+Writing with printf()  printf() function writes text, characters and numbers onto the screen. An argument of the printf() function consists of a formatting string that may contain format specifiers, and expressions to be formatted. printf(“Hello”); printf(“The number is %d\n”, num);  In C, every statement ends with a semicolon, which is known as the statement terminator. Format specifiers - used in the argument of printf() function to identify what type of variable is to be printed. 
+=== SLIDE 26 ===
+ExpressionsIn C, an expression is anything that evaluates to a numeric value. C expressions come in all levels of complexity.Simple ExpressionsThe simplest C expression consists of a single item: a simple variable, literal constant, or symbolic constant. Here are four expressions:
+Expression | Description
+PI | A symbolic constant (defined in the program)
+20 | A literal constant
+rate | A variable
+-1.25 | Another literal constant
+A literal constant evaluates to its own value. A symbolic constant evaluates to the value it was given when you created it using the #define directive. A variable evaluates to the current value assigned to it by the program.
+=== SLIDE 27 ===
+Complex ExpressionsComplex expressions consist of simpler expressions connected by operators. For example:2 + 8 is an expression consisting of the subexpressions 2 and 8 and the addition operator +. The expression 2 + 8 evaluates to 10.C expressions of great complexity:1.25 / 8 + 5 * rate + rate * rate / cost When an expression contains multiple operators, the evaluation of the expression depends on operator precedence. Some other examples:x = a + 10;y = x = a + 10; x = 6 + (y = 4 + 5); 
+=== SLIDE 28 ===
+OperatorsAn operator is a symbol that instructs C to perform some operation, or action, on one or more operands. An operand is something that an operator acts on. In C, all operands are expressions. C operators fall into several categories: Arithmetic operators Relational Operators Logical operators The increment and decrement Operators Assignment Operators The conditional Operator The Comma Operator Bitwise operators The sizeof Operator
+=== SLIDE 29 ===
+Arithmetic Operators
+C Operation | Binary Operator | C Expression
+Addition | + | a + b
+Subtraction | - | a - b
+Multiplication | * | a * b
+Division | / | a / b
+Modulus (Remainder) | % | a % b
+Equality Operators
+C operation | Equality Operator | C expression
+equality | == |  x == y
+not equal | != | x != y
+Relational Operators
+C operation | Relational Operator | C expression
+greater than | > |  x  > y
+less than | < | x < y
+greater than or equal to | >= | x >= y
+less than or equal to | <= | x <= y
+ Arithmetic operators are all binary operators because they require two operands.
+Relational Operators are used to compare data
+=== SLIDE 30 ===
+Logical Operators
+Used to combine more than one relational test into a compound relational testThe first two never appear by themselves (always go between relational tests)Truth Tables show you how to achieve results from an if statement that uses these operators
+Operator | Meaning
+&&||! | ANDORNOT
+&& | OR | NOT
+True AND True   = TrueTrue AND False  = FalseFalse AND True  = FalseFalse AND False = False  | True OR True = TrueTrue OR False  = TrueFalse OR True  = TrueFalse OR False = False | NOT True = FalseNOT False = True
+=== SLIDE 31 ===
+The increment and decrement Operators
+Can add or subtract 1 to or from variables ++ for Increment 			 –– for Decrementi = i + 1; //same as ++i     i = i - 1; //same as –-I They can go on either side of the modified variable
+Operator | Example | Meaning | Equivalent Statements
+++++---- | i++;++i;i--;--i; | postfixPrefixpostfixprefix | i = i + 1; i += 1;i = i + 1; i += 1;i = i - 1; i -= 1;i = i - 1; i -= 1;
+prefix form: variable is changed before expression is evaluatedpostfix form: variable is changed after expression is evaluated
+Whether you use prefix or postfix does not matter if you are incrementing or decrementing single variables on lines by themselves, e.g.: 		++a;   				a++; if a is equal to 5, after executing this statement, the value of a is 6But if you use a in this context:		b = ++a – 1;
+=== SLIDE 32 ===
+This statement will first increment the value of a, subtract 1			then assign the result to b Suppose you had:	 		b = a++ – 1;This statement will use the original value of a, subtract 1, 			then assign the result to b
+#include <stdio.h>int main (){ int a=4, b=5, result;	  	printf("Postfix increment %d\n", a++); 	printf("Now a is %d\n", a);	printf("Prefix increment %d\n", ++a);  	printf("Now a is %d\n", a);	printf("Postfix decrement %d\n", b--); 	printf("Now b is %d\n", b);	printf("Prefix decrement %d\n", --b);  	printf("Now b is %d\n", b);return 0;}
+Output:Postfix increment 4    Now a is 5Prefix increment 6      Now a is 6Postfix decrement 5   Now b is 4Prefix decrement 3     Now b is 3
+=== SLIDE 33 ===
+Uses of the assignment operator ( = ) Single assignment	a = 4;Multiple assignment	a=b=c=d=0; 				//useful for variable initializationCompound assignment     Assignment operators are used to combine the “=” operator with one of the binary arithmetic operators.		salary = salary + 1000; 			 salary +=  1000; //is the same as aboveOperator		Example	         Equivalent Statement   += 		           c += 7			c = c + 7   -= 		           c -= 8			c = c - 8   *= 		           c *= 10			c = c * 10   /= 		           c /= 5			c = c / 5   %= 		           c %= 5			c = c % 5
+Assignment Operators
+=== SLIDE 34 ===
+The conditional Operator
+C’s only ternary operator, i.e. requires three operands (as opposed to the unary’s single and the binary’s double operand requirement)Syntax :-	conditional_expression ? expression1 : expression2;The conditional_expression is any expression that results in a True (nonzero) or false (zero) answer.If True expression1 executes, otherwise expression2 executesExample:		(sales > 1000) ? Bonus = 500 : Bonus = 0;	(a > b) ? (ans = 10): (ans = 25);   	      ans = (a > b) ? (10): (25);
+=== SLIDE 35 ===
+The comma Operator
+It doesn’t operate on data but allows more than one expression to appear on the same line, e.g.			int i = 10, j = 20;Is used to separate arguments in Input/Output function calls, e.g.		printf(%d %.2f %c”, aninteger, afloat, achar);The comma allows some interesting statements, e.g.i = 10; //i is assigned the value 10j = (i = 12, i + 8); //i is assigned 12 added to 8 produces 20
+ When you need to manipulate/access individual bits Only for integral types (char, short, int, long, unsigned/ signed)
+Bitwise operators:
+=== SLIDE 36 ===
+Bitwise operators:
+Examples:16 8 4 2 1&		Bitwise AND	6 & 3 - 0110 &	0011  0010|		Bitwise OR 	0110	|  0011  0111^		Bitwise XOR	0110	^	0011  0101<<	Left shift                        110<<2 - 01101110 << 2  10111000>>	Right shift                     01101110 >> 3  00001101~		One's complement		 ~0011  1100Notice: << and >> multiply/divide by 2nDon't confuse bitwise &  | with logical &&  ||
+=== SLIDE 37 ===
+The sizeof Operator
+Is a unary operator (operates on a single value)Produces a result that represent the size in bytes or the data specifiedFormatsizeof datae.g.			int a = 5;			sizeof a; //produces 4Orsizeof (data type)e.g. 	sizeof (char); //produces 1
+=== SLIDE 38 ===
+Operator Precedence
+Defines the order in which operators are appliedNot defined explicitly by the languageInferred from the syntax definitionGeneral rule: Don’t rely on precedence; use parenthesis to force order
+Operator Associativity
+Determines the direction that the operation of applied across all operators with the same precedenceAssociativity can be left or rightLeft associative operators applied left to rightUnary and assignment operators are right associativeAll other operators are left associative
+=== SLIDE 39 ===
+39
+PROGRAM 3-5
+Precedence
+=== SLIDE 40 ===
+40
+FIGURE 3-8  Left-to-Right Associativity
+=== SLIDE 41 ===
+41
+FIGURE 3-9  Right-to-Left Associativity
+=== SLIDE 42 ===
+Precedence of Operators in C
+=== SLIDE 43 ===
+CONTROL STRUCTURES 
+control the flow of execution in a program or functionC provides four general categories of control structures: sequential	 - The execution of the program is sequentialSelection	- A control structure which chooses alternative to executeIteration	- A control structure which repeats a group of statementsencapsulation 	- Combination of all the above
+Condition is an expression that is either false (represented by 0) or true (represented by 1).
+Conditions may contain relational or equality operators, and have the following forms.	variable relational-operator variable (or constant)	variable equality-operator variable (or constant)
+=== SLIDE 44 ===
+THE if STATEMENT 
+The if statement is the first selection structure. if is used when a question requires a yes or no answer 
+Following are the properties of an if statement:If the condition is true then the simple or compound statements are executed.If the condition is false it does not do anything.The condition is given in parentheses and must be evaluated as true (nonzero value) or false (zero value).If a compound statement is provided, it must be enclosed in opening and closing braces.
+if (condition){  statement(s)}
+Syntax:-
+int num1 = 40;int num2 = 20; // Let num1 store the smaller #if (num1 > num2){   int temp = 0;   temp = num1;   num1 = num2;   num2 = temp;}
+=== SLIDE 45 ===
+if is a Creserved word
+The condition must be aValid C expression. 
+If the condition is true, the statement is executed.If it is false, the statement is skipped.
+if ( condition )   statement;
+Enter
+Test
+Body of the IF Statement
+Exit
+F
+T
+
+
+=== SLIDE 46 ===
+The if-else Statement
+An else clause can be added to an if statement to make an if-else statementIf the condition is true, statement1 is executed;  if the condition is false, statement2 is executedOne or the other will be executed, but not both
+if ( condition )   statement1;else   statement2;
+Enter
+   Test
+Body of theIF Statement
+Exit
+F
+T
+
+Body of theELSE Statement
+=== SLIDE 47 ===
+Nested if else
+=== SLIDE 48 ===
+Nested if / else structures test for multiple cases by placing if / else structures inside other if / else structures.
+if (i > j) {           if (i > k)                    printf(“%d”, i);	else	      printf(“%d”, k);}else{		if(j>k)	       printf(“%d”,j);	else	      printf(“%d”,k);}
+=== SLIDE 49 ===
+Multibranch if-else StatementsIf else if ladder
+if (studentGrade >= 90)  Console.WriteLine(“A”);else if (studentGrade >= 80)  Console.WriteLine(“B”);else if (studentGrade >= 70)  Console.WriteLine(“C”);else if (studentGrade >= 60)  Console.WriteLine(“D”);else  Console.WriteLine(“F”);// beginning of the next statement
+Syntax: 	 if(exp1)	 s1;	elseif(exp2) s2;	else	            s3;
+=== SLIDE 50 ===
+The switch Statement
+When one variable (type int or char ONLY) is used to make a control decision, where different statements are run if the variable is equal to different values, the switch statement can be used.  Note that this statement does not allow less than, greater than, etc.  ONLY the equality operator (==) is used with a switch statement.The switch statement is composed of a control variable and a series of case clauses.When the switch statement is encountered, the control variable is evaluated.  Then, if that evaluated value is equal to any of the values specified in a case clause, the statements immediately following the colon (“:”) begin to run.
+The switch statement takes this form:
+switch(control variable){	case (value1):	. . .	. . .	break;		case (value2):	. . .	. . .	break;	default:	. . .	. . .	break;}
+=== SLIDE 51 ===
+These statements then continue to run until a break statement is encountered.  Control then flows to the statement immediately following the closing brace (“}”).It is important to remember that control will pass into the next case clause if a break statement is not encountered.So, what happens if the control variable is not equal to any of the values specified in the case clauses?The default case clause runs.
+	switch (class) { 	  case 'B':	  case 'b': printf("Battleship\n");	            break;	  case 'C':	  case 'c': printf("Cruiser\n");	            break;	  case 'D':	  case 'd': printf("Destroyer\n");	            break;	  default: printf("Unknown ship class%c\n",	                  class);	}
+=== SLIDE 52 ===
+While Statements
+The "while" loop is a generalized looping structure that employs a variable or  expression for testing the ending condition.Is a repetition statement that allows an action to be repeated while some conditions remains true. Variables used in the loop control testing must be initializedTesting for the termination condition is done at the top of the while() loop
+The body of WHILE statement can be a single statement or compound statements 	Syntax:		Form 1: Simple Statement 	while (condition)	statement;Form 2: Compound Statements 	while (condition)	{ s1; s2; s3; …..}
+=== SLIDE 53 ===
+While statement
+while ( condition )   statement;
+If the condition is true, the statement is executed.Then the condition is evaluated again.
+=== SLIDE 54 ===
+The “do while” statement
+Statements in the loop are executed first (at least once, and condition is tested lastLoop is controlled by a condition or counter Syntaxdo { 	statement;	statement;} while (condition);statement;
+=== SLIDE 55 ===
+While example#include <stdio.h>int main(void){	int	i = 1, sum = 0;	while ( i<= 10) {		sum = sum + i;		i = i + 1;	}	printf(“Sum = %d\n”, sum);	return 0;}
+Do-while example#include <stdio.h>Void main(){  int result = 1;  int x = 5;  do {    result *= x;    x = x-1;  } while (x > 1);  printf(“Factorial of 5=%d”,result);}
+=== SLIDE 56 ===
+The “for” Loop
+When the number of passes through a loop is known in advance, a for statement is often used	for (expr1; expr2; expr3)		     statement;expr1 controls the looping action, expr2 represents a condition that ensures loop continuation, expr3 modifies the value of the control variable initially assigned by expr1
+When a for statement is executed, expr2 is evaluated and tested at the beginning of each pass through the loop. expr3 is evaluated at the end of each passIf the loop continuation condition is initially false, the body part of the loop is not performedAny of the three parts can be omitted, but the semicolons must be kept
+=== SLIDE 57 ===
+for (i=1; i <= n; i = i + 1)
+keyword
+control variable i
+increment of control variable
+loop continuation condition
+initial valueof controlvariable
+final value of control variablefor which the condition is true
+Examples
+Vary the control variable from 1 to 100 in increments of 1for (i = 1; i <= 100; i++)Vary the control variable from 100 to 1 in increments of -1for (i = 100; i >= 1; i--) Vary the control variable from 5 to 55 in increments of 5for (i = 5; i <= 55; i+=5)
+=== SLIDE 58 ===
+Nested for loops
+Nested means there is a loop within a loopExecuted from the inside outEach loop is like a layer and has its own counter variable, its own loop expression and its own loop bodyIn a nested loop, for each value of the outermost counter variable, the complete inner loop will be executed onceGeneral form	for (loop1_exprs) {          loop_body_1a          for (loop2_exprs) {          loop_body_2          }          loop_body_1b    }
+Most compilers allow 15 nesting levels – DON’T DO IT!!
+=== SLIDE 59 ===
+GOTO statement
+C does contain the goto statement but its use is not looked upon with favor
+   The goto statement in C allows the transfer of control from one position to another position in the same program.  The destination must be marked with a label. The general syntax: label: statement;       The syntax for goto:goto label;
+Main(){   . . .   If (. . . ) goto End;   . . .   End:   . . .  }
+The goto statement allows one to jump from any place to anywhere else within a function.  
+=== SLIDE 60 ===
+BREAK and CONTINUE
+- break;  causes an exit from the innermost loop or switch.     terminate :  for, while, do while, and switch- continue; causes the current iteration of a loop to stop                  and the next iteration to begin immediately.    effective only in :  for, while and do while
+Break Example.....while (1) {    scanf("%f", &x);    if (x < 0.0)        break;  /* exit loop if the value is negative */    printf("\n%f", sqrt(x));....}    /* break jumps to here */
+Continue Example. . . . . . for (i = 0; i < TOTAL; ++i) {    c = getchar();    if ( '0'<=c && c <='9')        continue;    ....... /* process other character *//* continue transfers control to here   to begin next iteration  */}
+=== SLIDE 61 ===
+Common errors in control flow structures 
+The broken loop:A condition that you want to happen will never occur. For example if a can never be greater than z and you have an infinite loop:                                    while (a < z) {…}A total flaw in logic. 	while (a > b && a == b) //never executesfor (i = 1; i < 20; i--)     //never stopsAn error in punctuation:			for (i = 1; i <= 100; i++); {…}			if (a < b); {…}An error in the operator used (logical error)			for (i = 1; i = 10; i++) {…}			while (a & b | c) {…}An error in floating point comparison (a and b are floats)			if (a == b) {…}Forgetting to update a condition in a loop:while (a < b) {…	//a never changes in the loop} 
+=== SLIDE 62 ===
+Not quite enough… I want ten iterations:			for (i=1; i <10; i++) //9 iterationsUpdating a condition too many times:While (i != 13){…		i++; //sets i to 1, 3, 5, …, 13		…		i++;  //sets i to 2, 4, 6, …, 14 		          …      // (13 will never occur)}for (i = 1; i <= 10; i++){…		i++; //most likely an error in logic}What is the problem with these loops?for (i =1; i<=10; i--)while (x > y && y >= x);

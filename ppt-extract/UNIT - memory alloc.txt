@@ -1,0 +1,75 @@
+=== SLIDE 1 ===
+1
+Memory Allocation Functions
+C gives us two choices when we want to reserve memory locations for an object: static allocation and dynamic allocation. 
+ Memory Usage Static Memory Allocation Dynamic Memory Allocation Memory Allocation Functions Releasing Memory (free)
+=== SLIDE 2 ===
+2
+Memory Allocation
+=== SLIDE 3 ===
+3
+Conceptually memory is divided into program memory and datamemory.Program memory consists of the memory used for main and all called functions.Data memory consists of permanent definitions, such as global data and constants, local declarations, and dynamic data memory.All functions, local and global data can be stored in stack memory.Heap memory is unused memory allocation known as the heap is available to be assigned during its execution.It is the memory pool from which memory is allocated when requested by the memory allocation functions.
+=== SLIDE 4 ===
+4
+A Conceptual View of Memory
+We can refer to memory allocated in the heap only through a pointer.
+=== SLIDE 5 ===
+5
+Static Memory Allocation requires that the declaration and definition of memory be fully specified in the source program.The number bytes reserved can not be changed during run time.Dynamic Memory Allocation uses predefined functions to allocate and release memory for data while the program is running.Unlike static memory allocation, dynamic memory allocation has no identifier associated with it; it has only an address that must be used to access it.To access data in dynamic memory therefore, we must use a pointer.
+=== SLIDE 6 ===
+6
+Accessing Dynamic Memory
+=== SLIDE 7 ===
+7
+Memory Allocation Functions:Four memory management functions are used with dynamic memory.Three of them, malloc, calloc, and realloc, are used for memory allocation.The fourth, is used to return memory when it is no longer needed.All the memory management functions are found in the standard library file stdlib.h
+=== SLIDE 8 ===
+8
+Memory Management Functions
+=== SLIDE 9 ===
+9
+Block Memory Allocation ( malloc )The malloc function allocates a block of memory that contains the number of bytes specified in its parameter.It returns a pointer of type void to the first byte of the allocated memory, even the allocated memory is not initialized.The malloc function declaration is shown below:		void* malloc (size_t size);The type, size_t, is defined in several header files including stdio.hThe type is usually an unsigned integer.The size specification in malloc’s actual parameter is generally computed using the sizeof operator.
+=== SLIDE 10 ===
+10
+Block Memory Allocation ( malloc )		Contd…For example, if we want to allocate an integer in the heap, we code the call as shown below:		pInt = malloc(sizeof(int));If successful, malloc returns the address of the first byte in the memory space allocated.However, if it is not successful, malloc returns NULL pointer.Never call malloc with a zero size, result is unpredictable.Memory allocation casting:		pointer_name = (type*) malloc(size);An attempt to allocate memory from the heap when memory is insufficient is known as overflow.
+=== SLIDE 11 ===
+11
+malloc
+=== SLIDE 12 ===
+12
+Continuous Memory Allocation ( calloc )		Contd…The calloc function is primarily used to allocate memory for arrays.It differs from malloc only in that it sets memory to null characters.The calloc function declaration is shown below.	void *calloc(size_t element-count, size_t element-size);The result is the same for both malloc and calloc when overflow occurs and when a zero size is given.
+=== SLIDE 13 ===
+13
+calloc
+The following example creates memory for an array of 200 integers.
+=== SLIDE 14 ===
+14
+Reallocation of Memory( realloc )		The realloc function can be highly inefficient and therefore should be used advisedly.When given a pointer to a previously allocated block of memory, realloc changes the size of the block by deleting or extending the memory at the end of the block.If the memory can not be extended because of the other allocations, realloc allocates a completely new block, copies the existing memory allocation to the new allocation, and deletes the old allocation.The programmer must ensure that any other pointers to the data are correctly changed.The operation of realloc is shown below:	void *realloc (void* ptr, size_t new Size);
+=== SLIDE 15 ===
+15
+realloc
+=== SLIDE 16 ===
+16
+Releasing of memory (free)When memory locations are allocated by malloc, calloc, or realloc are no longer needed, they should be frees using the predefined function free.It is an error to free memory with a null pointer.It is also a potential error to refer to memory after it has been released.The function declaration statement fo free is shown below: 	void free (void* ptr);
+=== SLIDE 17 ===
+17
+Freeing Memory
+The first one releases a single element, allocated with malloc, back to heap and second one releases 200 elements (allocated with calloc) back to heap.Note: It is not the pointers that are being released but rather what they point to.
+=== SLIDE 18 ===
+18
+Using a pointer after its memory has been released is a common programming error. Guard against it by clearing the pointer.
+Note
+The pointer used to free memory must be of the same type as the pointer used to allocate the memory.
+=== SLIDE 19 ===
+19
+Array of Pointers
+Another useful structure that uses arrays and pointers is an array of pointers.This structure is especially helpful when the number of elements in the array is variable.
+=== SLIDE 20 ===
+20
+A Ragged Table
+In the following two-dimensional array, only the row one is full. The rest of the rows contain from one to four elements.This array is also known as ragged array because the right  elements in each row may be empty, giving it an uneven (ragged) right border. 
+=== SLIDE 21 ===
+21
+If we use a two-dimensional array for storing these numbers, we are wasting a lot of memory.The solution in this case is to create five one-dimensional arrays that are joined through an array of pointers.
+=== SLIDE 22 ===
+22
+A Ragged Array
