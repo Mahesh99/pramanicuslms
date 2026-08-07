@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -74,6 +75,10 @@ export function LoginForm() {
           {loading ? "Signing in…" : "Sign in to classroom"}
         </button>
       </form>
+
+      <p className="auth-footer">
+        <Link href="/auth/forgot-password">Forgot password?</Link>
+      </p>
     </div>
   );
 }
