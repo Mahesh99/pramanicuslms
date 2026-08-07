@@ -5,6 +5,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Python Training — Pramanicus Academy",
   description: "Authenticated course notes for Pramanicus Academy Python Training",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
