@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { authCallbackUrl } from "@/lib/auth-redirect";
+import { requestPasswordReset } from "@/app/actions/auth";
 
 export function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
@@ -17,14 +16,11 @@ export function ForgotPasswordForm() {
     setError(null);
     setMessage(null);
 
-    const supabase = createClient();
-    const { error: authError } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: authCallbackUrl("/auth/reset-password"),
-    });
+    const result = await requestPasswordReset(email);
 
     setLoading(false);
-    if (authError) {
-      setError(authError.message);
+    if ("error" in result && result.error) {
+      setError(result.error);
       return;
     }
 
