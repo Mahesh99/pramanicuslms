@@ -61,6 +61,14 @@ values (
 )
 on conflict (slug) do nothing;
 
+insert into public.courses (slug, title, description)
+values (
+  'sql-training',
+  'Oracle SQL Training',
+  '3-week Oracle SQL programme — Pramanicus Academy (SQL only, no PL/SQL)'
+)
+on conflict (slug) do nothing;
+
 alter table public.courses enable row level security;
 alter table public.enrollments enable row level security;
 alter table public.modules enable row level security;
