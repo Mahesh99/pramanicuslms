@@ -4,7 +4,7 @@ import { ensureEnrollmentClaimed, isAdminEmail } from "@/lib/auth";
 export async function SiteHeader({
   active,
 }: {
-  active?: "home" | "dashboard" | "playground" | "admin" | "login";
+  active?: "home" | "dashboard" | "playground" | "admin" | "profile" | "login";
 }) {
   const { user, enrolled, isAdmin } = await ensureEnrollmentClaimed();
   const homeHref = user ? "/dashboard" : "/";
@@ -36,6 +36,11 @@ export async function SiteHeader({
         {isAdmin && (
           <Link href="/admin/invites" className={active === "admin" ? "active" : undefined}>
             Invites
+          </Link>
+        )}
+        {user && enrolled && (
+          <Link href="/profile" className={active === "profile" ? "active" : undefined}>
+            Account
           </Link>
         )}
         <span style={{ flex: 1 }} />

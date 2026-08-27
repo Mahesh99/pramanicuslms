@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { inviteStudent, removeInvite } from "@/app/actions/invites";
+import { createStudentUser, inviteStudent, removeInvite } from "@/app/actions/invites";
 
 type InviteRow = {
   id: string;
@@ -11,10 +11,19 @@ type InviteRow = {
   user_id: string | null;
 };
 
+type CreateResult = { error?: string; success?: boolean; email?: string; password?: string };
+
 export function InviteAdmin({ invites }: { invites: InviteRow[] }) {
   const [inviteState, inviteAction, invitePending] = useActionState(
     async (_prev: { error?: string; success?: boolean } | null, formData: FormData) => {
       return inviteStudent(formData);
+    },
+    null,
+  );
+
+  const [createState, createAction, createPending] = useActionState(
+    async (_prev: CreateResult | null, formData: FormData) => {
+      return createStudentUser(formData);
     },
     null,
   );
@@ -27,7 +36,7 @@ export function InviteAdmin({ invites }: { invites: InviteRow[] }) {
         that same address.
       </p>
 
-      <form action={inviteAction} className="auth-form" style={{ marginBottom: "2rem" }}>
+      <form action={inviteAction} className="auth-form" style={{ marginBottom: "2.5rem" }}>
         <label>
           Student email
           <input type="email" name="email" required placeholder="student@gmail.com" />
@@ -36,6 +45,42 @@ export function InviteAdmin({ invites }: { invites: InviteRow[] }) {
         {inviteState?.success && <p className="auth-success">Invite saved.</p>}
         <button type="submit" className="btn-primary" disabled={invitePending}>
           {invitePending ? "Saving…" : "Invite"}
+        </button>
+      </form>
+
+      <h2 style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>Create account directly</h2>
+      <p style={{ color: "#4b5563", marginBottom: "1rem", fontSize: "0.95rem" }}>
+        Create a sign-in account with a random password. Share the password with the student
+        securely — it is shown only once.
+      </p>
+
+      <form action={createAction} className="auth-form" style={{ marginBottom: "2rem" }}>
+        <label>
+          Student email
+          <input type="email" name="email" required placeholder="student@gmail.com" />
+        </label>
+        {createState?.error && <p className="auth-error">{createState.error}</p>}
+        {createState?.success && createState.email && createState.password && (
+          <div
+            className="auth-success"
+            style={{
+              padding: "0.75rem 1rem",
+              borderRadius: 8,
+              background: "#ecfdf5",
+              border: "1px solid #a7f3d0",
+            }}
+          >
+            <p style={{ margin: "0 0 0.5rem", fontWeight: 600 }}>Account created</p>
+            <p style={{ margin: "0 0 0.25rem", fontSize: "0.9rem" }}>
+              Email: <code>{createState.email}</code>
+            </p>
+            <p style={{ margin: 0, fontSize: "0.9rem" }}>
+              Password: <code>{createState.password}</code>
+            </p>
+          </div>
+        )}
+        <button type="submit" className="btn-primary" disabled={createPending}>
+          {createPending ? "Creating…" : "Create account"}
         </button>
       </form>
 
