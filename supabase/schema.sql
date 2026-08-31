@@ -69,6 +69,14 @@ values (
 )
 on conflict (slug) do nothing;
 
+insert into public.courses (slug, title, description)
+values (
+  'c-training',
+  'C Programming',
+  'C programming programme — Pramanicus Academy'
+)
+on conflict (slug) do nothing;
+
 alter table public.courses enable row level security;
 alter table public.enrollments enable row level security;
 alter table public.modules enable row level security;
@@ -81,7 +89,10 @@ create policy "Users can read own enrollments"
   to authenticated
   using (
     user_id = auth.uid()
-    or lower(email) = lower(coalesce(auth.jwt() ->> 'email', ''))
+    or (
+      public.auth_email() <> ''
+      and lower(email) = public.auth_email()
+    )
   );
 
 drop policy if exists "Users can claim matching enrollment" on public.enrollments;
@@ -89,18 +100,36 @@ create policy "Users can claim matching enrollment"
   on public.enrollments
   for update
   to authenticated
-  using (lower(email) = lower(coalesce(auth.jwt() ->> 'email', '')))
+  using (
+    public.auth_email() <> ''
+    and lower(email) = public.auth_email()
+  )
   with check (
-    lower(email) = lower(coalesce(auth.jwt() ->> 'email', ''))
+    public.auth_email() <> ''
+    and lower(email) = public.auth_email()
     and (user_id is null or user_id = auth.uid())
   );
+
+create or replace function public.auth_email()
+returns text
+language sql
+stable
+security definer
+set search_path = public, auth
+as $$
+  select lower(coalesce(
+    nullif(auth.jwt() ->> 'email', ''),
+    (select lower(u.email) from auth.users u where u.id = auth.uid()),
+    ''
+  ));
+$$;
 
 create or replace function public.is_enrolled_in_course(p_course_slug text)
 returns boolean
 language sql
 stable
 security definer
-set search_path = public
+set search_path = public, auth
 as $$
   select exists (
     select 1
@@ -109,11 +138,15 @@ as $$
     where c.slug = p_course_slug
       and (
         e.user_id = auth.uid()
-        or lower(e.email) = lower(coalesce(auth.jwt() ->> 'email', ''))
+        or (
+          public.auth_email() <> ''
+          and lower(e.email) = public.auth_email()
+        )
       )
   );
 $$;
 
+grant execute on function public.auth_email() to authenticated;
 grant execute on function public.is_enrolled_in_course(text) to authenticated;
 
 -- Course reads require enrollment (defense in depth with app checks).
