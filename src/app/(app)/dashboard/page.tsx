@@ -1,31 +1,20 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ensureEnrollmentClaimed, getSessionUser } from "@/lib/auth";
+import { ensureAnyEnrollmentClaimed } from "@/lib/auth";
 import { listEnrolledCourses } from "@/lib/courses";
-import { getContinueModule, listModulesWithProgress } from "@/lib/progress";
+import { getDashboardCourseStats } from "@/lib/progress";
 
 export default async function DashboardPage() {
-  const { user } = await getSessionUser();
+  const { supabase, user, enrolled } = await ensureAnyEnrollmentClaimed();
   if (!user) redirect("/?next=/dashboard");
-
-  const { supabase, enrolled } = await ensureEnrollmentClaimed();
   if (!enrolled) redirect("/?denied=1");
   if (!supabase) redirect("/?next=/dashboard");
 
-  const courses = await listEnrolledCourses(supabase, user.id);
-
-  const courseStats = new Map(
-    await Promise.all(
-      courses.map(async (course) => {
-        const [modules, cont] = await Promise.all([
-          listModulesWithProgress(supabase, course.id, user.id),
-          getContinueModule(supabase, course.id, user.id),
-        ]);
-        const total = modules.length;
-        const done = modules.filter((m) => m.completed_at).length;
-        return [course.id, { total, done, cont }] as const;
-      }),
-    ),
+  const courses = await listEnrolledCourses(supabase, user.id, user.email);
+  const courseStats = await getDashboardCourseStats(
+    supabase,
+    courses.map((c) => c.id),
+    user.id,
   );
 
   return (

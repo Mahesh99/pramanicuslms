@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { ModuleMarkdown } from "@/components/ModuleMarkdown";
 import { CourseModuleNav } from "@/components/CourseModuleNav";
 import { MarkCompleteButton } from "@/components/MarkCompleteButton";
-import { ensureEnrollmentClaimedByCourseId, getSessionUser } from "@/lib/auth";
+import { ensureEnrollmentClaimedByCourseId } from "@/lib/auth";
 import { getCourseForUser } from "@/lib/courses";
 import { getModuleById } from "@/lib/modules";
 import { listModulesWithProgress, withLocking } from "@/lib/progress";
@@ -15,10 +15,8 @@ export default async function ModuleViewPage({
 }) {
   const { courseId, moduleId } = await params;
 
-  const { user } = await getSessionUser();
+  const { supabase, user, enrolled } = await ensureEnrollmentClaimedByCourseId(courseId);
   if (!user) redirect(`/?next=/courses/${courseId}/modules/${moduleId}`);
-
-  const { supabase, enrolled } = await ensureEnrollmentClaimedByCourseId(courseId);
   if (!enrolled) redirect("/?denied=1");
   if (!supabase) redirect(`/?next=/courses/${courseId}/modules/${moduleId}`);
 

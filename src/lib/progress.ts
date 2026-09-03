@@ -107,6 +107,10 @@ export async function getContinueModule(
   userId: string,
 ): Promise<ContinueModule | null> {
   const modules = await listModulesWithProgress(supabase, courseId, userId);
+  return pickContinueModule(modules);
+}
+
+export function pickContinueModule(modules: ModuleWithProgress[]): ContinueModule | null {
   if (modules.length === 0) return null;
 
   const incomplete = modules.find((m) => !m.completed_at) ?? modules[0];
@@ -116,4 +120,71 @@ export async function getContinueModule(
     title: incomplete.title,
     sort_order: incomplete.sort_order,
   };
+}
+
+export type DashboardCourseStats = {
+  total: number;
+  done: number;
+  cont: ContinueModule | null;
+};
+
+/** Batch-fetch module + progress stats for all courses on the dashboard. */
+export async function getDashboardCourseStats(
+  supabase: SupabaseClient,
+  courseIds: string[],
+  userId: string,
+): Promise<Map<string, DashboardCourseStats>> {
+  const stats = new Map<string, DashboardCourseStats>();
+  if (courseIds.length === 0) return stats;
+
+  const { data: modules, error: modulesError } = await supabase
+    .from("modules")
+    .select("id, course_id, slug, title, sort_order")
+    .in("course_id", courseIds)
+    .order("sort_order", { ascending: true });
+
+  if (modulesError) throw modulesError;
+
+  const moduleIds = (modules ?? []).map((m) => m.id as string);
+  const completedAtByModule = new Map<string, string | null>();
+
+  if (moduleIds.length > 0) {
+    const { data: progressRows, error: progressError } = await supabase
+      .from("module_progress")
+      .select("module_id, completed_at")
+      .eq("user_id", userId)
+      .in("module_id", moduleIds);
+
+    if (progressError) throw progressError;
+
+    for (const row of progressRows ?? []) {
+      completedAtByModule.set(row.module_id as string, row.completed_at as string | null);
+    }
+  }
+
+  const modulesByCourse = new Map<string, ModuleWithProgress[]>();
+  for (const mod of modules ?? []) {
+    const courseId = mod.course_id as string;
+    const list = modulesByCourse.get(courseId) ?? [];
+    list.push({
+      id: mod.id as string,
+      slug: mod.slug as string,
+      title: mod.title as string,
+      subtitle: null,
+      week: null,
+      level: null,
+      sort_order: mod.sort_order as number,
+      completed_at: completedAtByModule.get(mod.id as string) ?? null,
+    });
+    modulesByCourse.set(courseId, list);
+  }
+
+  for (const courseId of courseIds) {
+    const courseModules = modulesByCourse.get(courseId) ?? [];
+    const total = courseModules.length;
+    const done = courseModules.filter((m) => m.completed_at).length;
+    stats.set(courseId, { total, done, cont: pickContinueModule(courseModules) });
+  }
+
+  return stats;
 }

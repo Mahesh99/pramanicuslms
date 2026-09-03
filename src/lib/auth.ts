@@ -1,7 +1,86 @@
+import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/admin";
 
 export const COURSE_SLUG = "python-training";
+
+/** Links pending (or stale) enrollment rows to the signed-in user. */
+async function claimEnrollmentsForUser(user: User) {
+  const email = user.email?.trim().toLowerCase();
+  if (!email) return;
+
+  const patch = {
+    user_id: user.id,
+    joined_at: new Date().toISOString(),
+  };
+
+  try {
+    const service = createServiceClient();
+    await service
+      .from("enrollments")
+      .update(patch)
+      .ilike("email", email)
+      .or(`user_id.is.null,user_id.neq.${user.id}`);
+    return;
+  } catch {
+    // Fall back to the user-scoped client when service role is unavailable.
+  }
+
+  const supabase = await createClient();
+  await supabase
+    .from("enrollments")
+    .update(patch)
+    .ilike("email", email)
+    .or(`user_id.is.null,user_id.neq.${user.id}`);
+}
+
+async function userHasAnyEnrollment(supabase: Awaited<ReturnType<typeof createClient>>, user: User) {
+  const email = user.email?.toLowerCase();
+  const { count, error } = await supabase
+    .from("enrollments")
+    .select("id", { count: "exact", head: true })
+    .or(`user_id.eq.${user.id}${email ? `,email.ilike.${email}` : ""}`);
+
+  if (error) throw error;
+  return (count ?? 0) > 0;
+}
+
+async function userEnrolledInCourse(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  user: User,
+  courseId: string,
+) {
+  const email = user.email?.toLowerCase();
+  const { data, error } = await supabase
+    .from("enrollments")
+    .select("id")
+    .eq("course_id", courseId)
+    .or(`user_id.eq.${user.id}${email ? `,email.ilike.${email}` : ""}`)
+    .maybeSingle();
+
+  if (error) throw error;
+  return Boolean(data);
+}
+
+async function ensureAdminEnrollment(user: User, courseId: string) {
+  const email = user.email?.toLowerCase();
+  if (!email) return;
+
+  try {
+    const service = createServiceClient();
+    await service.from("enrollments").upsert(
+      {
+        course_id: courseId,
+        email,
+        user_id: user.id,
+        joined_at: new Date().toISOString(),
+      },
+      { onConflict: "course_id,email" },
+    );
+  } catch {
+    // Admin access still works via isAdmin when service role is missing.
+  }
+}
 
 export function getAdminEmails(): string[] {
   return (process.env.ADMIN_EMAILS ?? "")
@@ -30,20 +109,70 @@ export async function getSessionUser() {
   }
 }
 
+/** Lightweight session for nav — no enrollment claiming or admin upserts. */
+export async function getNavSession() {
+  const { supabase, user } = await getSessionUser();
+  if (!user?.email || !supabase) {
+    return { user: null, enrolled: false, isAdmin: false };
+  }
+
+  const isAdmin = isAdminEmail(user.email);
+  if (isAdmin) {
+    return { user, enrolled: true, isAdmin: true };
+  }
+
+  const enrolled = await userHasAnyEnrollment(supabase, user);
+  return { user, enrolled, isAdmin: false };
+}
+
 /**
- * Claims any pending invite matching the signed-in user's email, then reports
- * enrollment status for that course. Returns the authenticated Supabase
- * client + course id so callers can immediately query course content
- * (e.g. `modules`) without a second round-trip to resolve the course.
+ * Claims pending invites, then checks whether the user is enrolled in any course.
+ * Use on login gate and dashboard — not on every page via the header.
  */
-export async function ensureEnrollmentClaimed(courseSlug = COURSE_SLUG) {
+export async function ensureAnyEnrollmentClaimed() {
+  const { supabase, user } = await getSessionUser();
+  if (!user?.email || !supabase) {
+    return { supabase: null, user: null, enrolled: false, isAdmin: false };
+  }
+
+  const isAdmin = isAdminEmail(user.email);
+  await claimEnrollmentsForUser(user);
+
+  const enrolled = isAdmin || (await userHasAnyEnrollment(supabase, user));
+  return { supabase, user, enrolled, isAdmin };
+}
+
+/**
+ * Checks enrollment for a specific course by ID. Claims pending invites only when
+ * the user is not yet enrolled.
+ */
+export async function ensureEnrollmentClaimedByCourseId(courseId: string) {
   const { supabase, user } = await getSessionUser();
   if (!user?.email || !supabase) {
     return { supabase: null, user: null, enrolled: false, isAdmin: false, courseId: null };
   }
 
-  const email = user.email.toLowerCase();
-  const isAdmin = isAdminEmail(email);
+  const isAdmin = isAdminEmail(user.email);
+  let enrolled = isAdmin || (await userEnrolledInCourse(supabase, user, courseId));
+
+  if (!enrolled) {
+    await claimEnrollmentsForUser(user);
+    enrolled = isAdmin || (await userEnrolledInCourse(supabase, user, courseId));
+  }
+
+  if (isAdmin) {
+    await ensureAdminEnrollment(user, courseId);
+  }
+
+  return { supabase, user, enrolled, isAdmin, courseId };
+}
+
+/** @deprecated Use ensureEnrollmentClaimedByCourseId or ensureAnyEnrollmentClaimed */
+export async function ensureEnrollmentClaimed(courseSlug = COURSE_SLUG) {
+  const { supabase, user } = await getSessionUser();
+  if (!user?.email || !supabase) {
+    return { supabase: null, user: null, enrolled: false, isAdmin: false, courseId: null };
+  }
 
   const { data: course } = await supabase
     .from("courses")
@@ -52,76 +181,10 @@ export async function ensureEnrollmentClaimed(courseSlug = COURSE_SLUG) {
     .maybeSingle();
 
   if (!course) {
-    return { supabase, user, enrolled: isAdmin, isAdmin, courseId: null };
-  }
-
-  // Admins bypass the app-level enrollment check, but RLS on `modules` only
-  // allows reads for enrolled users — ensure admins have an enrollment row.
-  if (isAdmin) {
-    const service = createServiceClient();
-    await service.from("enrollments").upsert(
-      {
-        course_id: course.id,
-        email,
-        user_id: user.id,
-        joined_at: new Date().toISOString(),
-      },
-      { onConflict: "course_id,email" },
-    );
-  }
-
-  await supabase
-    .from("enrollments")
-    .update({ user_id: user.id, joined_at: new Date().toISOString() })
-    .eq("course_id", course.id)
-    .eq("email", email)
-    .is("user_id", null);
-
-  const { data: enrolled } = await supabase.rpc("is_enrolled_in_course", {
-    p_course_slug: courseSlug,
-  });
-
-  return {
-    supabase,
-    user,
-    enrolled: Boolean(enrolled) || isAdmin,
-    isAdmin,
-    courseId: course.id as string,
-  };
-}
-
-/**
- * Resolves a course UUID to its slug, then reuses {@link ensureEnrollmentClaimed}.
- * Uses the service client when RLS hides the course (e.g. admin before enrollment).
- */
-export async function ensureEnrollmentClaimedByCourseId(courseId: string) {
-  const { supabase, user } = await getSessionUser();
-  if (!user?.email || !supabase) {
-    return { supabase: null, user: null, enrolled: false, isAdmin: false, courseId: null };
-  }
-
-  const { data: visible } = await supabase
-    .from("courses")
-    .select("slug")
-    .eq("id", courseId)
-    .maybeSingle();
-
-  let slug = visible?.slug as string | undefined;
-
-  if (!slug) {
-    const service = createServiceClient();
-    const { data: course } = await service
-      .from("courses")
-      .select("slug")
-      .eq("id", courseId)
-      .maybeSingle();
-    slug = course?.slug as string | undefined;
-  }
-
-  if (!slug) {
     const isAdmin = isAdminEmail(user.email);
     return { supabase, user, enrolled: isAdmin, isAdmin, courseId: null };
   }
 
-  return ensureEnrollmentClaimed(slug);
+  const result = await ensureEnrollmentClaimedByCourseId(course.id);
+  return { ...result, courseId: course.id as string };
 }

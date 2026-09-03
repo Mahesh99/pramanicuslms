@@ -11,14 +11,32 @@ type EnrollmentCourseJoin = {
   courses: CourseRow | CourseRow[] | null;
 };
 
+export async function listAllCourses(supabase: SupabaseClient): Promise<CourseRow[]> {
+  const service = supabase;
+  const { data, error } = await service
+    .from("courses")
+    .select("id, slug, title, description")
+    .order("title");
+
+  if (error) throw error;
+  return data ?? [];
+}
+
 export async function listEnrolledCourses(
   supabase: SupabaseClient,
   userId: string,
+  email?: string | null,
 ): Promise<CourseRow[]> {
-  const { data, error } = await supabase
-    .from("enrollments")
-    .select("courses(id, slug, title, description)")
-    .eq("user_id", userId);
+  const normalizedEmail = email?.trim().toLowerCase();
+  let query = supabase.from("enrollments").select("courses(id, slug, title, description)");
+
+  if (normalizedEmail) {
+    query = query.or(`user_id.eq.${userId},email.ilike.${normalizedEmail}`);
+  } else {
+    query = query.eq("user_id", userId);
+  }
+
+  const { data, error } = await query;
 
   if (error) throw error;
 
@@ -30,7 +48,14 @@ export async function listEnrolledCourses(
     })
     .filter((c): c is CourseRow => Boolean(c?.id && c?.slug && c?.title));
 
-  return courses.sort((a, b) => a.title.localeCompare(b.title));
+  const seen = new Set<string>();
+  return courses
+    .filter((c) => {
+      if (seen.has(c.id)) return false;
+      seen.add(c.id);
+      return true;
+    })
+    .sort((a, b) => a.title.localeCompare(b.title));
 }
 
 export async function getCourseForUser(

@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import { PlaygroundClient } from "@/components/PlaygroundClient";
-import { ensureEnrollmentClaimed } from "@/lib/auth";
+import { ensureAnyEnrollmentClaimed } from "@/lib/auth";
 
 export default async function PlaygroundPage() {
-  const { user, enrolled } = await ensureEnrollmentClaimed();
+  const { user, enrolled } = await ensureAnyEnrollmentClaimed();
   if (!user) redirect("/?next=/playground");
   if (!enrolled) redirect("/?denied=1");
 

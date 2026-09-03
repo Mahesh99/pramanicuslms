@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { ClassroomLoginShell } from "@/components/ClassroomLoginShell";
 import { LoginForm } from "@/components/LoginForm";
-import { ensureEnrollmentClaimed } from "@/lib/auth";
+import { ensureAnyEnrollmentClaimed } from "@/lib/auth";
 
 function NotEnrolledPanel({ email }: { email: string }) {
   return (
@@ -25,7 +25,7 @@ function NotEnrolledPanel({ email }: { email: string }) {
 }
 
 export default async function HomePage() {
-  const { user, enrolled } = await ensureEnrollmentClaimed();
+  const { user, enrolled } = await ensureAnyEnrollmentClaimed();
 
   if (user && enrolled) {
     redirect("/dashboard");

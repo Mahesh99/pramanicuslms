@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import { ChangePasswordForm } from "@/components/ChangePasswordForm";
-import { ensureEnrollmentClaimed } from "@/lib/auth";
+import { ensureAnyEnrollmentClaimed } from "@/lib/auth";
 
 export default async function ProfilePage() {
-  const { user, enrolled } = await ensureEnrollmentClaimed();
+  const { user, enrolled } = await ensureAnyEnrollmentClaimed();
   if (!user) redirect("/?next=/profile");
   if (!enrolled) redirect("/?denied=1");
 

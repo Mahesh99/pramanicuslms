@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ensureEnrollmentClaimedByCourseId, getSessionUser } from "@/lib/auth";
+import { ensureEnrollmentClaimedByCourseId } from "@/lib/auth";
 import { getCourseForUser } from "@/lib/courses";
 import { listModulesWithProgress, withLocking } from "@/lib/progress";
 
@@ -14,10 +14,8 @@ export default async function CoursePage({
   const { courseId } = await params;
   const { locked: lockedNotice } = await searchParams;
 
-  const { user } = await getSessionUser();
+  const { supabase, user, enrolled } = await ensureEnrollmentClaimedByCourseId(courseId);
   if (!user) redirect(`/?next=/courses/${courseId}`);
-
-  const { supabase, enrolled } = await ensureEnrollmentClaimedByCourseId(courseId);
   if (!enrolled) redirect("/?denied=1");
   if (!supabase) redirect(`/?next=/courses/${courseId}`);
 
