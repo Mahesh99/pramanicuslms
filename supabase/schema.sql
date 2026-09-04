@@ -7,6 +7,7 @@ create table if not exists public.courses (
   slug text not null unique,
   title text not null,
   description text,
+  archived_at timestamptz,
   created_at timestamptz not null default now()
 );
 
@@ -136,6 +137,7 @@ as $$
     from public.enrollments e
     join public.courses c on c.id = e.course_id
     where c.slug = p_course_slug
+      and c.archived_at is null
       and (
         e.user_id = auth.uid()
         or (

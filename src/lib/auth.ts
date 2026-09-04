@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/admin";
@@ -94,7 +95,8 @@ export function isAdminEmail(email: string | undefined | null): boolean {
   return getAdminEmails().includes(email.toLowerCase());
 }
 
-export async function getSessionUser() {
+/** Request-scoped session — dedupes header + page auth.getUser() calls. */
+export const getSessionUser = cache(async () => {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
     return { supabase: null, user: null };
   }
@@ -107,10 +109,10 @@ export async function getSessionUser() {
   } catch {
     return { supabase: null, user: null };
   }
-}
+});
 
 /** Lightweight session for nav — no enrollment claiming or admin upserts. */
-export async function getNavSession() {
+export const getNavSession = cache(async () => {
   const { supabase, user } = await getSessionUser();
   if (!user?.email || !supabase) {
     return { user: null, enrolled: false, isAdmin: false };
@@ -123,10 +125,10 @@ export async function getNavSession() {
 
   const enrolled = await userHasAnyEnrollment(supabase, user);
   return { user, enrolled, isAdmin: false };
-}
+});
 
 /**
- * Claims pending invites, then checks whether the user is enrolled in any course.
+ * Claims pending invites only when the user is not yet enrolled.
  * Use on login gate and dashboard — not on every page via the header.
  */
 export async function ensureAnyEnrollmentClaimed() {
@@ -136,10 +138,17 @@ export async function ensureAnyEnrollmentClaimed() {
   }
 
   const isAdmin = isAdminEmail(user.email);
-  await claimEnrollmentsForUser(user);
+  if (isAdmin) {
+    return { supabase, user, enrolled: true, isAdmin: true };
+  }
 
-  const enrolled = isAdmin || (await userHasAnyEnrollment(supabase, user));
-  return { supabase, user, enrolled, isAdmin };
+  let enrolled = await userHasAnyEnrollment(supabase, user);
+  if (!enrolled) {
+    await claimEnrollmentsForUser(user);
+    enrolled = await userHasAnyEnrollment(supabase, user);
+  }
+
+  return { supabase, user, enrolled, isAdmin: false };
 }
 
 /**

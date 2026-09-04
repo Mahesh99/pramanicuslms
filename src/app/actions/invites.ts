@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/admin";
 import { getAdminEmails, isAdminEmail } from "@/lib/auth";
+import { allocateUniqueCourseSlug } from "@/lib/courses";
 
 const ADMIN_PATH = "/admin";
 
@@ -49,10 +50,16 @@ function parseCourseIds(formData: FormData): { courseIds: string[] } | { error: 
 }
 
 async function validateCourseIds(service: ReturnType<typeof createServiceClient>, courseIds: string[]) {
-  const { data, error } = await service.from("courses").select("id").in("id", courseIds);
+  const { data, error } = await service
+    .from("courses")
+    .select("id, archived_at")
+    .in("id", courseIds);
   if (error) return { error: error.message };
   if ((data ?? []).length !== courseIds.length) {
     return { error: "One or more selected courses were not found." };
+  }
+  if ((data ?? []).some((c) => c.archived_at)) {
+    return { error: "Cannot enroll in an archived course. Restore it first." };
   }
   return { ok: true as const };
 }
@@ -60,6 +67,9 @@ async function validateCourseIds(service: ReturnType<typeof createServiceClient>
 function revalidateAdmin() {
   revalidatePath(ADMIN_PATH);
   revalidatePath("/admin/invites");
+  revalidatePath("/admin/users");
+  revalidatePath("/admin/courses");
+  revalidatePath("/dashboard");
 }
 
 export async function inviteStudent(formData: FormData) {
@@ -176,14 +186,24 @@ export async function addUserEnrollment(formData: FormData) {
     .ilike("email", email)
     .maybeSingle();
 
+  const { data: anyUser } = await admin.service
+    .from("enrollments")
+    .select("user_id")
+    .ilike("email", email)
+    .not("user_id", "is", null)
+    .limit(1)
+    .maybeSingle();
+
+  const userId = (existing?.user_id as string | null) ?? (anyUser?.user_id as string | null) ?? null;
+
   const { error } = await admin.service.from("enrollments").upsert(
     {
       course_id: courseId,
       email,
-      user_id: existing?.user_id ?? null,
+      user_id: userId,
       invited_by: admin.user.id,
       invited_at: new Date().toISOString(),
-      joined_at: existing?.joined_at ?? (existing?.user_id ? new Date().toISOString() : null),
+      joined_at: existing?.joined_at ?? (userId ? new Date().toISOString() : null),
     },
     { onConflict: "course_id,email" },
   );
@@ -191,16 +211,21 @@ export async function addUserEnrollment(formData: FormData) {
   if (error) return { error: error.message };
 
   revalidateAdmin();
+  revalidatePath(`/admin/users/${encodeURIComponent(email)}`);
   return { success: true as const };
 }
 
 export async function removeEnrollment(formData: FormData): Promise<void> {
   const id = String(formData.get("id") ?? "");
+  const email = String(formData.get("email") ?? "")
+    .trim()
+    .toLowerCase();
   const admin = await requireAdmin();
   if ("error" in admin) return;
 
   await admin.service.from("enrollments").delete().eq("id", id);
   revalidateAdmin();
+  if (email) revalidatePath(`/admin/users/${encodeURIComponent(email)}`);
 }
 
 export async function revokeUserAccess(formData: FormData): Promise<void> {
@@ -215,6 +240,7 @@ export async function revokeUserAccess(formData: FormData): Promise<void> {
 
   await admin.service.from("enrollments").delete().ilike("email", email);
   revalidateAdmin();
+  revalidatePath(`/admin/users/${encodeURIComponent(email)}`);
 }
 
 export async function resetUserPassword(formData: FormData) {
@@ -252,6 +278,89 @@ export async function resetUserPassword(formData: FormData) {
   if (error) return { error: error.message };
 
   return { success: true as const, email, password };
+}
+
+export async function createCourse(formData: FormData) {
+  const title = String(formData.get("title") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim() || null;
+
+  if (!title) return { error: "Title is required." };
+
+  const admin = await requireAdmin();
+  if ("error" in admin) return { error: admin.error };
+
+  try {
+    const slug = await allocateUniqueCourseSlug(admin.service, title);
+    const { error } = await admin.service.from("courses").insert({
+      title,
+      description,
+      slug,
+    });
+    if (error) return { error: error.message };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Failed to create course." };
+  }
+
+  revalidateAdmin();
+  return { success: true as const };
+}
+
+export async function updateCourse(formData: FormData) {
+  const id = String(formData.get("id") ?? "").trim();
+  const title = String(formData.get("title") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim() || null;
+
+  if (!id) return { error: "Course id is required." };
+  if (!title) return { error: "Title is required." };
+
+  const admin = await requireAdmin();
+  if ("error" in admin) return { error: admin.error };
+
+  const { error } = await admin.service
+    .from("courses")
+    .update({ title, description })
+    .eq("id", id);
+
+  if (error) return { error: error.message };
+
+  revalidateAdmin();
+  return { success: true as const };
+}
+
+export async function archiveCourse(formData: FormData): Promise<{ error?: string; success?: true }> {
+  const id = String(formData.get("id") ?? "").trim();
+  if (!id) return { error: "Course id is required." };
+
+  const admin = await requireAdmin();
+  if ("error" in admin) return { error: admin.error };
+
+  const { error } = await admin.service
+    .from("courses")
+    .update({ archived_at: new Date().toISOString() })
+    .eq("id", id);
+
+  if (error) return { error: error.message };
+
+  revalidateAdmin();
+  return { success: true as const };
+}
+
+export async function restoreCourse(formData: FormData): Promise<{ error?: string; success?: true }> {
+  const id = String(formData.get("id") ?? "").trim();
+  if (!id) return { error: "Course id is required." };
+
+  const admin = await requireAdmin();
+  if ("error" in admin) return { error: admin.error };
+
+  const { error } = await admin.service
+    .from("courses")
+    .update({ archived_at: null })
+    .eq("id", id);
+
+  if (error) return { error: error.message };
+
+  revalidateAdmin();
+  return { success: true as const };
 }
 
 /** @deprecated Use removeEnrollment */
