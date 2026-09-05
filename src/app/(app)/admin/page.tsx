@@ -1,6 +1,8 @@
 import { createServiceClient } from "@/lib/supabase/admin";
 import { AdminInvitePanel } from "@/components/AdminInvitePanel";
 
+export const maxDuration = 60;
+
 export default async function AdminInvitePage() {
   const service = createServiceClient();
   const { data: courses } = await service

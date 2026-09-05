@@ -161,7 +161,8 @@ body {
 }
 
 .auth-form input,
-.auth-form select {
+.auth-form select,
+.auth-form textarea {
   border: 1px solid var(--gray-300);
   border-radius: 8px;
   padding: 0.65rem 0.75rem;
@@ -169,8 +170,15 @@ body {
   font-weight: 400;
 }
 
+.auth-form textarea {
+  min-height: 9rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  resize: vertical;
+}
+
 .auth-form input:focus,
-.auth-form select:focus {
+.auth-form select:focus,
+.auth-form textarea:focus {
   outline: 2px solid #93c5fd;
   border-color: var(--blue);
 }

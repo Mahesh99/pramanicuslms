@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "test": "node --experimental-strip-types --test src/lib/bulk-register.test.ts",
     "seed:modules": "node --env-file=.env.local scripts/seed-modules.mjs",
     "seed:sql": "node --env-file=.env.local scripts/seed-sql-modules.mjs",
     "seed:c": "node --env-file=.env.local scripts/seed-c-modules.mjs",

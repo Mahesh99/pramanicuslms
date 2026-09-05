@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/admin";
 import { getAdminEmails, isAdminEmail } from "@/lib/auth";
 import { allocateUniqueCourseSlug } from "@/lib/courses";
+import type { BulkRegisterRow } from "@/lib/bulk-register";
+import { parseBulkEmails } from "@/lib/bulk-register";
 
 const ADMIN_PATH = "/admin";
 
@@ -158,6 +160,151 @@ export async function createStudentUser(formData: FormData) {
 
   revalidateAdmin();
   return { success: true as const, email, password };
+}
+
+function isExistingUserError(message: string) {
+  const lower = message.toLowerCase();
+  return lower.includes("already") || lower.includes("exists");
+}
+
+async function loadAuthUsersByEmail(service: ReturnType<typeof createServiceClient>) {
+  const byEmail = new Map<string, string>();
+  let page = 1;
+  for (;;) {
+    const { data, error } = await service.auth.admin.listUsers({ page, perPage: 1000 });
+    if (error) return { error: error.message };
+    const users = data.users ?? [];
+    for (const user of users) {
+      if (user.email) byEmail.set(user.email.toLowerCase(), user.id);
+    }
+    if (users.length < 1000) break;
+    page += 1;
+  }
+  return { byEmail };
+}
+
+export async function bulkCreateStudentUsers(formData: FormData) {
+  const courseId = String(formData.get("courseId") ?? "").trim();
+  if (!courseId) return { error: "Select a course." };
+
+  const parsed = parseBulkEmails(String(formData.get("emails") ?? ""));
+  if (parsed.error) return { error: parsed.error };
+  if (parsed.emails.length === 0 && parsed.invalid.length === 0) {
+    return { error: "Paste at least one email address." };
+  }
+
+  const admin = await requireAdmin();
+  if ("error" in admin) return admin;
+
+  const valid = await validateCourseIds(admin.service, [courseId]);
+  if ("error" in valid) return valid;
+
+  const rows: BulkRegisterRow[] = parsed.invalid.map((email) => ({
+    email,
+    status: "invalid" as const,
+    error: "Not a valid email.",
+  }));
+
+  if (parsed.emails.length === 0) {
+    return { success: true as const, rows };
+  }
+
+  const authUsers = await loadAuthUsersByEmail(admin.service);
+  if ("error" in authUsers) return authUsers;
+  const byEmail = authUsers.byEmail;
+
+  const { data: existingEnrollments } = await admin.service
+    .from("enrollments")
+    .select("email, user_id, joined_at")
+    .eq("course_id", courseId)
+    .in("email", parsed.emails);
+
+  const enrollmentByEmail = new Map(
+    (existingEnrollments ?? []).map((row) => [
+      String(row.email).toLowerCase(),
+      row as { email: string; user_id: string | null; joined_at: string | null },
+    ]),
+  );
+
+  const now = new Date().toISOString();
+
+  for (const email of parsed.emails) {
+    try {
+      let userId = byEmail.get(email) ?? enrollmentByEmail.get(email)?.user_id ?? null;
+      let password: string | undefined;
+      let status: BulkRegisterRow["status"] = "enrolled";
+
+      if (!userId) {
+        password = generatePassword();
+        const { data: authUser, error: createError } = await admin.service.auth.admin.createUser({
+          email,
+          password,
+          email_confirm: true,
+        });
+
+        if (createError) {
+          if (!isExistingUserError(createError.message)) {
+            rows.push({ email, status: "error", error: createError.message });
+            continue;
+          }
+          const refresh = await loadAuthUsersByEmail(admin.service);
+          if ("error" in refresh) {
+            rows.push({ email, status: "error", error: refresh.error });
+            continue;
+          }
+          userId = refresh.byEmail.get(email) ?? null;
+          password = undefined;
+          status = "enrolled";
+          if (!userId) {
+            rows.push({
+              email,
+              status: "error",
+              error: "Account already exists but could not be looked up.",
+            });
+            continue;
+          }
+          byEmail.set(email, userId);
+        } else {
+          userId = authUser.user.id;
+          byEmail.set(email, userId);
+          status = "created";
+        }
+      }
+
+      const existing = enrollmentByEmail.get(email);
+      const { error: enrollError } = await admin.service.from("enrollments").upsert(
+        {
+          course_id: courseId,
+          email,
+          user_id: userId,
+          invited_by: admin.user.id,
+          invited_at: now,
+          joined_at: existing?.joined_at ?? now,
+        },
+        { onConflict: "course_id,email" },
+      );
+
+      if (enrollError) {
+        rows.push({ email, status: "error", error: enrollError.message });
+        continue;
+      }
+
+      rows.push(
+        status === "created" && password
+          ? { email, status, password }
+          : { email, status: "enrolled" },
+      );
+    } catch (e) {
+      rows.push({
+        email,
+        status: "error",
+        error: e instanceof Error ? e.message : "Failed to register this email.",
+      });
+    }
+  }
+
+  revalidateAdmin();
+  return { success: true as const, rows };
 }
 
 export async function addUserEnrollment(formData: FormData) {
