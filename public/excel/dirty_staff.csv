@@ -1,0 +1,11 @@
+StaffID,FullName,Department,Phone,JoinDate,City,CityDup
+ST-01,  ananya sharma  ,sales,91-9876543210,12/03/2022,Delhi,Delhi
+ST-02,ROHAN GUPTA,Sales,09876543210,2021-07-19,Jaipur,Jaipur
+ST-03,Vikram Iyer,IT,919876543210,19-Nov-2020,Bengaluru,Bengaluru
+ST-03,Vikram Iyer,IT,919876543210,19-Nov-2020,Bengaluru,Bengaluru
+ST-04,lakshmi  reddy,hr,98765 43210,03/15/2023,Hyderabad,Hyderabad
+ST-05,Amit Banerjee,Finance,+91 9123456780,2020/01/08,Kolkata,Kolkata
+ST-06,sneha das,SALES,9123456780,8 Jan 2024,Bhubaneswar,Bhubaneswar
+ST-07,Farhan Qureshi,Warehouse,91.9000011111,15-02-2019,Mumbai,Mumbai
+ST-07,Farhan Qureshi,Warehouse,91.9000011111,15-02-2019,Mumbai,Mumbai
+ST-08,Neha Patel ,finance,9000022222,2022.06.01,Ahmedabad,Ahmedabad

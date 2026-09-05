@@ -5,6 +5,7 @@ import { CourseModuleNav } from "@/components/CourseModuleNav";
 import { MarkCompleteButton } from "@/components/MarkCompleteButton";
 import { ensureEnrollmentClaimedByCourseId } from "@/lib/auth";
 import { getCourseForUser } from "@/lib/courses";
+import { getModuleDatasets } from "@/lib/module-datasets";
 import { getModuleById } from "@/lib/modules";
 import { listModulesWithProgress, withLocking } from "@/lib/progress";
 
@@ -65,7 +66,11 @@ export default async function ModuleViewPage({
           </div>
         </header>
 
-        <ModuleMarkdown content={mod.content_md} moduleNum={mod.sort_order} />
+        <ModuleMarkdown
+          content={mod.content_md}
+          moduleNum={mod.sort_order}
+          datasets={getModuleDatasets(course.slug, mod.slug)}
+        />
 
         <MarkCompleteButton courseId={courseId} moduleId={moduleId} initiallyComplete={isComplete} />
 

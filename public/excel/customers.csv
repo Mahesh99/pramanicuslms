@@ -1,0 +1,17 @@
+CustomerID,CustomerName,Segment,City,RegionID
+C001,Ananya Sharma,Consumer,Delhi,N
+C002,Rohan Gupta,Consumer,Jaipur,N
+C003,Vikram Iyer,Corporate,Bengaluru,S
+C004,Lakshmi Reddy,Consumer,Hyderabad,S
+C005,Amit Banerjee,Corporate,Kolkata,E
+C006,Sneha Das,Consumer,Bhubaneswar,E
+C007,Farhan Qureshi,Consumer,Mumbai,W
+C008,Neha Patel,Corporate,Ahmedabad,W
+C009,Karan Malhotra,Home Office,Chandigarh,N
+C010,Divya Nair,Consumer,Kochi,S
+C011,Rahul Bose,Home Office,Guwahati,E
+C012,Pooja Shah,Consumer,Pune,W
+C013,Imran Khan,Corporate,Lucknow,N
+C014,Meera Krishnan,Consumer,Chennai,S
+C015,Sanjay Dutta,Corporate,Patna,E
+C016,Aisha Merchant,Home Office,Surat,W

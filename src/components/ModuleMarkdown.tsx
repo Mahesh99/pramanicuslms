@@ -8,6 +8,8 @@ import type { Components } from "react-markdown";
 import { parseModuleMarkdown } from "@/lib/parse-module-md";
 import { highlightPython, preInnerToSource } from "@/lib/highlight-python";
 import { ModuleSidebar } from "@/components/ModuleSidebar";
+import { ModuleDatasetDownloads } from "@/components/ModuleDatasetDownloads";
+import type { ModuleDatasetFile } from "@/lib/module-datasets";
 
 const CALLOUT_EMOJI: Record<string, string> = {
   "🎯": "info",
@@ -249,9 +251,11 @@ function wrapExerciseBlocks(body: string): string {
 export function ModuleMarkdown({
   content,
   moduleNum,
+  datasets = [],
 }: {
   content: string;
   moduleNum: number;
+  datasets?: ModuleDatasetFile[];
 }) {
   const { intro, sections } = useMemo(() => {
     const parsed = parseModuleMarkdown(content);
@@ -273,6 +277,7 @@ export function ModuleMarkdown({
     <div className="layout">
       <ModuleSidebar moduleNum={moduleNum} sections={sections} />
       <main className="content">
+        <ModuleDatasetDownloads files={datasets} />
         {intro ? (
           <div className="content-intro">
             <MarkdownBody content={intro} />

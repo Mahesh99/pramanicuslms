@@ -1,0 +1,13 @@
+ProductID,ProductName,Category,Subcategory,Brand,UnitPrice,Cost
+P001,NovaPhone 12,Electronics,Mobiles,Nova,24999,18000
+P002,NovaPhone SE,Electronics,Mobiles,Nova,14999,10500
+P003,PulseBuds Pro,Electronics,Audio,Pulse,3999,2200
+P004,Pulse Speaker,Electronics,Audio,Pulse,5999,3100
+P005,HomeBlend Mixer,Home & Kitchen,Appliances,Homely,2499,1400
+P006,HomeBlend Kettle,Home & Kitchen,Appliances,Homely,1299,650
+P007,CottonTee Classic,Fashion,Apparel,ThreadCo,799,280
+P008,DenimFit Jeans,Fashion,Apparel,ThreadCo,1899,720
+P009,KitchenPro Pan,Home & Kitchen,Cookware,Homely,1599,800
+P010,NovaTab 10,Electronics,Tablets,Nova,18999,13200
+P011,StreetSneak,Fashion,Footwear,ThreadCo,2499,980
+P012,ChefKnife Set,Home & Kitchen,Cookware,Homely,2199,1100

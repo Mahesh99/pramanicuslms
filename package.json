@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "seed:modules": "node --env-file=.env.local scripts/seed-modules.mjs",
     "seed:sql": "node --env-file=.env.local scripts/seed-sql-modules.mjs",
-    "seed:c": "node --env-file=.env.local scripts/seed-c-modules.mjs"
+    "seed:c": "node --env-file=.env.local scripts/seed-c-modules.mjs",
+    "seed:excel": "node --env-file=.env.local scripts/seed-excel-modules.mjs",
+    "generate:excel-data": "node scripts/generate-excel-datasets.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
